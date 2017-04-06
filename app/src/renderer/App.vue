@@ -7,7 +7,10 @@
 <script>
   import store from 'renderer/vuex/store'
   export default {
-    store
+    store,
+    render: function () {
+      console.log('test')
+    }
   }
 </script>
 
@@ -35,5 +38,9 @@
     font-family: Lato, Helvetica, sans-serif;
     justify-content: center;
     text-align: center;
+  }
+
+  li {
+    list-style: none;
   }
 </style>

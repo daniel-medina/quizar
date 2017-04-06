@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "intitule": "Qu'a fait x en 2012 ?",
+    "point": 5,
+    "reponse": [
+      {
+        "value": 1,
+        "description": "la bonne réponse, yay ..."
+      },
+      {
+        "value": 0,
+        "description": "azerty :D"
+      },
+      {
+        "value": 0,
+        "description": "une autre réponse possible"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "intitule": "Qu'a fait x en 2048 ?",
+    "point": 4.5,
+    "reponse": [
+      {
+        "value": 1,
+        "description": "la bonne réponse, yay ..."
+      },
+      {
+        "value": 0,
+        "description": "azerty :D"
+      },
+      {
+        "value": 0,
+        "description": "une autre réponse possible"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "intitule": "Qui etait le machin ?",
+    "point": 10,
+    "reponse": [
+      {
+        "value": 1,
+        "description": "la première bonne réponse, zomg"
+      },
+      {
+        "value": 0,
+        "description": "azerty :D"
+      },
+      {
+        "value": 1,
+        "description": "une autre réponse possible, valide"
+      },
+      {
+        "value": 1,
+        "description": "une bonne réponse, ici ?"
+      },
+      {
+        "value": 0,
+        "description": "nopenopenope"
+      }
+    ]
+  }
+]
