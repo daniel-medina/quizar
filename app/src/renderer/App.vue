@@ -1,5 +1,10 @@
 <template>
   <div id="#app">
+    <router-link to="/">Question</router-link>
+    <router-link to="/manage">Gestion</router-link>
+
+    <hr />
+
     <router-view></router-view>
   </div>
 </template>

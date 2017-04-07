@@ -3,8 +3,12 @@
     <h1>Questions ! ( note actuelle : {{ points }} / {{ pointsMax }} )</h1>
     <li v-for="(item, key) in quizz">
       Question : {{ item.intitule }} ( sur <strong>{{ item.point }}</strong> points )
+      <br /><br />
+      <center><img :src="item.image" title="Illustration" /></center>
+      <br />
       <hr />
       <reponses :parent="key" :points="item.point"></reponses>
+      <br />
       <hr />
     </li>
   </div>

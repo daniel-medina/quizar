@@ -1,8 +1,7 @@
 <template>
   <div>
-    {{ checked }}
     <li v-for="(item, key) in reponses">
-      <input type="checkbox" v-on:click="check()" v-model="checked" v-bind:value="key"></input> {{ item.description }} - value : {{ item.value }} - key : {{ key }}
+      <input type="checkbox" v-on:click="check()" v-model="checked" v-bind:value="key"></input> {{ item.description }}
     </li>
   </div>
 </template>
@@ -35,13 +34,14 @@
         }.bind(this))
       },
       setMaxPoint: function (file) {
-        this.$parent.pointsMax += this.points
+        this.$parent.pointsMax += Number(this.points)
       },
       check: function () {
         var nbValid = 0
         var nbNotValid = 0
         var nbCorrect = 0
 
+        /** getting the amount of correct answers */
         for (var y = 0; y < this.valid.length; y++) {
           nbCorrect++
         }
@@ -56,19 +56,14 @@
           }
         }
 
-        console.log('valid : ' + nbValid)
-        console.log('not valid : ' + nbNotValid)
-        console.log(this.checked)
-
-        /** Now if there is all correct answer checked and zero incorrect answer, gives the point, also, there must not be given point yet to give the points */
-        if (nbValid === nbCorrect && nbNotValid === 0 && this.given === 0) {
-          this.$parent.points += this.points
-          console.log(nbCorrect)
+        /** now if there is all correct answer checked and zero incorrect answer, gives the point, also, there must not be given point yet to give the points */
+        if (nbValid === nbCorrect && nbNotValid === 0 && nbValid > 0 && this.given === 0) {
+          this.$parent.points += Number(this.points)
           this.given = 1
         } else if (this.given === 1 && nbNotValid >= 0) {
-          /** If the points of this question was given and the checked answers aren't correct, we remove the given points */
+          /** if the points of this question was given and the checked answers aren't correct, we remove the given points */
           this.given = 0
-          this.$parent.points -= this.points
+          this.$parent.points -= Number(this.points)
         }
       },
       setter: function () {
