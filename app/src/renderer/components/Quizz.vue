@@ -2,9 +2,14 @@
   <div>
     <h1>Questions ! ( note actuelle : {{ points }} / {{ pointsMax }} )</h1>
     <li v-for="(item, key) in quizz">
-      Question : {{ item.intitule }} ( sur <strong>{{ item.point }}</strong> points )
       <br /><br />
+      <div v-if="item.image != ''">
       <center><img :src="item.image" title="Illustration" /></center>
+      </div>
+      <br />
+      {{ item.intitule }}
+      <br /><br />
+      ( sur <strong>{{ item.point }}</strong> points )
       <br />
       <hr />
       <reponses :parent="key" :points="item.point"></reponses>
@@ -32,9 +37,6 @@
       this.$root.$on('setMaxPoint', function (argument) {
         console.log(argument)
       })
-      /** setInterval(function () {
-        this.getDb()
-      }.bind(this), 5000) */
     },
     methods: {
       getDb: function () {

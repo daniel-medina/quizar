@@ -78,6 +78,7 @@
     "webpack-dev-server": "^2.3.0"
   },
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "mv": "^2.1.1"
   }
 }

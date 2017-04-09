@@ -2,6 +2,7 @@
   <div id="#app">
     <router-link to="/">Question</router-link>
     <router-link to="/manage">Gestion</router-link>
+    <router-link to="/export-import">Export/Import</router-link>
 
     <hr />
 

@@ -66,6 +66,8 @@
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]
 
+          /** just in case the database has been wiped out, we make the dist folder */
+          fs.mkdirSync('app/dist')
           /** now copying the image to the desination; prefered synchronous version instead of asynchronous */
           fs.mkdirSync('app/dist/' + token)
           fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
@@ -96,7 +98,8 @@
       setImage: function (e) {
         e.preventDefault()
 
-        const {dialog} = require('electron').remote
+        const { dialog } = require('electron').remote
+
         dialog.showOpenDialog({
           filters: [
             { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }

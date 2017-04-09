@@ -9,6 +9,10 @@ export default [
     component: require('components/Manage')
   },
   {
+    path: '/export-import',
+    component: require('components/ExportImport')
+  },
+  {
     path: '*',
     redirect: '/'
   }
