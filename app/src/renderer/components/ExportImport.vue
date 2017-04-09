@@ -93,6 +93,9 @@
 
           zip.extractAllTo('./', true)
 
+          /** after the archive has been extracted, delete the .token */
+          fs.removeSync('.token')
+
           /** confirmation dialog */
           dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été importée.', buttons: ['Ok'] })
         } else {
