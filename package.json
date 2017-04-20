@@ -79,6 +79,10 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "mv": "^2.1.1"
+    "cross-env": "^3.2.4",
+    "eslint": "^3.19.0",
+    "eslint-plugin-html": "^2.0.1",
+    "mv": "^2.1.1",
+    "webpack": "^2.4.1"
   }
 }

@@ -27,7 +27,7 @@
       setLocalDb: function () {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           this.localDb = JSON.parse(data)[this.parent].reponse
@@ -47,13 +47,13 @@
         /** the description must be more than one character long */
         if (description.length > 0) {
           /** update the db.json with the new answer */
-          fs.readFile('db.json', 'utf8', function (error, data) {
+          fs.readFile('data/db.json', 'utf8', function (error, data) {
             if (error) throw error
 
             var actual = JSON.parse(data)
             actual[this.parent].reponse.push(added)
 
-            fs.writeFile('db.json', JSON.stringify(actual), function (error) {
+            fs.writeFile('data/db.json', JSON.stringify(actual), function (error) {
               if (error) throw error
 
               /** now re-updating this.localDb for reactive display */
@@ -69,7 +69,7 @@
       deleteReponse: function (key) {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           this.localDb.splice(key, 1)
@@ -80,7 +80,7 @@
       updateDb: function (key) {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           /** getting the db.json content and then deleting the selected answer */
@@ -88,7 +88,7 @@
           updated[this.parent].reponse.splice(key, 1)
 
           /** then we send the updated object to the json database */
-          fs.writeFile('db.json', JSON.stringify(updated), 'utf8', function (error) {
+          fs.writeFile('data/db.json', JSON.stringify(updated), 'utf8', function (error) {
             if (error) throw error
 
             console.log('JSON database saved successfully.')

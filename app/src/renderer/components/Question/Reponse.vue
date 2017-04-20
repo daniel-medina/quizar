@@ -11,7 +11,7 @@
     props: ['parent', 'points'],
     data () {
       return {
-        reponses: [],
+        reponses: this.parent,
         checked: [],
         notValid: [],
         valid: [],
@@ -21,12 +21,15 @@
     created () {
       this.getDb()
       this.setter()
+
+      /** possible to achieve the parent link in a better way */
+      console.log(this.parent)
     },
     methods: {
       getDb: function () {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           this.reponses = JSON.parse(data)[this.parent].reponse
@@ -69,7 +72,7 @@
       setter: function () {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           /** looping through the current question's answers, and sorting them by sending the valid answers to it's array, and the same with the incorrect answers */

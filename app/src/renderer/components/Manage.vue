@@ -44,7 +44,7 @@
       setLocalDb: function () {
         const fs = require('fs')
 
-        fs.readFile('db.json', 'utf8', function (error, data) {
+        fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
           this.localDb = JSON.parse(data)
@@ -54,6 +54,7 @@
         form.preventDefault()
         const fs = require('fs')
 
+        var id = Math.round(Math.random() * (999999999999999 - 0) + 0)
         var intitule = this.form.intitule
         var points = this.form.points
         var image = ''
@@ -62,14 +63,16 @@
         if (this.form.image.length > 0) {
           var token = Math.round(Math.random() * (9999999 - 1) + 1)
           var token2 = Math.round(Math.random() * (9999 - 1) + 1)
-          var additionnal = 'app/dist/'
+          var additionnal = 'data/'
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]
 
-          /** just in case the database has been wiped out, we make the dist folder */
-          fs.mkdirSync('app/dist')
-          /** now copying the image to the desination; prefered synchronous version instead of asynchronous */
-          fs.mkdirSync('app/dist/' + token)
+          /** just in case the database has been wiped out, we make the image folder */
+          if (!fs.existsSync('data')) {
+            fs.mkdirSync('data')
+          }
+          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
+          fs.mkdirSync('data/' + token)
           fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
 
           /** final attribution of the image */
@@ -79,6 +82,7 @@
         }
 
         var toAdd = {
+          id: id,
           intitule: intitule,
           point: points,
           image: image,
@@ -115,7 +119,7 @@
         const fs = require('fs')
 
         /** update db.json with the current localDb object */
-        fs.writeFile('db.json', JSON.stringify(this.localDb), 'utf8', function (error) {
+        fs.writeFile('data/db.json', JSON.stringify(this.localDb), 'utf8', function (error) {
           if (error) throw error
 
           console.log('JSON database saved successfully.')

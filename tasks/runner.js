@@ -53,4 +53,4 @@ function exit (code) {
 }
 
 console.log(`${YELLOW}Starting webpack-dev-server...\n${END}`)
-run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base app/dist`, YELLOW, 'webpack')
+run(`webpack-dev-server --hot --colors --config webpack.renderer.config.js --port ${config.port} --content-base data`, YELLOW, 'webpack')
