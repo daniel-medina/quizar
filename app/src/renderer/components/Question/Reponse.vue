@@ -32,8 +32,9 @@
         fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
+          /** gotta find the correct response */
           this.reponses = JSON.parse(data)[this.parent].reponse
-          this.setMaxPoint(JSON.parse(data))
+          /** this.setMaxPoint(JSON.parse(data)) */
         }.bind(this))
       },
       setMaxPoint: function (file) {
