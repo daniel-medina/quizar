@@ -21,21 +21,14 @@
     created () {
       this.getDb()
       this.setter()
-
-      /** possible to achieve the parent link in a better way */
-      console.log(this.parent)
     },
     methods: {
       getDb: function () {
         const fs = require('fs')
+        var data = fs.readFileSync('data/db.json')
 
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          /** gotta find the correct response */
-          this.reponses = JSON.parse(data)[this.parent].reponse
-          /** this.setMaxPoint(JSON.parse(data)) */
-        }.bind(this))
+        this.reponses = this.$parent.$parent.jsonGetReponse(this.parent)
+        this.setMaxPoint(JSON.parse(data))
       },
       setMaxPoint: function (file) {
         this.$parent.pointsMax += Number(this.points)
@@ -71,20 +64,14 @@
         }
       },
       setter: function () {
-        const fs = require('fs')
-
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          /** looping through the current question's answers, and sorting them by sending the valid answers to it's array, and the same with the incorrect answers */
-          for (var x = 0; x < JSON.parse(data)[this.parent].reponse.length; x++) {
-            if (JSON.parse(data)[this.parent].reponse[x].value === 1) {
-              this.valid.push(x)
-            } else {
-              this.notValid.push(x)
-            }
+        /** looping through the current question's answers, and sorting them by sending the valid answers to it's array, and the same with the incorrect answers */
+        for (var x = 0; x < this.reponses.length; x++) {
+          if (this.reponses[x].value === 1) {
+            this.valid.push(x)
+          } else {
+            this.notValid.push(x)
           }
-        }.bind(this))
+        }
       }
     }
 }

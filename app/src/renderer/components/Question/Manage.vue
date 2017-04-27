@@ -30,73 +30,34 @@
         fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
-          this.localDb = JSON.parse(data)[this.parent].reponse
+          this.localDb = this.$parent.$parent.jsonGetReponse(this.parent)
         }.bind(this))
       },
       addReponse: function (form) {
         form.preventDefault()
 
-        const fs = require('fs')
         var description = this.form.description
         var value = this.form.value
         var added = {
-          value: value,
-          description: description
+          description: description,
+          value: value
         }
 
         /** the description must be more than one character long */
         if (description.length > 0) {
-          /** update the db.json with the new answer */
-          fs.readFile('data/db.json', 'utf8', function (error, data) {
-            if (error) throw error
+          this.$parent.$parent.jsonAddReponse(this.parent, added)
 
-            var actual = JSON.parse(data)
-            actual[this.parent].reponse.push(added)
+          /** now re-updating this.localDb for reactive display */
+          this.setLocalDb()
 
-            fs.writeFile('data/db.json', JSON.stringify(actual), function (error) {
-              if (error) throw error
-
-              /** now re-updating this.localDb for reactive display */
-              this.setLocalDb()
-
-              /** now reset the current form values */
-              this.form.description = ''
-              this.form.value = 0
-            }.bind(this))
-          }.bind(this))
+          /** now reset the current form values */
+          this.form.description = ''
+          this.form.value = 0
         }
       },
       deleteReponse: function (key) {
-        const fs = require('fs')
-
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          this.localDb.splice(key, 1)
-
-          this.updateDb(key)
-        }.bind(this))
-      },
-      updateDb: function (key) {
-        const fs = require('fs')
-
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          /** getting the db.json content and then deleting the selected answer */
-          var updated = JSON.parse(data)
-          updated[this.parent].reponse.splice(key, 1)
-
-          /** then we send the updated object to the json database */
-          fs.writeFile('data/db.json', JSON.stringify(updated), 'utf8', function (error) {
-            if (error) throw error
-
-            console.log('JSON database saved successfully.')
-
-            /** now re-updating this.localDb for reactive display */
-            this.setLocalDb()
-          }.bind(this))
-        }.bind(this))
+        this.$parent.$parent.jsonDeleteReponse(this.parent, key)
+        this.setLocalDb()
       }
     }
 }

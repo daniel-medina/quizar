@@ -3,9 +3,9 @@
     Liste des questions :
     <br /><br />
     <li v-for="(item, key) in localDb">
-      <strong>{{ item.intitule }} ( sur {{ item.point }} points )</strong> - <button v-on:click="deleteQuestion(key)">X</button>
+      <strong>{{ item.intitule }} ( sur {{ item.point }} points )</strong> - <button v-on:click="deleteQuestion(key)">X</button> - id : {{ item.id }}
       <hr />
-      <reponses :parent="key"></reponses>
+      <reponses :parent="item.id"></reponses>
       <br />
     </li>
 
@@ -54,7 +54,7 @@
         form.preventDefault()
         const fs = require('fs')
 
-        var id = Math.round(Math.random() * (999999999999999 - 0) + 0)
+        var id = this.$parent.jsonId()
         var intitule = this.form.intitule
         var points = this.form.points
         var image = ''
@@ -62,7 +62,7 @@
         /** first we move the image, if it exist, in the el folder; also generate random tokens */
         if (this.form.image.length > 0) {
           var token = Math.round(Math.random() * (9999999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (9999 - 1) + 1)
+          var token2 = Math.round(Math.random() * (9999999 - 1) + 1)
           var additionnal = 'data/'
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]
