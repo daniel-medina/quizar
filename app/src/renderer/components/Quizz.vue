@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Questions ! ( note actuelle : {{ points }} / {{ pointsMax }} )</h1>
+    <h1>Questions ( note actuelle : {{ points }} / {{ pointsMax }} ) - <button v-on:click="$parent.rerender()">re-mélanger</button></h1>
     <li v-for="(item, key) in quizz">
       <br /><br />
       <div v-if="item.image != ''">
@@ -69,11 +69,6 @@
         if (this.quizz.length < data.length && this.quizz.length < this.nbQuestion) {
           this.shuffle()
         }
-
-        console.log('quizz length : ' + this.quizz.length)
-        console.log('data length : ' + data.length)
-
-        return false
       },
       getDb: function () {
         const fs = require('fs')

@@ -18,6 +18,11 @@
     },
     methods: {
       /** Global methods */
+      rerender: function () {
+        const remote = require('electron').remote
+
+        remote.getCurrentWindow().reload()
+      },
       jsonGetReponse: function (id) {
         const fs = require('fs')
         var data = fs.readFileSync('data/db.json')
