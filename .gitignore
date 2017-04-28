@@ -8,6 +8,5 @@ npm-debug.log.*
 thumbs.db
 !.gitkeep
 ambiance.m4a
-data/
 data/*
 db.json

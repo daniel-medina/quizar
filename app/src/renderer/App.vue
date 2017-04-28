@@ -18,76 +18,19 @@
     },
     methods: {
       /** Global methods */
-      rerender: function () {
-        const remote = require('electron').remote
-
-        remote.getCurrentWindow().reload()
-      },
-      jsonGetReponse: function (id) {
-        const fs = require('fs')
-        var data = fs.readFileSync('data/db.json')
-
-        for (var x = 0; x < JSON.parse(data).length; x++) {
-          var item = JSON.parse(data)[x]
-
-          if (item.id === id) {
-            return item.reponse
-          }
-        }
-      },
-      /** check if the generated ID isn't already in the database */
-      jsonCheck: function (db, genId) {
-        var match = 0
-
-        db.forEach(function (item) {
-          if (item.id === genId) {
-            match++
-          }
-        })
-
-        if (match > 0) {
-          return true
-        } else {
-          return false
-        }
-      },
-      /** generate an ID for a new question; generate a new one if the generated ID already exist */
-      jsonId: function () {
-        const fs = require('fs')
-        var id = Math.round(Math.random() * (99999999 - 0) + 0)
-        var data = fs.readFileSync('data/db.json')
-        var check = this.jsonCheck(JSON.parse(data), id)
-
-        console.log(check)
-
-        if (check) {
-          /** if the generated id is already present in the database */
-          return this.jsonId()
-        } else {
-          return id
-        }
-      },
-      jsonAddReponse: function (id, add) {
+      jsonAddReponse: function (indexQuestion, reponse) {
         const fs = require('fs')
         var data = JSON.parse(fs.readFileSync('data/db.json'))
 
-        for (var x = 0; x < data.length; x++) {
-          if (data[x].id === id) {
-            data[x].reponse.push(add)
-          }
-        }
+        data[indexQuestion].reponse.push(reponse)
 
         fs.writeFileSync('data/db.json', JSON.stringify(data))
       },
-      jsonDeleteReponse: function (id, key) {
+      jsonDeleteReponse: function (indexQuestion, indexReponse) {
         const fs = require('fs')
         var data = JSON.parse(fs.readFileSync('data/db.json'))
 
-        for (var x = 0; x < data.length; x++) {
-          if (data[x].id === id) {
-            data[x].reponse.splice(key, 1)
-          }
-        }
+        data[indexQuestion].reponse.splice(indexReponse, 1)
 
         fs.writeFileSync('data/db.json', JSON.stringify(data))
       }

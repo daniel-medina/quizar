@@ -30,7 +30,7 @@
         fs.readFile('data/db.json', 'utf8', function (error, data) {
           if (error) throw error
 
-          this.localDb = this.$parent.$parent.jsonGetReponse(this.parent)
+          this.localDb = JSON.parse(data)[this.parent].reponse
         }.bind(this))
       },
       addReponse: function (form) {
@@ -55,8 +55,9 @@
           this.form.value = 0
         }
       },
-      deleteReponse: function (key) {
-        this.$parent.$parent.jsonDeleteReponse(this.parent, key)
+      deleteReponse: function (index) {
+        this.$parent.$parent.jsonDeleteReponse(this.parent, index)
+        console.log(index)
         this.setLocalDb()
       }
     }

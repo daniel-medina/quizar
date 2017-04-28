@@ -5,7 +5,7 @@
     <li v-for="(item, key) in localDb">
       <strong>{{ item.intitule }} ( sur {{ item.point }} points )</strong> - <button v-on:click="deleteQuestion(key)">X</button> - id : {{ item.id }}
       <hr />
-      <reponses :parent="item.id"></reponses>
+      <reponses :parent="key"></reponses>
       <br />
     </li>
 
@@ -54,7 +54,6 @@
         form.preventDefault()
         const fs = require('fs')
 
-        var id = this.$parent.jsonId()
         var intitule = this.form.intitule
         var points = this.form.points
         var image = ''
@@ -82,7 +81,6 @@
         }
 
         var toAdd = {
-          id: id,
           intitule: intitule,
           point: points,
           image: image,

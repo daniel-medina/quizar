@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Questions ( note actuelle : {{ points }} / {{ pointsMax }} ) - <button v-on:click="$parent.rerender()">re-mélanger</button></h1>
+    <h1>Questions ( note actuelle : {{ points }} / {{ pointsMax }} ) - <button v-on:click="rerender()">re-mélanger</button></h1>
     <li v-for="(item, key) in quizz">
       <br /><br />
       <div v-if="item.image != ''">
@@ -12,7 +12,7 @@
       ( sur <strong>{{ item.point }}</strong> points )
       <br />
       <hr />
-      <reponses :parent="item.id" :points="item.point"></reponses>
+      <reponses :parent="item.reponse" :points="item.point"></reponses>
       <br />
       <hr />
     </li>
@@ -36,12 +36,11 @@
     },
     created () {
       this.getDb()
-
-      this.$root.$on('setMaxPoint', function (argument) {
-        console.log(argument)
-      })
     },
     methods: {
+      rerender: function () {
+        this.getDb()
+      },
       shuffle: function () {
         const fs = require('fs')
         var data = JSON.parse(fs.readFileSync('data/db.json'))

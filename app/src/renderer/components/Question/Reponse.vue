@@ -27,7 +27,7 @@
         const fs = require('fs')
         var data = fs.readFileSync('data/db.json')
 
-        this.reponses = this.$parent.$parent.jsonGetReponse(this.parent)
+        this.reponses = this.parent
         this.setMaxPoint(JSON.parse(data))
       },
       setMaxPoint: function (file) {

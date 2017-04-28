@@ -1,7 +1,7 @@
 {
   "name": "quizzar",
   "version": "0.0.0",
-  "description": "Générateur de Quizz",
+  "description": "Noted quizz generator, for teachers and their students.",
   "scripts": {
     "build": "node tasks/release.js",
     "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
