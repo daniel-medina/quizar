@@ -32,7 +32,7 @@
       }
     },
     components: {
-      reponses: require('./Question/Reponse')
+      reponses: require('./Reponse')
     },
     created () {
       this.getDb()

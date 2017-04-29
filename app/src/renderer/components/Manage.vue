@@ -1,24 +1,19 @@
 <template>
   <div>
-    Liste des questions :
+    <h1>Thématiques</h1>
+    <hr />
     <br /><br />
-    <li v-for="(item, key) in localDb">
-      <strong>{{ item.intitule }} ( sur {{ item.point }} points )</strong> - <button v-on:click="deleteQuestion(key)">X</button> - id : {{ item.id }}
+    <li v-for="(item, index) in data">
+      <h2> {{ item.theme }} </h2>
       <hr />
-      <reponses :parent="key"></reponses>
       <br />
+      <questions :data="item.questions" :themeIndex="index"></questions>
     </li>
-
     <br />
     <hr />
-    <form method="post" v-on:submit="addQuestion"><input type="text" v-model="form.intitule" placeholder="Intitulé de la question" /> <input type="number" step="any" v-model="form.points" name="points" placeholder="Points à gagner" />
-      <div v-if="form.image.length === 0">
-        <button v-on:click="setImage">Définir l'illustration</button>
-      </div>
-      <div v-else>
-        Illustration choisie : {{ form.image[0] }}
-      </div>
-      <input type="submit" value="Ajouter" /></form>
+    <form method="post" v-on:submit="addTheme"><input type="text" v-model="form.theme" placeholder="Thèmatique de question" />
+      <input type="submit" value="Ajouter" />
+    </form>
   </div>
 </template>
 
@@ -26,105 +21,52 @@
   export default {
     data () {
       return {
-        localDb: {},
+        data: [],
         form: {
-          intitule: '',
-          points: '',
-          image: ''
+          theme: ''
         }
       }
     },
     components: {
-      reponses: require('./Question/Manage')
+      questions: require('./Manage/Question')
     },
     created: function () {
-      this.setLocalDb()
+      this.getData()
     },
     methods: {
-      setLocalDb: function () {
+      getData: function () {
         const fs = require('fs')
+        var data = JSON.parse(fs.readFileSync('data/db.json', 'utf8'))
 
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          this.localDb = JSON.parse(data)
-        }.bind(this))
+        this.data = data
       },
-      addQuestion: function (form) {
-        form.preventDefault()
-        const fs = require('fs')
-
-        var intitule = this.form.intitule
-        var points = this.form.points
-        var image = ''
-
-        /** first we move the image, if it exist, in the el folder; also generate random tokens */
-        if (this.form.image.length > 0) {
-          var token = Math.round(Math.random() * (9999999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (9999999 - 1) + 1)
-          var additionnal = 'data/'
-          var destination = token + '/' + token2 + '.png'
-          var source = this.form.image[0]
-
-          /** just in case the database has been wiped out, we make the image folder */
-          if (!fs.existsSync('data')) {
-            fs.mkdirSync('data')
-          }
-          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
-          fs.mkdirSync('data/' + token)
-          fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
-
-          /** final attribution of the image */
-          image = destination
-        } else {
-          image = ''
-        }
-
-        var toAdd = {
-          intitule: intitule,
-          point: points,
-          image: image,
-          reponse: []
-        }
-
-        this.localDb.push(toAdd)
-        this.updateDb()
-      },
-      deleteQuestion: function (key) {
-        console.log('delete order requested')
-        this.localDb.splice(key, 1)
-
-        /** now calling updateDb to send the modifications to the json file */
-        this.updateDb()
-      },
-      setImage: function (e) {
-        e.preventDefault()
-
-        const { dialog } = require('electron').remote
-
-        dialog.showOpenDialog({
-          filters: [
-            { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
-          ],
-          properties: ['openFile']
-        }, function (file) {
-          if (file !== undefined) {
-            this.form.image = file
-          }
-        }.bind(this))
-      },
-      updateDb: function () {
+      updateData: function () {
         const fs = require('fs')
 
         /** update db.json with the current localDb object */
-        fs.writeFile('data/db.json', JSON.stringify(this.localDb), 'utf8', function (error) {
+        fs.writeFile('data/db.json', JSON.stringify(this.data), 'utf8', function (error) {
           if (error) throw error
 
-          console.log('JSON database saved successfully.')
-
-          /** now we re-update this.localDb with the new infos */
-          this.setLocalDb()
+          /** now we update this.getData() */
+          this.getData()
         }.bind(this))
+      },
+      addTheme: function (form) {
+        form.preventDefault()
+
+        var theme = this.form.theme
+        var toAdd = {
+          theme: theme,
+          questions: []
+        }
+
+        this.data.push(toAdd)
+
+        /** now updating the datas */
+        this.updateData()
+
+        /** resetting the current form value */
+        this.form.theme = ''
       }
     }
   }

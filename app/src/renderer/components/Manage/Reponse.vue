@@ -1,7 +1,7 @@
 <template>
   <div>
-    <li v-for="(item, key) in localDb">
-      - {{ item.description }} <button v-on:click="deleteReponse(key)">X</button>
+    <li v-for="(item, index) in data">
+      {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
     </li>
     <br />
     <form method="post" v-on:submit="addReponse"><input type="text" v-model="form.description" name="description" placeholder="Texte de la réponse" /> - <input type="checkbox" name="value" v-model="form.value" v-bind:true-value="1" v-bind:false-value="0" /> bonne réponse <input type="submit" value="Ajouter" /></form>
@@ -10,29 +10,16 @@
 
 <script>
   export default {
-    props: ['parent'],
+    props: ['data', 'questionIndex', 'themeIndex'],
     data () {
       return {
-        localDb: [],
         form: {
           description: '',
           value: 0
         }
       }
     },
-    created () {
-      this.setLocalDb()
-    },
     methods: {
-      setLocalDb: function () {
-        const fs = require('fs')
-
-        fs.readFile('data/db.json', 'utf8', function (error, data) {
-          if (error) throw error
-
-          this.localDb = JSON.parse(data)[this.parent].reponse
-        }.bind(this))
-      },
       addReponse: function (form) {
         form.preventDefault()
 
@@ -45,20 +32,27 @@
 
         /** the description must be more than one character long */
         if (description.length > 0) {
-          this.$parent.$parent.jsonAddReponse(this.parent, added)
+          var db = this.$parent.$parent.data
 
-          /** now re-updating this.localDb for reactive display */
-          this.setLocalDb()
+          /** adding the reponse inside the question using the question's given index */
+          db[this.themeIndex].questions[this.questionIndex].reponses.push(added)
 
-          /** now reset the current form values */
+          /** now updating the datas */
+          this.$parent.$parent.updateData()
+
+          /** resetting the current form values */
           this.form.description = ''
           this.form.value = 0
         }
       },
       deleteReponse: function (index) {
-        this.$parent.$parent.jsonDeleteReponse(this.parent, index)
-        console.log(index)
-        this.setLocalDb()
+        var db = this.$parent.$parent.data
+
+        /** removing the reponse using its index */
+        db[this.themeIndex].questions[this.questionIndex].reponses.splice(index, 1)
+
+        /** now updating the datas */
+        this.$parent.$parent.updateData()
       }
     }
 }
