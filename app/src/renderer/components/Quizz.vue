@@ -7,12 +7,12 @@
         <center><img :src="item.image" title="Illustration" /></center>
       </div>
       <br />
-      {{ item.intitule }} - {{ key }} - id : {{ item.id }}
+      <h4>{{ item.intitule }}</h4>
       <br /><br />
-      ( sur <strong>{{ item.point }}</strong> points )
+      ( sur <strong>{{ item.points }}</strong> points )
       <br />
       <hr />
-      <reponses :parent="item.reponse" :points="item.point"></reponses>
+      <reponses :data="item.reponses" :points="item.points"></reponses>
       <br />
       <hr />
     </li>
@@ -24,6 +24,7 @@
     data () {
       return {
         quizz: [],
+        theme: 1,
         pointsMax: 0,
         points: 0,
         nbQuestion: 2,
@@ -39,41 +40,31 @@
     },
     methods: {
       rerender: function () {
-        this.getDb()
       },
       shuffle: function () {
         const fs = require('fs')
-        var data = JSON.parse(fs.readFileSync('data/db.json'))
+        var data = JSON.parse(fs.readFileSync('data/db.json', 'utf8'))
+        var shuffle = []
+        var max = data[this.theme].questions.length
 
-        /* eslint-disable */
-        for (var item in data) {
-          /* eslint-enable */
-          var key = Math.round(Math.random() * (data.length - 1) + 0)
-          var match = 0
+        do {
+          /** generate a random number between 0 and the question's array length */
+          let rand = Math.floor(Math.random() * max + 0)
 
-          /** first we need to check if the current item is present in the quizz object */
-          this.quizz.forEach(function (qItem) {
-            if (qItem.id === data[key].id) {
-              match++
-            }
-          })
-
-          /** if it isn't inside the quizz object, push it inside */
-          if (match === 0 && this.quizz.length < this.nbQuestion) {
-            this.quizz.push(data[key])
+          /** if the current random number doesn't exist, push it */
+          if (shuffle.indexOf(rand) === -1) {
+            shuffle.push(data[this.theme].questions[rand])
           }
-        }
+          /** repeat the loop until the shuffle length becomes inferior to nbQuestion */
+        } while (shuffle.length < this.nbQuestion)
 
-        /** if the quizz's length is inferior to the nbQuestion variable, restart the function */
-        if (this.quizz.length < data.length && this.quizz.length < this.nbQuestion) {
-          this.shuffle()
-        }
+        return shuffle
       },
       getDb: function () {
         const fs = require('fs')
 
         if (fs.existsSync('data/db.json')) {
-          this.shuffle()
+          this.quizz = this.shuffle()
         } else {
           /** if the database couldn't be found, create it */
           var empty = JSON.stringify([])

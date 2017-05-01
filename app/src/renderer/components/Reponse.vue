@@ -1,6 +1,6 @@
 <template>
   <div>
-    <li v-for="(item, key) in reponses">
+    <li v-for="(item, key) in data">
       <input type="checkbox" v-on:click="check()" v-model="checked" v-bind:value="key"></input> {{ item.description }}
     </li>
   </div>
@@ -8,10 +8,9 @@
 
 <script>
   export default {
-    props: ['parent', 'points'],
+    props: ['data', 'points'],
     data () {
       return {
-        reponses: this.parent,
         checked: [],
         notValid: [],
         valid: [],
@@ -19,18 +18,11 @@
       }
     },
     created () {
-      this.getDb()
+      this.setMaxPoint()
       this.setter()
     },
     methods: {
-      getDb: function () {
-        const fs = require('fs')
-        var data = fs.readFileSync('data/db.json')
-
-        this.reponses = this.parent
-        this.setMaxPoint(JSON.parse(data))
-      },
-      setMaxPoint: function (file) {
+      setMaxPoint: function () {
         this.$parent.pointsMax += Number(this.points)
       },
       check: function () {
@@ -65,8 +57,8 @@
       },
       setter: function () {
         /** looping through the current question's answers, and sorting them by sending the valid answers to it's array, and the same with the incorrect answers */
-        for (var x = 0; x < this.reponses.length; x++) {
-          if (this.reponses[x].value === 1) {
+        for (var x = 0; x < this.data.length; x++) {
+          if (this.data[x].value === 1) {
             this.valid.push(x)
           } else {
             this.notValid.push(x)
