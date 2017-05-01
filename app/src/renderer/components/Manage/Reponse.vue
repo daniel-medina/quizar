@@ -1,7 +1,12 @@
 <template>
   <div>
     <li v-for="(item, index) in data">
-      {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
+      <span style="color: green;" v-if="item.value === 1">
+        {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
+      </span>
+      <span style="color: red;" v-else>
+        {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
+      </span>
     </li>
     <br />
     <form method="post" v-on:submit="addReponse"><input type="text" v-model="form.description" name="description" placeholder="Texte de la réponse" /> - <input type="checkbox" name="value" v-model="form.value" v-bind:true-value="1" v-bind:false-value="0" /> bonne réponse <input type="submit" value="Ajouter" /></form>

@@ -13,26 +13,31 @@
 <script>
   import store from 'renderer/vuex/store'
   export default {
+    data () {
+      return {
+        dbLocation: 'data/db.json'
+      }
+    },
     store,
     render: function () {
     },
     methods: {
       /** Global methods */
-      jsonAddReponse: function (indexQuestion, reponse) {
+      getData: function () {
         const fs = require('fs')
-        var data = JSON.parse(fs.readFileSync('data/db.json'))
+        var db = fs.readFileSync(this.dbLocation, 'utf8')
 
-        data[indexQuestion].reponse.push(reponse)
-
-        fs.writeFileSync('data/db.json', JSON.stringify(data))
+        return JSON.parse(db)
       },
-      jsonDeleteReponse: function (indexQuestion, indexReponse) {
+      writeDb: function (write) {
         const fs = require('fs')
-        var data = JSON.parse(fs.readFileSync('data/db.json'))
 
-        data[indexQuestion].reponse.splice(indexReponse, 1)
+        fs.writeFileSync(this.dbLocation, write, 'utf8')
+      },
+      dbExist: function () {
+        const fs = require('fs')
 
-        fs.writeFileSync('data/db.json', JSON.stringify(data))
+        return fs.existsSync(this.dbLocation)
       }
     }
   }

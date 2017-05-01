@@ -4,7 +4,7 @@
     <hr />
     <br /><br />
     <li v-for="(item, index) in data">
-      <h2> {{ item.theme }} </h2>
+      <h2> {{ item.theme }} <button v-on:click="deleteTheme(index)">X</button></h2>
       <hr />
       <br />
       <questions :data="item.questions" :themeIndex="index"></questions>
@@ -35,21 +35,13 @@
     },
     methods: {
       getData: function () {
-        const fs = require('fs')
-        var data = JSON.parse(fs.readFileSync('data/db.json', 'utf8'))
+        var data = this.$parent.getData()
 
         this.data = data
       },
       updateData: function () {
-        const fs = require('fs')
-
-        /** update db.json with the current localDb object */
-        fs.writeFile('data/db.json', JSON.stringify(this.data), 'utf8', function (error) {
-          if (error) throw error
-
-          /** now we update this.getData() */
-          this.getData()
-        }.bind(this))
+        this.$parent.writeDb(JSON.stringify(this.data))
+        this.getData()
       },
       addTheme: function (form) {
         form.preventDefault()
@@ -67,6 +59,12 @@
 
         /** resetting the current form value */
         this.form.theme = ''
+      },
+      deleteTheme: function (index) {
+        this.data.splice(index, 1)
+
+        /** now updating the datas */
+        this.updateData()
       }
     }
   }

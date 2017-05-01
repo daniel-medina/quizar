@@ -1,10 +1,17 @@
 <template>
   <div>
-    <h1>Questions ( note actuelle : {{ points }} / {{ pointsMax }} ) - <button v-on:click="rerender()">re-mélanger</button></h1>
-    <li v-for="(item, key) in quizz">
-      <br /><br />
-      <div v-if="item.image != ''">
-        <center><img :src="item.image" title="Illustration" /></center>
+    <h1>Quizz</h1>
+    <button v-on:click="reShuffle()">shuffle</button>
+    <br />
+    <button v-on:click="validate()">valider</button>
+    <hr />
+    <br />
+    <div v-if="quizz.length > 0">
+      <h2>Questions ( note actuelle : {{ points }} / {{ pointsMax }} )</h2>
+      <li v-for="(item, index) in quizz">
+        <br /><br />
+        <div v-if="item.image != ''">
+          <center><img :src="item.image" title="Illustration" /></center>
       </div>
       <br />
       <h4>{{ item.intitule }}</h4>
@@ -15,7 +22,11 @@
       <reponses :data="item.reponses" :points="item.points"></reponses>
       <br />
       <hr />
-    </li>
+      </li>
+    </div>
+    <div v-else>
+      Il n'y a aucune question dans le thème selectionné.
+    </div>
   </div>
   </template>
 
@@ -24,10 +35,11 @@
     data () {
       return {
         quizz: [],
-        theme: 1,
+        theme: 0,
         pointsMax: 0,
         points: 0,
-        nbQuestion: 2,
+        nbQuestion: 5,
+        validated: 0,
         chrono: 0,
         chronoMax: 60
       }
@@ -39,11 +51,95 @@
       this.getDb()
     },
     methods: {
-      rerender: function () {
+      validate: function () {
+        for (var x in this.$children) {
+          var children = this.$children[x]
+          var checked = children.checked
+          var given = children.given
+          var question = this.quizz[x]
+          var points = question.points
+          var nbCheckedValid = 0
+          var nbCheckedInvalid = 0
+          var nbValid = 0
+
+          /** counting the amount of valid or invalid checked answers */
+          for (var y in checked) {
+            var index = checked[y]
+            var value = question.reponses[index].value
+
+            if (value === 1) {
+              nbCheckedValid++
+            } else {
+              nbCheckedInvalid++
+            }
+          }
+
+          /** counting the amount of valid answers */
+          for (var z in question.reponses) {
+            var value2 = question.reponses[z].value
+
+            if (value2 === 1) {
+              nbValid++
+            }
+          }
+
+          if (nbCheckedValid === nbValid && nbCheckedInvalid === 0) {
+            /** we give the points, so the 'given' verification variables goes to 1 */
+            given = 1
+          } else {
+            /** the point isn't given, so nothing changes */
+            given = 0
+          }
+
+          if (this.validated === 0) {
+            /** final validation process, we give the point if it's given, else we remove it */
+            if (given === 1) {
+              console.log('giving points')
+              this.points += Number(points)
+            } else {
+              console.log('not giving :(')
+            }
+          }
+        }
+
+        /** the quizz now becomes 'validated' and can't be validated anymore */
+        this.validated = 1
+      },
+      getDb: function () {
+        /** variable initializations that are re-executed after each reshuffle */
+        this.points = 0
+        this.pointsMax = 0
+        this.validated = 0
+
+        /** also initialize every question's checked arrays */
+        for (var x in this.$children) {
+          this.$children[x].checked = []
+        }
+
+        if (this.$parent.dbExist()) {
+          var data = this.$parent.getData()
+          if (data[this.theme].questions.length > 0) {
+            this.quizz = this.shuffle()
+          }
+        } else {
+          /** if the database couldn't be found, create it */
+          var empty = JSON.stringify([])
+
+          this.$parent.writeDb(empty)
+        }
+
+        /** setting maximum obtainable points */
+        for (var y in this.quizz) {
+          let children = this.quizz[y]
+
+          this.pointsMax += Number(children.points)
+        }
+      },
+      reShuffle: function () {
+        this.getDb()
       },
       shuffle: function () {
-        const fs = require('fs')
-        var data = JSON.parse(fs.readFileSync('data/db.json', 'utf8'))
+        var data = this.$parent.getData()
         var shuffle = []
         var max = data[this.theme].questions.length
 
@@ -52,25 +148,13 @@
           let rand = Math.floor(Math.random() * max + 0)
 
           /** if the current random number doesn't exist, push it */
-          if (shuffle.indexOf(rand) === -1) {
+          if (!shuffle.includes(data[this.theme].questions[rand])) {
             shuffle.push(data[this.theme].questions[rand])
           }
-          /** repeat the loop until the shuffle length becomes inferior to nbQuestion */
-        } while (shuffle.length < this.nbQuestion)
+          /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
+        } while (shuffle.length < this.nbQuestion && shuffle.length < max)
 
         return shuffle
-      },
-      getDb: function () {
-        const fs = require('fs')
-
-        if (fs.existsSync('data/db.json')) {
-          this.quizz = this.shuffle()
-        } else {
-          /** if the database couldn't be found, create it */
-          var empty = JSON.stringify([])
-
-          fs.writeFileSync('data/db.json', empty, 'utf8')
-        }
       }
     },
     name: 'quizz'
