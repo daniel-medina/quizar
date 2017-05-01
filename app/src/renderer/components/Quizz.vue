@@ -1,31 +1,54 @@
 <template>
   <div>
     <h1>Quizz</h1>
-    <button v-on:click="reShuffle()">shuffle</button>
-    <br />
-    <button v-on:click="validate()">valider</button>
+    <div v-if="start === 1">
+      <button v-on:click="reShuffle()">re-mélanger</button>
+      <br />
+      <button v-on:click="cancel()">annuler</button>
+      <br />
+      <button v-on:click="validate()">valider</button>
+    </div>
     <hr />
-    <br />
-    <div v-if="quizz.length > 0">
-      <h2>Questions ( note actuelle : {{ points }} / {{ pointsMax }} )</h2>
-      <li v-for="(item, index) in quizz">
-        <br /><br />
-        <div v-if="item.image != ''">
-          <center><img :src="item.image" title="Illustration" /></center>
+    <div v-if="start === 1">
+      <span style="color: red;" v-if="validated === 1">
+        <br />
+        <h2><strong>Note : {{ points }} / {{ pointsMax }}</strong></h2>
+        <hr />
+      </span>
+      <div v-if="quizz.length > 0">
+        <li v-for="(item, index) in quizz">
+          <br /><br />
+          <div v-if="item.image != ''">
+            <center><img :src="item.image" title="Illustration" /></center>
+          </div>
+          <br />
+          <h4>{{ item.intitule }}</h4>
+          <br /><br />
+          ( sur <strong>{{ item.points }}</strong> points )
+          <br />
+          <hr />
+          <reponses :data="item.reponses" :points="item.points"></reponses>
+          <br />
+          <hr />
+        </li>
       </div>
-      <br />
-      <h4>{{ item.intitule }}</h4>
-      <br /><br />
-      ( sur <strong>{{ item.points }}</strong> points )
-      <br />
-      <hr />
-      <reponses :data="item.reponses" :points="item.points"></reponses>
-      <br />
-      <hr />
-      </li>
+      <div v-else>
+        Il n'y a aucune question dans le thème selectionné.
+      </div>
     </div>
     <div v-else>
-      Il n'y a aucune question dans le thème selectionné.
+      Choisissez un thème :
+      <br />
+      <form>
+        <select v-model="theme">
+          <option v-for="(item, index) in themeList" :value="index">{{ item.theme }}</option>
+        </select>
+        <br />
+        <input type="number" v-model="nbQuestion" placeholder="Nombre de question" />
+      </form>
+      <br />
+      <hr />
+      <button v-on:click="launch()">Démarrer</button>
     </div>
   </div>
   </template>
@@ -36,10 +59,12 @@
       return {
         quizz: [],
         theme: 0,
+        themeList: [],
         pointsMax: 0,
         points: 0,
-        nbQuestion: 5,
+        nbQuestion: '',
         validated: 0,
+        start: 0,
         chrono: 0,
         chronoMax: 60
       }
@@ -48,9 +73,22 @@
       reponses: require('./Reponse')
     },
     created () {
-      this.getDb()
+      this.getTheme()
     },
     methods: {
+      launch: function () {
+        this.start = 1
+
+        this.getDb()
+      },
+      cancel: function () {
+        this.getDb()
+
+        /** resetting variables to their default values */
+        this.start = 0
+        this.theme = 0
+        this.nbQuestion = ''
+      },
       validate: function () {
         for (var x in this.$children) {
           var children = this.$children[x]
@@ -104,6 +142,12 @@
 
         /** the quizz now becomes 'validated' and can't be validated anymore */
         this.validated = 1
+      },
+      getTheme: function () {
+        var data = this.$parent.getData()
+
+        this.themeList = data
+        console.log(data)
       },
       getDb: function () {
         /** variable initializations that are re-executed after each reshuffle */
