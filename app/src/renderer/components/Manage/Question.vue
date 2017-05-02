@@ -52,10 +52,6 @@
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]
 
-          /** just in case the database has been wiped out, we make the image folder */
-          if (!fs.existsSync('data')) {
-            fs.mkdirSync('data')
-          }
           /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
           fs.mkdirSync('data/' + token)
           fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))

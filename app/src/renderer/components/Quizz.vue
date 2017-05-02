@@ -74,6 +74,7 @@
     },
     created () {
       this.getTheme()
+      console.log(this.$parent.getData())
     },
     methods: {
       launch: function () {
@@ -132,10 +133,7 @@
           if (this.validated === 0) {
             /** final validation process, we give the point if it's given, else we remove it */
             if (given === 1) {
-              console.log('giving points')
               this.points += Number(points)
-            } else {
-              console.log('not giving :(')
             }
           }
         }
@@ -147,7 +145,6 @@
         var data = this.$parent.getData()
 
         this.themeList = data
-        console.log(data)
       },
       getDb: function () {
         /** variable initializations that are re-executed after each reshuffle */
@@ -158,18 +155,6 @@
         /** also initialize every question's checked arrays */
         for (var x in this.$children) {
           this.$children[x].checked = []
-        }
-
-        if (this.$parent.dbExist()) {
-          var data = this.$parent.getData()
-          if (data[this.theme].questions.length > 0) {
-            this.quizz = this.shuffle()
-          }
-        } else {
-          /** if the database couldn't be found, create it */
-          var empty = JSON.stringify([])
-
-          this.$parent.writeDb(empty)
         }
 
         /** setting maximum obtainable points */

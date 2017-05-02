@@ -19,7 +19,18 @@
       }
     },
     store,
-    render: function () {
+    created () {
+      if (this.dbExist()) {
+        var data = this.getData()
+        if (data[this.theme].questions.length > 0) {
+          this.quizz = this.shuffle()
+        }
+      } else {
+        /** if the database couldn't be found, create it */
+        var empty = JSON.stringify([])
+
+        this.writeDb(empty)
+      }
     },
     methods: {
       /** Global methods */
@@ -30,7 +41,11 @@
         return JSON.parse(db)
       },
       writeDb: function (write) {
-        const fs = require('fs')
+        const fs = require('fs-extra')
+
+        if (!fs.existsSync('data')) {
+          fs.mkdirSync('data')
+        }
 
         fs.writeFileSync(this.dbLocation, write, 'utf8')
       },
