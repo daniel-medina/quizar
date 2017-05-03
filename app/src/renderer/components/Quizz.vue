@@ -74,7 +74,6 @@
     },
     created () {
       this.getTheme()
-      console.log(this.$parent.getData())
     },
     methods: {
       launch: function () {
@@ -83,8 +82,6 @@
         this.getDb()
       },
       cancel: function () {
-        this.getDb()
-
         /** resetting variables to their default values */
         this.start = 0
         this.theme = 0
@@ -156,6 +153,8 @@
         for (var x in this.$children) {
           this.$children[x].checked = []
         }
+
+        this.quizz = this.shuffle()
 
         /** setting maximum obtainable points */
         for (var y in this.quizz) {
