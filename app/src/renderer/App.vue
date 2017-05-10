@@ -53,6 +53,16 @@
         const fs = require('fs')
 
         return fs.existsSync(this.dbLocation)
+      },
+      escape: function (string) {
+        var escape = document.createElement('textarea')
+        escape.textContent = string
+
+        return escape.innerHTML
+      },
+      nl2br: function (str, isXhtml) {
+        var breakTag = (isXhtml || typeof isXhtml === 'undefined') ? '<br />' : '<br>'
+        return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1' + breakTag + '$2')
       }
     }
   }

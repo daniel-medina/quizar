@@ -22,11 +22,23 @@
             <center><img :src="item.image" title="Illustration" /></center>
           </div>
           <br />
-          <h4>{{ item.intitule }}</h4>
+          <h4 v-html="$parent.nl2br($parent.escape(item.intitule))"></h4>
           <br /><br />
           ( sur <strong>{{ item.points }}</strong> points )
           <br />
-          <hr />
+          <div v-if="validated === 1">
+            <br />
+            <hr />
+            <br />
+            <b v-html="$parent.nl2br($parent.escape(item.explication))"></b>
+            <br />
+            <br />
+            <hr />
+            <br />
+          </div>
+          <div v-else>
+            <hr />
+          </div>
           <reponses :data="item.reponses" :points="item.points"></reponses>
           <br />
           <hr />
@@ -77,9 +89,14 @@
     },
     methods: {
       launch: function () {
-        this.start = 1
+        /** disallow invalid amount of questions */
+        if (this.nbQuestion > 0) {
+          this.start = 1
 
-        this.getDb()
+          this.getDb()
+        } else {
+          alert('Le nombre de question selectionné doit être supérieur à 0.')
+        }
       },
       cancel: function () {
         /** resetting variables to their default values */
@@ -97,6 +114,9 @@
           var nbCheckedValid = 0
           var nbCheckedInvalid = 0
           var nbValid = 0
+
+          /** freeze checked array values of all chidrens in order to disallow unchecking or checking any new answer */
+          Object.freeze(checked)
 
           /** counting the amount of valid or invalid checked answers */
           for (var y in checked) {

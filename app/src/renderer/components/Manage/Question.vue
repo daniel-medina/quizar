@@ -1,14 +1,17 @@
 <template>
   <div>
     <li v-for="(item, index) in data">
-      <h4><button v-on:click="deleteQuestion(index)">X</button> Question : {{ item.intitule }}</h4>
+      <h4><button v-on:click="deleteQuestion(index)">X</button> <button v-on:click="deleteQuestion(index)">E</button> Question :</h4>
+      <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.intitule))"></b>
+      <hr />
+      <button v-on:click="deleteQuestion(index)">E</button> <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.explication))"></b>
       <hr />
       <reponses :data="item.reponses" :questionIndex="index" :themeIndex="themeIndex"></reponses>
       <br />
     </li>
     <br />
     <hr />
-    <form method="post" v-on:submit="addQuestion"><input type="text" v-model="form.intitule" placeholder="Intitulé de la question" /> <input type="number" step="any" v-model="form.points" name="points" placeholder="Points à gagner" />
+    <form method="post" v-on:submit="addQuestion"><textarea v-model="form.intitule" placeholder="Intitulé de la question"></textarea> <textarea v-model="form.explication" placeholder="Explication de la question"></textarea> <input type="number" step="any" v-model="form.points" name="points" placeholder="Points à gagner" />
       <div v-if="form.image.length === 0">
         <button v-on:click="setImage">Définir l'illustration</button>
       </div>
@@ -30,6 +33,7 @@
       return {
         form: {
           intitule: '',
+          explication: '',
           points: '',
           image: ''
         }
@@ -41,6 +45,7 @@
         const fs = require('fs')
 
         var intitule = this.form.intitule
+        var explication = this.form.explication
         var points = this.form.points
         var image = ''
 
@@ -64,6 +69,7 @@
 
         var toAdd = {
           intitule: intitule,
+          explication: explication,
           points: points,
           image: image,
           reponses: []
@@ -76,6 +82,7 @@
 
         /** resetting the current form values */
         this.form.intitule = ''
+        this.form.explication = ''
         this.form.points = ''
         this.form.image = ''
       },
