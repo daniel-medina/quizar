@@ -35,12 +35,7 @@
     },
     store,
     created () {
-      if (this.dbExist()) {
-        var data = this.getData()
-        if (data[this.theme].questions.length > 0) {
-          this.quizz = this.shuffle()
-        }
-      } else {
+      if (!this.dbExist()) {
         /** if the database couldn't be found, create it */
         var empty = JSON.stringify([])
 

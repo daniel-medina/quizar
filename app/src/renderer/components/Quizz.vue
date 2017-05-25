@@ -39,7 +39,7 @@
           <div v-else>
             <hr />
           </div>
-          <reponses :data="item.reponses" :points="item.points"></reponses>
+          <reponses :data="shuffleReponses(item.reponses)" :points="item.points"></reponses>
           <br />
           <hr />
         </li>
@@ -106,8 +106,8 @@
       },
       validate: function () {
         for (var x in this.$children) {
-          var children = this.$children[x]
-          var checked = children.checked
+          var children = this.$children[x].data
+          var checked = this.$children[x].checked
           var given = children.given
           var question = this.quizz[x]
           var points = question.points
@@ -119,16 +119,18 @@
           Object.freeze(checked)
 
           /** counting the amount of valid or invalid checked answers */
-          for (var y in checked) {
-            var index = checked[y]
-            var value = question.reponses[index].value
+          for (var y in children) {
+            var index = children[y]
+            var value = index.value
 
-            if (value === 1) {
+            if (value === 1 && checked.includes(Number(y))) {
               nbCheckedValid++
-            } else {
+            } else if (value === 0 && checked.includes(Number(y))) {
               nbCheckedInvalid++
             }
           }
+
+          console.log(nbCheckedValid)
 
           /** counting the amount of valid answers */
           for (var z in question.reponses) {
@@ -201,6 +203,23 @@
           }
           /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
         } while (shuffle.length < this.nbQuestion && shuffle.length < max)
+
+        return shuffle
+      },
+      shuffleReponses: function (data) {
+        var shuffle = []
+        var max = data.length
+
+        do {
+          /** generate a random number between 0 and the question's array length */
+          let rand = Math.floor(Math.random() * max + 0)
+
+          /** if the current random number doesn't exist, push it */
+          if (!shuffle.includes(data[rand])) {
+            shuffle.push(data[rand])
+          }
+          /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
+        } while (shuffle.length < max)
 
         return shuffle
       }
