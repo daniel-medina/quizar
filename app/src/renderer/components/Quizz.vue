@@ -39,7 +39,7 @@
           <div v-else>
             <hr />
           </div>
-          <reponses :data="shuffleReponses(item.reponses)" :points="item.points"></reponses>
+          <reponses :data="item.reponses" :points="item.points"></reponses>
           <br />
           <hr />
         </li>
@@ -130,8 +130,6 @@
             }
           }
 
-          console.log(nbCheckedValid)
-
           /** counting the amount of valid answers */
           for (var z in question.reponses) {
             var value2 = question.reponses[z].value
@@ -171,7 +169,7 @@
         this.pointsMax = 0
         this.validated = 0
 
-        /** also initialize every question's checked arrays */
+        /** also reinitialize every question's checked arrays */
         for (var x in this.$children) {
           this.$children[x].checked = []
         }
@@ -196,10 +194,16 @@
         do {
           /** generate a random number between 0 and the question's array length */
           let rand = Math.floor(Math.random() * max + 0)
+          let question = data[this.theme].questions[rand]
 
           /** if the current random number doesn't exist, push it */
-          if (!shuffle.includes(data[this.theme].questions[rand])) {
-            shuffle.push(data[this.theme].questions[rand])
+          if (!shuffle.includes(question)) {
+            /** shuffling the answers */
+            let oldReponses = question.reponses
+            let reponses = this.shuffleReponses(oldReponses)
+
+            question.reponses = reponses
+            shuffle.push(question)
           }
           /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
         } while (shuffle.length < this.nbQuestion && shuffle.length < max)

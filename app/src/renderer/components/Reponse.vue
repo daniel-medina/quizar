@@ -1,28 +1,27 @@
 <template>
   <div>
     <li v-for="(item, key) in data">
-      <div class="pull-left" v-if="$parent.validated == 1">
+      <span v-if="$parent.validated == 1">
         <span style="color: green;" v-if="item.value == 1">
-          <div v-if="isChecked(key)">
+          <span v-if="isChecked(key)">
             coché &nbsp;
-          </div>
-          <div v-else>
+          </span>
+          <span v-else>
             non coché &nbsp;
-          </div>
+          </span>
         </span>
         <span style="color: red;" v-else>
-          <div v-if="isChecked(key)">
+          <span v-if="isChecked(key)">
             coché &nbsp;
-          </div>
-          <div v-else>
+          </span>
+          <span v-else>
             non coché &nbsp;
-          </div>
+          </span>
         </span>
-      </div>
-      <div v-else>
-        {{ item.value }}
+      </span>
+      <span v-else>
         <input type="checkbox" v-model="checked" v-bind:value="key"></input>
-      </div>
+      </span>
 
       {{ item.description }}
     </li>
