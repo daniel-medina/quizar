@@ -1,12 +1,26 @@
 <template>
   <div id="#app">
-    <router-link to="/">Question</router-link>
-    <router-link to="/manage">Gestion</router-link>
-    <router-link to="/export-import">Export/Import</router-link>
-
-    <hr />
-
     <router-view></router-view>
+
+    <div class="footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="pull-left">
+        <div class="app-name">quizzar</div>
+      </div>
+
+      <div class="pull-right">
+        <div class="menu">
+          <li>
+            <router-link to="/"><i class="fa fa-book" aria-hidden="true"></i></router-link>
+          </li>
+          <li>
+            <router-link to="/manage"><i class="fa fa-database" aria-hidden="true"></i></router-link>
+          </li>
+          <li>
+            <router-link to="/export-import"><i class="fa fa-share-alt" aria-hidden="true"></i></router-link>
+          </li>
+        </div>
+      </div>
+    </div>
   </div>
   </template>
 
@@ -76,7 +90,76 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
   /** Importing variables file */
   @import 'sass/variables.scss';
 
+  /** removing the useless scrollbar */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  body {
+    min-width: 480px;
+
+    /** giving space for the footer */
+    padding: 0 0 $footer-height + 10px 0;
+  }
+
   li {
     list-style: none;
+  }
+
+  .bubble {
+    float: left;
+    position: relative;
+    bottom: 40px;
+
+    font-size: 14px;
+    padding: 10px;
+
+    background: orange;
+    color: white;
+    border-radius: 5px;
+  }
+
+  .footer {
+    position: fixed;
+    bottom: 0;
+
+    height: $footer-height;
+    padding: $footer-padding;
+    box-shadow: $footer-shadow;
+    
+    background: $footer-background;
+
+    .menu {
+      float: right;
+
+      li {
+        list-style: none;
+        display: inline;
+
+        padding: $menu-button-padding;
+        font-size: $menu-button-font-size;
+
+        a {
+          color: $menu-button-color;
+          transition: $transition;
+
+          &:hover {
+            color: $menu-button-color-current;
+          }
+        }
+
+        .router-link-exact-active {
+          color: $menu-button-color-current;
+        }
+      }
+    }
+
+    .app-name {
+      font-weight: $app-font-weight;
+      font-size: $app-font-size;
+      color: $app-font-color;
+
+      text-transform: uppercase;
+    }
   }
 </style>

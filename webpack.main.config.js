@@ -4,7 +4,6 @@ process.env.BABEL_ENV = 'main'
 
 const path = require('path')
 const pkg = require('./app/package.json')
-const settings = require('./config.js')
 const webpack = require('webpack')
 
 let mainConfig = {
@@ -36,7 +35,7 @@ let mainConfig = {
   output: {
     filename: '[name].js',
     libraryTarget: 'commonjs2',
-    path: path.join(__dirname, 'data')
+    path: path.join(__dirname, 'app/dist')
   },
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),

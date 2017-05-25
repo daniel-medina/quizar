@@ -139,7 +139,7 @@
             }
           }
 
-          if (nbCheckedValid === nbValid && nbCheckedInvalid === 0) {
+          if (nbCheckedValid === nbValid && nbCheckedInvalid === 0 && nbValid > 0) {
             /** we give the points, so the 'given' verification variables goes to 1 */
             given = 1
           } else {

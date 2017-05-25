@@ -1,0 +1,28 @@
+/** Main layout variables */
+
+/** global variables */
+$transition: .3s;
+$shadow-dark: rgba(150, 150, 150, 0.8);
+
+/** color scheme */
+$color1: #34718B;
+$color2: #FF803E;
+
+/** app-name */
+$app-font-size: 38px;
+$app-font-color: white;
+$app-font-shadow: 0 0 2px $shadow-dark;
+$app-font-weight: bold;
+
+/** menu */
+$menu-button-color: white;
+$menu-button-color-current: $color2;
+$menu-button-padding : 3px 14px;
+$menu-button-font-size: 38px;
+
+/** footer */
+$footer-height: 81px;
+$footer-padding: 15px 5px;
+$footer-shadow: 0 0 8px $shadow-dark;
+$footer-background: $color1;
+

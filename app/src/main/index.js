@@ -4,8 +4,8 @@ import { app, BrowserWindow } from 'electron'
 
 let mainWindow
 const winURL = process.env.NODE_ENV === 'development'
-  ? `http://localhost:${require('../../../config').port}`
-  : `file://${__dirname}/index.html`
+      ? `http://localhost:${require('../../../config').port}`
+      : `file://${__dirname}/index.html`
 
 function createWindow () {
   /**
@@ -13,7 +13,9 @@ function createWindow () {
    */
   mainWindow = new BrowserWindow({
     height: 600,
-    width: 800
+    width: 800,
+    minHeight: 600,
+    minWidth: 480
   })
 
   mainWindow.loadURL(winURL)

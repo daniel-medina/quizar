@@ -1,7 +1,8 @@
 {
   "name": "quizzar",
+  "author": "Daniel Medina <daniel.medina11@protonmail.com",
   "version": "0.0.0",
-  "description": "Noted quizz generator, for teachers and their students.",
+  "description": "Noted quizz generator",
   "scripts": {
     "build": "node tasks/release.js",
     "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
@@ -17,10 +18,9 @@
     "pack:main": "cross-env NODE_ENV=production webpack -p --progress --colors --config webpack.main.config.js",
     "pack:renderer": "cross-env NODE_ENV=production webpack -p --progress --colors --config webpack.renderer.config.js",
     "test": "npm run unit && npm run e2e",
-    "unit": "cross-env BABEL_ENV=testing-unit karma start test/unit/karma.conf.js",
+    "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
-  "author": "Greg Holguin <simulatedgreg@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -79,14 +79,9 @@
   },
   "dependencies": {
     "adm-zip": "^0.4.7",
+    "bootstrap": "^3.3.7",
     "bootstrap-sass": "^3.3.7",
-    "cross-env": "^3.2.4",
-    "eslint": "^3.19.0",
-    "eslint-plugin-html": "^2.0.1",
-    "mv": "^2.1.1",
-    "node-sass": "^4.5.2",
-    "sass-loader": "^6.0.5",
-    "style-loader": "^0.13.2",
-    "webpack": "^2.4.1"
+    "font-awesome": "^4.7.0",
+    "sass-loader": "^6.0.5"
   }
 }

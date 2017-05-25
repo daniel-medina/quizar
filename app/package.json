@@ -1,9 +1,10 @@
 {
-  "name": "quizzar",
+  "name": "test",
   "version": "0.0.0",
-  "description": "Générateur de Quizz",
+  "description": "An electron-vue project",
   "main": "./dist/main.js",
   "dependencies": {
+    "babel-runtime": "^6.23.0",
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",
     "vue-resource": "^1.0.3",
