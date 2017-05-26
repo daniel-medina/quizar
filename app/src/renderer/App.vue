@@ -1,5 +1,5 @@
 <template>
-  <div id="#app">
+  <div id="#app" class="container-fluid row">
     <router-view></router-view>
 
     <div class="footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  </template>
+</template>
 
 <script>
   import store from 'renderer/vuex/store'
@@ -85,20 +85,54 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
   /** Importing variables file */
   @import 'sass/variables.scss';
 
-  /** removing the useless scrollbar */
+  /** webkit hacks */
   ::-webkit-scrollbar {
     display: none;
   }
 
-  body {
-    min-width: 480px;
+  input::-webkit-outer-spin-button {
+    width: 200px;
+  }
 
+  body {
+    min-width: $min-width;
+    font-family: $font-family;
+  }
+
+  .container-fluid {
     /** giving space for the footer */
-    padding: 0 0 $footer-height + 10px 0;
+    padding: $header-height 0 ($footer-height + 10px) 0;
+  }
+
+  .row {
+    margin: 0;
   }
 
   li {
     list-style: none;
+  }
+
+  .btn {
+    border-radius: $button-border-radius;
+    border: $button-border;
+    box-shadow: $button-shadow;
+
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: $button-font-size;
+    transition: $transition;
+  }
+
+  .btn-lg {
+    padding: $button-lg-padding;
+  }
+
+  .btn-sm {
+    padding: $button-sm-padding;
+  }
+
+  .btn-xs {
+    padding: $button-xs-padding;
   }
 
   .bubble {
@@ -114,6 +148,129 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     border-radius: 5px;
   }
 
+  .block {
+    padding: $block-padding;
+    background: $block-background;
+    border-radius: $block-border-radius;
+    box-shadow: $block-shadow;
+
+    color: $block-text-color;
+
+    .form-control {
+      border: none;
+      border-radius: 2px;
+      box-shadow: $button-shadow;
+      transition: $transition;
+      text-align: center;
+
+      &:focus {
+        box-shadow: $form-focus-shadow;
+      }
+    }
+  }
+
+  .block-alert {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    margin-left: $alert-margin-left;
+    margin-bottom: $alert-margin-bottom;
+    width: $alert-width;
+    
+    background: $block-alert-background;
+    border-radius: $block-border-radius;
+    box-shadow: $block-shadow;
+    padding: $block-padding + 7px;
+
+    color: $block-text-color;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  .choose {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    margin-left: $choose-margin-left;
+    margin-bottom: $choose-margin-bottom;
+    padding-bottom: $choose-padding-bottom;
+
+    width: $choose-width;
+    
+    .welcome {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: $welcome-font-size;
+      margin: $welcome-margin;
+    }
+
+    .form-control {
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  .result {
+    color: $result-font-color;
+    margin: $result-margin;
+    width: $result-width;
+    padding: 5px 10px;
+    box-shadow: $block-dark-shadow;
+    
+    .announce {
+      color: black;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: $result-announce-font-size;
+      margin: $result-announce-margin;
+    }
+
+    .progress-bar {
+      transition: 10s;
+    }
+
+    .note {
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .header {
+    position: fixed;
+    top: 0;
+    padding: $header-padding;
+    box-shadow: $header-shadow;
+    background: $header-background;
+
+    .menu {
+      li {
+        list-style: none;
+        display: inline;
+
+        padding: $header-menu-button-padding;
+        font-size: $header-menu-button-font-size;
+        text-shadow: $menu-shadow;
+
+        a {
+          color: $header-menu-button-color;
+          transition: $transition;
+
+          &:hover {
+            color: $header-menu-button-color-current;
+          }
+        }
+
+        .router-link-exact-active {
+          color: $header-menu-button-color-current;
+        }
+      }
+    }
+  }
+
   .footer {
     position: fixed;
     bottom: 0;
@@ -121,6 +278,7 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     height: $footer-height;
     padding: $footer-padding;
     box-shadow: $footer-shadow;
+    text-shadow: $menu-shadow;
     
     background: $footer-background;
 
@@ -131,20 +289,20 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
         list-style: none;
         display: inline;
 
-        padding: $menu-button-padding;
-        font-size: $menu-button-font-size;
+        padding: $footer-menu-button-padding;
+        font-size: $footer-menu-button-font-size;
 
         a {
-          color: $menu-button-color;
+          color: $footer-menu-button-color;
           transition: $transition;
 
           &:hover {
-            color: $menu-button-color-current;
+            color: $footer-menu-button-color-current;
           }
         }
 
         .router-link-exact-active {
-          color: $menu-button-color-current;
+          color: $footer-menu-button-color-current;
         }
       }
     }

@@ -1,19 +1,31 @@
 <template>
   <div>
-    <h1>Quizz</h1>
     <div v-if="start === 1">
-      <button v-on:click="reShuffle()">re-mélanger</button>
-      <br />
-      <button v-on:click="cancel()">annuler</button>
-      <br />
-      <button v-on:click="validate()">valider</button>
+      <div class="header col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="menu">
+          <li><a href="#" v-on:click="cancel()"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+          <div class="pull-right" v-if="validated === 0">
+            <li><a href="#" v-on:click="validate()"><i class="fa fa-check" aria-hidden="true"></i></a></li>
+          </div>
+          <div class="pull-right" v-if="displayNote === 1">
+            <li><a href="#" v-on:click="reShuffle()"><i class="fa fa-refresh" aria-hidden="true"></i></a></li>
+          </div>
+        </div>
+      </div>
     </div>
-    <hr />
     <div v-if="start === 1">
       <span style="color: red;" v-if="validated === 1">
-        <br />
-        <h2><strong>Note : {{ points }} / {{ pointsMax }}</strong></h2>
-        <hr />
+        <div class="result">
+          <div class="announce">résultat</div>
+
+          <div class="progress">
+            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" v-bind:style="percentPoints">
+            </div>
+          </div>
+          <div class="note" v-if="displayNote === 1">
+            {{ points }} / {{ pointsMax }}
+          </div>
+        </div>
       </span>
       <div v-if="quizz.length > 0">
         <li v-for="(item, index) in quizz">
@@ -26,7 +38,7 @@
           <br /><br />
           ( sur <strong>{{ item.points }}</strong> points )
           <br />
-          <div v-if="validated === 1">
+          <div v-if="displayNote === 1">
             <br />
             <hr />
             <br />
@@ -45,25 +57,35 @@
         </li>
       </div>
       <div v-else>
-        Il n'y a aucune question dans le thème selectionné.
+        <div class="block-alert">
+          <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Il n'y a aucune question dans le thème selectionné.
+        </div>
       </div>
     </div>
     <div v-else>
-      Choisissez un thème :
-      <br />
-      <form>
-        <select v-model="theme">
-          <option v-for="(item, index) in themeList" :value="index">{{ item.theme }}</option>
-        </select>
-        <br />
-        <input type="number" v-model="nbQuestion" placeholder="Nombre de question" />
-      </form>
-      <br />
-      <hr />
-      <button v-on:click="launch()">Démarrer</button>
+      <div class="choose block">
+        <div class="welcome">
+          Choisissez une thématique
+        </div>
+        <div class="col-md-12">
+          <form>
+            <div class="form-group">
+              <select v-model="theme" class="form-control">
+                <option v-for="(item, index) in themeList" :value="index">{{ item.theme }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <input class="form-control" type="number" v-model="nbQuestion" placeholder="Nombre de questions" />
+            </div>
+          </form>
+          <div class="text-center">
+            <button class="btn btn-sm btn-danger" v-on:click="launch()">Démarrer</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  </template>
+</template>
 
 <script>
   export default {
@@ -72,8 +94,12 @@
         quizz: [],
         theme: 0,
         themeList: [],
+        displayNote: 0,
         pointsMax: 0,
         points: 0,
+        percentPoints: {
+          width: 0 + '%'
+        },
         nbQuestion: '',
         validated: 0,
         start: 0,
@@ -115,9 +141,6 @@
           var nbCheckedInvalid = 0
           var nbValid = 0
 
-          /** freeze checked array values of all chidrens in order to disallow unchecking or checking any new answer */
-          Object.freeze(checked)
-
           /** counting the amount of valid or invalid checked answers */
           for (var y in children) {
             var index = children[y]
@@ -155,6 +178,38 @@
           }
         }
 
+        var percent = (this.points / this.pointsMax) * 100
+        var color = ''
+        var time = 10000
+
+        if (percent <= 5) {
+          color = 'red'
+          /** since the loading bar is too short, we reduce the delay to show the note */
+          time = 2000
+        } else if (percent <= 20) {
+          color = 'red'
+        } else if (percent <= 50) {
+          color = 'orange'
+        } else {
+          color = 'green'
+        }
+
+        setTimeout(function () {
+          this.percentPoints = {
+            width: percent + '%'
+          }
+
+          /** must be synced with .progress-bar transition time */
+          setTimeout(function () {
+            this.displayNote = 1
+
+            this.percentPoints = {
+              width: percent + '%',
+              background: color
+            }
+          }.bind(this), time)
+        }.bind(this), 100)
+
         /** the quizz now becomes 'validated' and can't be validated anymore */
         this.validated = 1
       },
@@ -168,6 +223,8 @@
         this.points = 0
         this.pointsMax = 0
         this.validated = 0
+        this.displayNote = 0
+        this.percentPoints = { width: 0 + '%' }
 
         /** also reinitialize every question's checked arrays */
         for (var x in this.$children) {
@@ -230,11 +287,11 @@
     },
     name: 'quizz'
   }
-  </script>
+</script>
 
 <style scoped>
 img {
-    margin-top: -25px;
-    width: 450px;
-  }
-  </style>
+  margin-top: -25px;
+  width: 450px;
+}
+</style>

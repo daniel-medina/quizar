@@ -1,7 +1,7 @@
 {
   "name": "quizzar",
   "author": "Daniel Medina <daniel.medina11@protonmail.com",
-  "version": "0.0.0",
+  "version": "0.5.0",
   "description": "Noted quizz generator",
   "scripts": {
     "build": "node tasks/release.js",

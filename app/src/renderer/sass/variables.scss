@@ -1,12 +1,35 @@
 /** Main layout variables */
 
-/** global variables */
-$transition: .3s;
-$shadow-dark: rgba(150, 150, 150, 0.8);
-
 /** color scheme */
 $color1: #34718B;
 $color2: #FF803E;
+$color3: #D92322;
+$color4: rgba(20, 70, 100, 0.7);
+
+/** global variables */
+$min-width: 760px;
+$font-family: Arial;
+
+$transition: .3s;
+$shadow-dark: rgba(150, 150, 150, 0.8);
+$shadow-darker: rgba(50, 50, 50, 0.8);
+$separator: 1px solid rgba(200, 200, 200, 0.4);
+
+/** both menus */
+$menu-shadow: 1px 1px 2px $shadow-darker;
+
+/** forms */
+$form-focus-shadow: 0 0 4px $color2;
+
+/** buttons */
+$button-border-radius: 2px;
+$button-border: none;
+$button-shadow: 1px 1px 2px $shadow-darker;
+$button-font-size: 15px;
+
+$button-lg-padding: 9px 15px;
+$button-sm-padding: 6px 12px;
+$button-xs-padding: 3px 8px;
 
 /** app-name */
 $app-font-size: 38px;
@@ -14,11 +37,49 @@ $app-font-color: white;
 $app-font-shadow: 0 0 2px $shadow-dark;
 $app-font-weight: bold;
 
-/** menu */
-$menu-button-color: white;
-$menu-button-color-current: $color2;
-$menu-button-padding : 3px 14px;
-$menu-button-font-size: 38px;
+/** header */
+$header-height: 45px;
+$header-padding: 3px 0;
+$header-shadow: 0 0 8px $shadow-dark;
+$header-background: $color4;
+
+/** header-menu */
+$header-menu-button-color: white;
+$header-menu-button-color-current: $color2;
+$header-menu-button-padding : 10px 8px;
+$header-menu-button-font-size: 28px;
+
+/** block dark */
+$block-padding: 5px;
+$block-text-color: white;
+$block-background: $color1;
+$block-alert-background: $color3;
+$block-border-radius: 2px;
+$block-shadow: 2px 2px 3px $shadow-dark;
+
+/** block white */
+$block-dark-shadow: 1px 1px 2px $shadow-dark;
+
+/** alert block */
+$alert-width: $min-width - 50px;
+$alert-margin-left: -($min-width / 2.15);
+$alert-margin-bottom: -10px;
+$alert-padding-bottom: 10px;
+
+/** choose block */
+$choose-width: $min-width - 50px;
+$choose-margin-left: -($min-width / 2.15);
+$choose-margin-bottom: -85px;
+$choose-padding-bottom: 10px;
+$welcome-margin: 20px 0;
+$welcome-font-size: 40px;
+
+/** result block */
+$result-font-color: #D92222;
+$result-width: 560px;
+$result-margin: 10px auto;
+$result-announce-margin: 5px 0;
+$result-announce-font-size: 30px;
 
 /** footer */
 $footer-height: 81px;
@@ -26,3 +87,8 @@ $footer-padding: 15px 5px;
 $footer-shadow: 0 0 8px $shadow-dark;
 $footer-background: $color1;
 
+/** footer-menu */
+$footer-menu-button-color: white;
+$footer-menu-button-color-current: $color2;
+$footer-menu-button-padding : 3px 14px;
+$footer-menu-button-font-size: 38px;

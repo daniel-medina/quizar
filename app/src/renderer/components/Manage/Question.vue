@@ -1,10 +1,11 @@
 <template>
   <div>
     <li v-for="(item, index) in data">
-      <h4><button v-on:click="deleteQuestion(index)">X</button> <button v-on:click="deleteQuestion(index)">E</button> Question :</h4>
+      {{ test = 0 }}
+      <h4><button v-on:click="deleteQuestion(index)">X</button> <button v-on:click="editQuestion(test)">E</button> Question :</h4>
       <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.intitule))"></b>
       <hr />
-      <button v-on:click="deleteQuestion(index)">E</button> <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.explication))"></b>
+      <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.explication))"></b>
       <hr />
       <reponses :data="item.reponses" :questionIndex="index" :themeIndex="themeIndex"></reponses>
       <br />
@@ -85,6 +86,9 @@
         this.form.explication = ''
         this.form.points = ''
         this.form.image = ''
+      },
+      editQuestion: function () {
+        console.log('test')
       },
       deleteQuestion: function (index) {
         this.$parent.data[this.themeIndex].questions.splice(index, 1)

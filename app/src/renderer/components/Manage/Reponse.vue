@@ -9,6 +9,7 @@
       </span>
     </li>
     <br />
+
     <form method="post" v-on:submit="addReponse"><input type="text" v-model="form.description" name="description" placeholder="Texte de la réponse" /> - <input type="checkbox" name="value" v-model="form.value" v-bind:true-value="1" v-bind:false-value="0" /> bonne réponse <input type="submit" value="Ajouter" /></form>
   </div>
 </template>

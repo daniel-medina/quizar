@@ -1,7 +1,7 @@
 <template>
   <div>
     <li v-for="(item, key) in data">
-      <span v-if="$parent.validated == 1">
+      <span v-if="$parent.displayNote === 1">
         <span style="color: green;" v-if="item.value == 1">
           <span v-if="isChecked(key)">
             coché &nbsp;
@@ -33,6 +33,7 @@
     props: ['data'],
     data () {
       return {
+        edit: 0,
         checked: [],
         given: 0
       }
