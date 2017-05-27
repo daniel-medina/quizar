@@ -22,17 +22,16 @@
       <span style="color: red;" v-if="validated === 1">
         <div class="col-lg-offset-2 col-md-offset-1 col-lg-8 col-sm-12 col-md-10 col-xs-12">
           <div class="result">
-          <div class="announce">résultat</div>
-
-          <div class="progress">
-            <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" v-bind:style="percentPoints">
+            <div class="announce">résultat</div>
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" v-bind:style="percentPoints">
+              </div>
+            </div>
+            <div class="note" v-if="displayNote === 1">
+              {{ points }} / {{ pointsMax }}
             </div>
           </div>
-          <div class="note" v-if="displayNote === 1">
-            {{ points }} / {{ pointsMax }}
-          </div>
-          </div>
-          </div>
+        </div>
       </span>
       <div v-if="quizz.length > 0">
         <li v-for="(item, index) in quizz">
@@ -294,9 +293,6 @@
 </script>
 
 <style lang="scss" scoped>
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-
 /** Importing variables file */
 @import '../sass/variables.scss';
 

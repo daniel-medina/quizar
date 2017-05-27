@@ -45,9 +45,6 @@
 </script>
 
 <style lang="scss" scoped>
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-
 /** Importing variables file */
 @import '../../sass/variables.scss';
 
@@ -67,7 +64,6 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
 
     &:hover {
       cursor: pointer;
-      box-shadow: $question-illustration-hover-shadow;
     }
   }
 
@@ -92,10 +88,6 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     img {
       max-height: $question-illustration-modal-height;
       max-width: $question-illustration-modal-width;
-
-      &:hover {
-        box-shadow: none;
-      }
     }
   }
 }

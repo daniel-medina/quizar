@@ -52,8 +52,8 @@
 
         /** first we move the image, if it exist, in the el folder; also generate random tokens */
         if (this.form.image.length > 0) {
-          var token = Math.round(Math.random() * (999999999999999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (999999999999999 - 1) + 1)
+          var token = Math.round(Math.random() * (99999 - 1) + 1)
+          var token2 = Math.round(Math.random() * (999 - 1) + 1)
           var additionnal = 'app/dist/db/'
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]

@@ -26,17 +26,14 @@
         dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Réinitialiser la base de donnée', message: 'Êtes-vous sûr de vouloir réinitialiser la base de donnée ?' }, function (choice) {
           if (choice) {
             /** if the user selected 'Oui', we delete all the images and set the database to '[]' */
-            var empty = JSON.stringify([])
-
-            fs.removeSync('db.json')
             fs.removeSync('app/dist/db')
             fs.mkdirSync('app/dist/db')
-            fs.writeFileSync('db.json', empty, 'utf8')
+            this.$parent.createEmpty()
 
             /** confirmation dialog */
             dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été réinitialisée.', buttons: ['Ok'] })
           }
-        })
+        }.bind(this))
       },
       exportPrompt: function () {
         const { dialog } = require('electron').remote
@@ -49,16 +46,11 @@
         }.bind(this))
       },
       exportExecute: function (location) {
-        const AdmZip = require('adm-zip')
         const { dialog } = require('electron').remote
 
-        var zip = new AdmZip()
-        var uid = this.uid
+        /** var uid = this.uid */
 
-        zip.addLocalFolder('app/dist/db', 'app/dist/db')
-        zip.addLocalFile('db.json')
-        zip.addFile('.token', uid)
-        zip.writeZip(location)
+        /** nodeZip.file('.token', uid) */
 
         /** confirmation dialog */
         dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })
@@ -90,7 +82,7 @@
 
         if (check === this.uid) {
           /** we proceed the importation by wiping the database and it's images */
-          fs.removeSync('data')
+          fs.removeSync('app/dist/db')
 
           zip.extractAllTo('./', true)
 

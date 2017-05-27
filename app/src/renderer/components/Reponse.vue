@@ -81,9 +81,6 @@
 </script>
 
 <style lang="scss" scoped>
-$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
-
 /** Importing variables file */
 @import '../sass/variables.scss';
 
@@ -116,6 +113,12 @@ table {
     padding: $question-reponse-label-padding;
     font-size: $question-reponse-label-font-size;
     font-weight: bold;
+
+    transition: $transition;
+
+    &:hover {
+      box-shadow: $question-reponse-label-hover-shadow;
+    }
   }
 
   label.valid {

@@ -30,34 +30,47 @@
   export default {
     data () {
       return {
-        dbLocation: 'db.json'
+        dbLocation: 'app/dist/db/db.json',
+        key: 'llsfeuldm'
       }
     },
     store,
     created () {
-      if (!this.dbExist()) {
-        /** if the database couldn't be found, create it */
-        var empty = JSON.stringify([])
-
-        this.writeDb(empty)
-      }
+      this.createEmpty()
     },
     methods: {
       /** Global methods */
       getData: function () {
         const fs = require('fs')
-        var db = fs.readFileSync(this.dbLocation, 'utf8')
+        const cryptoJS = require('crypto-js')
 
-        return JSON.parse(db)
+        /** decrypting the JSON database */
+        let db = fs.readFileSync(this.dbLocation, 'utf8')
+        let raw = cryptoJS.AES.decrypt(db, this.key)
+        let decrypted = JSON.parse(raw.toString(cryptoJS.enc.Utf8))
+
+        return decrypted
+      },
+      createEmpty: function () {
+        if (!this.dbExist()) {
+          /** if the database couldn't be found, create it */
+          let empty = JSON.stringify([])
+
+          this.writeDb(empty)
+        }
       },
       writeDb: function (write) {
         const fs = require('fs-extra')
+        const cryptoJS = require('crypto-js')
 
         if (!fs.existsSync('data')) {
           fs.mkdirSync('data')
         }
 
-        fs.writeFileSync(this.dbLocation, write, 'utf8')
+        /** encrypting the JSON database */
+        let crypted = cryptoJS.AES.encrypt(write, this.key)
+
+        fs.writeFileSync(this.dbLocation, crypted, 'utf8')
       },
       dbExist: function () {
         const fs = require('fs')
@@ -127,6 +140,20 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     font-weight: bold;
     font-size: $button-font-size;
     transition: $transition;
+
+    &:focus {
+      outline: none !important;
+      box-shadow: inherit;
+    }
+
+    &:active {
+      outline: none !important;
+      box-shadow: inherit;
+    }
+  }
+
+  .btn-danger {
+    background: $color2
   }
 
   .btn-lg {
