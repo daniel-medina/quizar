@@ -30,7 +30,7 @@
   export default {
     data () {
       return {
-        dbLocation: 'data/db.json'
+        dbLocation: 'db.json'
       }
     },
     store,
@@ -112,6 +112,12 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     list-style: none;
   }
 
+  .disabled {
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
   .btn {
     border-radius: $button-border-radius;
     border: $button-border;
@@ -185,90 +191,6 @@ $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
     color: $block-text-color;
     font-weight: bold;
     text-transform: uppercase;
-  }
-
-  .choose {
-    position: fixed;
-    bottom: 50%;
-    left: 50%;
-    margin-left: $choose-margin-left;
-    margin-bottom: $choose-margin-bottom;
-    padding-bottom: $choose-padding-bottom;
-
-    width: $choose-width;
-    
-    .welcome {
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: $welcome-font-size;
-      margin: $welcome-margin;
-    }
-
-    .form-control {
-      text-transform: uppercase;
-      font-size: 16px;
-      font-weight: bold;
-    }
-  }
-
-  .result {
-    color: $result-font-color;
-    margin: $result-margin;
-    width: $result-width;
-    padding: 5px 10px;
-    box-shadow: $block-dark-shadow;
-    
-    .announce {
-      color: black;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: $result-announce-font-size;
-      margin: $result-announce-margin;
-    }
-
-    .progress-bar {
-      transition: 10s;
-    }
-
-    .note {
-      font-size: 20px;
-      text-align: center;
-      font-weight: bold;
-    }
-  }
-
-  .header {
-    position: fixed;
-    top: 0;
-    padding: $header-padding;
-    box-shadow: $header-shadow;
-    background: $header-background;
-
-    .menu {
-      li {
-        list-style: none;
-        display: inline;
-
-        padding: $header-menu-button-padding;
-        font-size: $header-menu-button-font-size;
-        text-shadow: $menu-shadow;
-
-        a {
-          color: $header-menu-button-color;
-          transition: $transition;
-
-          &:hover {
-            color: $header-menu-button-color-current;
-          }
-        }
-
-        .router-link-exact-active {
-          color: $header-menu-button-color-current;
-        }
-      }
-    }
   }
 
   .footer {

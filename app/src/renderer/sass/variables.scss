@@ -2,9 +2,10 @@
 
 /** color scheme */
 $color1: #34718B;
-$color2: #FF803E;
+$color2: #FF3414;
 $color3: #D92322;
-$color4: rgba(20, 70, 100, 0.7);
+$color4: rgba(20, 70, 100, 0.9);
+$color5: rgba(15, 100, 15, 0.95);
 
 /** global variables */
 $min-width: 760px;
@@ -30,6 +31,9 @@ $button-font-size: 15px;
 $button-lg-padding: 9px 15px;
 $button-sm-padding: 6px 12px;
 $button-xs-padding: 3px 8px;
+
+/** modal */
+$modal-background: rgba(10, 10, 10, 0.5);
 
 /** app-name */
 $app-font-size: 38px;
@@ -74,17 +78,47 @@ $choose-padding-bottom: 10px;
 $welcome-margin: 20px 0;
 $welcome-font-size: 40px;
 
+/** question block */
+$question-padding: 0;
+$question-margin: 20px 0;
+$question-explication-background: $color5;
+$question-intitule-background: $shadow-darker;
+$question-intitule-margin: 10px 0;
+$question-intitule-padding: 5px;
+$question-intitule-font-size: 18px;
+$question-illustration-margin: 30px;
+$question-illustration-height: 30%;
+$question-illustration-width: 30%;
+$question-illustration-border-radius: 3px;
+$question-illustration-hover-shadow: 0 0 4px $color2;
+$question-illustration-shadow: 1px 1px 2px $shadow-darker;
+$question-illustration-modal-height: 90%;
+$question-illustration-modal-width: 90%;
+$question-reponse-square-size: 24px;
+$question-reponse-checkbox-margin: 5px 0;
+$question-reponse-col-padding:  0 6px;
+$question-reponse-label-padding: 10px;
+$question-reponse-label-font-size: 16px;
+$question-reponse-label-border-radius: 4px;
+$question-reponse-label-background: $shadow-darker;
+$question-reponse-label-shadow: 0 0 2px $shadow-darker;
+$question-reponse-label-valid-background: $question-explication-background;
+$question-reponse-label-valid-shadow: 0 0 2px $question-explication-background;
+$question-reponse-label-not-valid-background: $color3;
+$question-reponse-label-not-valid-shadow: 0 0 2px $color3;
+
 /** result block */
-$result-font-color: #D92222;
+$result-delay: 5s;
+$result-font-color: $color3;
 $result-width: 560px;
-$result-margin: 10px auto;
+$result-margin: 10px;
 $result-announce-margin: 5px 0;
 $result-announce-font-size: 30px;
 
 /** footer */
 $footer-height: 81px;
 $footer-padding: 15px 5px;
-$footer-shadow: 0 0 8px $shadow-dark;
+$footer-shadow: 0 0 8px $shadow-darker;
 $footer-background: $color1;
 
 /** footer-menu */

@@ -28,9 +28,10 @@
             /** if the user selected 'Oui', we delete all the images and set the database to '[]' */
             var empty = JSON.stringify([])
 
-            fs.removeSync('data')
-            fs.mkdirSync('data')
-            fs.writeFileSync('data/db.json', empty, 'utf8')
+            fs.removeSync('db.json')
+            fs.removeSync('app/dist/db')
+            fs.mkdirSync('app/dist/db')
+            fs.writeFileSync('db.json', empty, 'utf8')
 
             /** confirmation dialog */
             dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été réinitialisée.', buttons: ['Ok'] })
@@ -54,7 +55,8 @@
         var zip = new AdmZip()
         var uid = this.uid
 
-        zip.addLocalFolder('data', 'data')
+        zip.addLocalFolder('app/dist/db', 'app/dist/db')
+        zip.addLocalFile('db.json')
         zip.addFile('.token', uid)
         zip.writeZip(location)
 

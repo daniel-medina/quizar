@@ -3,7 +3,12 @@
     <div v-if="start === 1">
       <div class="header col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="menu">
-          <li><a href="#" v-on:click="cancel()"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+          <span v-if="validated === 0 || validated === 1 && displayNote === 1">
+            <li><a href="#" v-on:click="cancel()"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+          </span>
+          <span v-else>
+            <li><a class="disabled"><i class="fa fa-times" aria-hidden="true"></i></a></li>
+          </span>
           <div class="pull-right" v-if="validated === 0">
             <li><a href="#" v-on:click="validate()"><i class="fa fa-check" aria-hidden="true"></i></a></li>
           </div>
@@ -15,7 +20,8 @@
     </div>
     <div v-if="start === 1">
       <span style="color: red;" v-if="validated === 1">
-        <div class="result">
+        <div class="col-lg-offset-2 col-md-offset-1 col-lg-8 col-sm-12 col-md-10 col-xs-12">
+          <div class="result">
           <div class="announce">résultat</div>
 
           <div class="progress">
@@ -25,35 +31,27 @@
           <div class="note" v-if="displayNote === 1">
             {{ points }} / {{ pointsMax }}
           </div>
-        </div>
+          </div>
+          </div>
       </span>
       <div v-if="quizz.length > 0">
         <li v-for="(item, index) in quizz">
-          <br /><br />
-          <div v-if="item.image != ''">
-            <center><img :src="item.image" title="Illustration" /></center>
+          <div class="col-lg-offset-2 col-md-offset-1 col-lg-8 col-sm-12 col-md-10 col-xs-12">
+            <div class="block question col-md-12 col-lg-12 col-xs-12">
+              <div class="illustration" v-if="item.image != ''">
+                <illustration :image="item.image"></illustration>
+              </div>
+              <div class="intitule">
+                <p v-html="$parent.nl2br($parent.escape(item.intitule))" />
+              </div>
+              <div class="explication" v-if="displayNote === 1">
+                <p v-html="$parent.nl2br($parent.escape(item.explication))" />
+              </div>
+              <div v-else>
+              </div>
+              <reponses :data="item.reponses" :points="item.points"></reponses>
+            </div>
           </div>
-          <br />
-          <h4 v-html="$parent.nl2br($parent.escape(item.intitule))"></h4>
-          <br /><br />
-          ( sur <strong>{{ item.points }}</strong> points )
-          <br />
-          <div v-if="displayNote === 1">
-            <br />
-            <hr />
-            <br />
-            <b v-html="$parent.nl2br($parent.escape(item.explication))"></b>
-            <br />
-            <br />
-            <hr />
-            <br />
-          </div>
-          <div v-else>
-            <hr />
-          </div>
-          <reponses :data="item.reponses" :points="item.points"></reponses>
-          <br />
-          <hr />
         </li>
       </div>
       <div v-else>
@@ -108,7 +106,8 @@
       }
     },
     components: {
-      reponses: require('./Reponse')
+      reponses: require('./Reponse'),
+      illustration: require('./Dynamic/Illustration')
     },
     created () {
       this.getTheme()
@@ -131,9 +130,14 @@
         this.nbQuestion = ''
       },
       validate: function () {
-        for (var x in this.$children) {
-          var children = this.$children[x].data
-          var checked = this.$children[x].checked
+        /** must filter the childrens components to use only the questions */
+        var filtered = this.$children.filter(function (item) {
+          return item.data !== undefined
+        })
+
+        for (var x in filtered) {
+          var children = filtered[x].data
+          var checked = filtered[x].checked
           var given = children.given
           var question = this.quizz[x]
           var points = question.points
@@ -180,7 +184,7 @@
 
         var percent = (this.points / this.pointsMax) * 100
         var color = ''
-        var time = 10000
+        var time = 5000
 
         if (percent <= 5) {
           color = 'red'
@@ -199,7 +203,7 @@
             width: percent + '%'
           }
 
-          /** must be synced with .progress-bar transition time */
+          /** must be synced with $result-delay inside the SASS variables */
           setTimeout(function () {
             this.displayNote = 1
 
@@ -289,9 +293,130 @@
   }
 </script>
 
-<style scoped>
-img {
-  margin-top: -25px;
-  width: 450px;
-}
+<style lang="scss" scoped>
+$icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
+/** Importing variables file */
+@import '../sass/variables.scss';
+
+.header {
+  position: fixed;
+    top: 0;
+    z-index: 1;
+    padding: $header-padding;
+    box-shadow: $header-shadow;
+    background: $header-background;
+
+    .menu {
+      li {
+        list-style: none;
+        display: inline;
+
+        padding: $header-menu-button-padding;
+        font-size: $header-menu-button-font-size;
+        text-shadow: $menu-shadow;
+
+        a {
+          color: $header-menu-button-color;
+          transition: $transition;
+
+          &:hover {
+            color: $header-menu-button-color-current;
+          }
+        }
+
+        .router-link-exact-active {
+          color: $header-menu-button-color-current;
+        }
+      }
+    }
+  }
+
+  .choose {
+    position: fixed;
+    bottom: 50%;
+    left: 50%;
+    margin-left: $choose-margin-left;
+    margin-bottom: $choose-margin-bottom;
+    padding-bottom: $choose-padding-bottom;
+
+    width: $choose-width;
+    
+    .welcome {
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: $welcome-font-size;
+      margin: $welcome-margin;
+    }
+
+    .form-control {
+      text-transform: uppercase;
+      font-size: 16px;
+      font-weight: bold;
+    }
+  }
+
+  .question {
+    padding: $question-padding;
+    margin: $question-margin;
+
+    .explication {
+      text-align: justify;
+      font-weight: bold;
+      font-size: $question-intitule-font-size;
+
+      margin: $question-intitule-margin;
+
+      background: $question-explication-background;
+
+      p {
+        padding: $question-intitule-padding;
+        margin: 0;
+      }
+    }
+
+    .intitule {
+      text-align: justify;
+      font-weight: bold;
+      font-size: $question-intitule-font-size;
+
+      margin: $question-intitule-margin;
+
+      background: $question-intitule-background;
+
+      p {
+        padding: $question-intitule-padding;
+        margin: 0;
+      }
+    }
+  }
+
+  .result {
+    color: $result-font-color;
+    margin-top: $result-margin;
+    margin-bottom: $result-margin;
+    padding: 5px 10px;
+    box-shadow: $block-dark-shadow;
+    
+    .announce {
+      color: black;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: $result-announce-font-size;
+      margin: $result-announce-margin;
+    }
+
+    .progress-bar {
+      transition: $result-delay;
+    }
+
+    .note {
+      font-size: 20px;
+      text-align: center;
+      font-weight: bold;
+    }
+  }  
 </style>
