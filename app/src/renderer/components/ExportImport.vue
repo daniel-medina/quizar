@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h4>Ici vous pouvez exporter la base de donnée ainsi que les images dans une archive .zip. <br />
+    <h4>Ici vous pouvez exporter la base de donnée ainsi que les images dans une archive .zar. <br />
       Cette archive peut ensuite être importée et remplacera l'intégralité des données du programme.<br />
     Seule les archives exportées depuis ce programme pourront être importées.</h4>
     <hr />
@@ -38,7 +38,7 @@
       exportPrompt: function () {
         const { dialog } = require('electron').remote
 
-        dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive ZIP', extensions: ['zip'] }] }, function (file) {
+        dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }] }, function (file) {
           if (file !== undefined) {
             /** when the exportation file is defined, we execute the export function */
             this.exportExecute(file)
@@ -47,10 +47,19 @@
       },
       exportExecute: function (location) {
         const { dialog } = require('electron').remote
+        const archiver = require('archiver')
+        const fs = require('fs-extra')
 
-        /** var uid = this.uid */
+        let output = fs.createWriteStream(location)
+        let archive = archiver('zip', {
+          store: true
+        })
+        let uid = this.uid
 
-        /** nodeZip.file('.token', uid) */
+        archive.append(uid, { name: '.token' })
+        archive.directory('app/dist/db')
+        archive.finalize()
+        archive.pipe(output)
 
         /** confirmation dialog */
         dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })
@@ -63,7 +72,7 @@
           /** choice 0 = Non ; choice 1 = Oui */
           if (choice) {
             /** dialog prompt for the database archive to import */
-            dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive ZIP', extensions: ['zip'] }], properties: ['openFile'] }, function (file) {
+            dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }], properties: ['openFile'] }, function (file) {
               if (file !== undefined) {
                 this.importExecute(file)
               }
@@ -83,12 +92,9 @@
         if (check === this.uid) {
           /** we proceed the importation by wiping the database and it's images */
           fs.removeSync('app/dist/db')
-
           zip.extractAllTo('./', true)
-
           /** after the archive has been extracted, delete the .token */
           fs.removeSync('.token')
-
           /** confirmation dialog */
           dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été importée.', buttons: ['Ok'] })
         } else {

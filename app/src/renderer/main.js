@@ -7,6 +7,7 @@ import App from './App'
 import routes from './routes'
 
 import 'font-awesome/css/font-awesome'
+import 'typeface-source-sans-pro'
 
 Vue.use(Electron)
 Vue.use(Resource)

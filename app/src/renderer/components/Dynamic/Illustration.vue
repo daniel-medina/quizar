@@ -57,13 +57,14 @@
     max-height: $question-illustration-height;
     max-width: $question-illustration-width;
 
+    border: $question-illustration-border;
     border-radius: $question-illustration-border-radius;
-    box-shadow: $question-illustration-shadow;
 
     transition: $transition;
 
     &:hover {
       cursor: pointer;
+      border: $question-illustration-border-hover;
     }
   }
 
@@ -88,6 +89,8 @@
     img {
       max-height: $question-illustration-modal-height;
       max-width: $question-illustration-modal-width;
+      border: 0;
+      border-radius: 1px;
     }
   }
 }

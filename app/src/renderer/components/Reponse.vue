@@ -108,27 +108,28 @@ table {
     width: 100%;
     border-radius: $question-reponse-label-border-radius;
     background: $question-reponse-label-background;
-    box-shadow: $question-reponse-label-shadow;
+    border: $question-reponse-label-border;
 
     padding: $question-reponse-label-padding;
     font-size: $question-reponse-label-font-size;
+    text-shadow: $question-text-shadow;
     font-weight: bold;
 
     transition: $transition;
 
     &:hover {
-      box-shadow: $question-reponse-label-hover-shadow;
+      border: $question-reponse-label-border-hover;
     }
   }
 
   label.valid {
     background: $question-reponse-label-valid-background;
-    box-shadow: $question-reponse-label-valid-shadow;
+    text-shadow: $question-text-shadow;
   }
 
   label.not-valid {
     background: $question-reponse-label-not-valid-background;
-    box-shadow: $question-reponse-label-not-valid-shadow;
+    text-shadow: $question-text-shadow;
   }
 
   .square {

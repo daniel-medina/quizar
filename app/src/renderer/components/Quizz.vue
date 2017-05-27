@@ -360,8 +360,9 @@
 
     .explication {
       text-align: justify;
-      font-weight: bold;
       font-size: $question-intitule-font-size;
+      font-weight: bold;
+      text-shadow: $question-text-shadow;
 
       margin: $question-intitule-margin;
 
@@ -375,9 +376,9 @@
 
     .intitule {
       text-align: justify;
-      font-weight: bold;
       font-size: $question-intitule-font-size;
-
+      text-shadow: $question-text-shadow;
+      font-weight: bold;
       margin: $question-intitule-margin;
 
       background: $question-intitule-background;

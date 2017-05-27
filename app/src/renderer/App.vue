@@ -93,10 +93,10 @@
 
 <style lang="scss">
 $icon-font-path: "~bootstrap-sass/assets/fonts/bootstrap/";
-  @import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "~bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 
-  /** Importing variables file */
-  @import 'sass/variables.scss';
+/** Importing variables file */
+@import 'sass/variables.scss';
 
   /** webkit hacks */
   ::-webkit-scrollbar {
