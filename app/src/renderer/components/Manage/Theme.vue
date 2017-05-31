@@ -2,7 +2,7 @@
   <div>
     <div class="block-header" :style="styleHeader">
       <div class="pull-right">
-        <i :class="(!edit) ? 'button fa fa-pencil-square' : 'button fa fa-check-square'" aria-hidden="true" v-on:click="editTheme()"></i>
+        <i :class="(!edit) ? 'button fa fa-pencil-square' : 'button fa fa-check-square'" aria-hidden="true" v-on:click="editTheme()"></i>&nbsp;
         <i class="button fa fa-window-close" aria-hidden="true" v-on:click="deleteTheme()"></i>
       </div>
 

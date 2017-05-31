@@ -7,6 +7,8 @@ $color3: #D92322;
 $color4: rgba(20, 70, 100, 0.9);
 $color5: rgba(15, 100, 15, 0.95);
 $color6: rgba(40, 40, 70, 0.9);
+$color7: rgba(90, 90, 90, 0.5);
+$color8: rgba(40, 40, 40, 1.0);
 
 /** global variables */
 $min-width: 760px;
@@ -34,7 +36,7 @@ $button-sm-padding: 6px 12px;
 $button-xs-padding: 3px 8px;
 
 /** modal */
-$modal-background: rgba(10, 10, 10, 0.5);
+$modal-background: rgba(10, 10, 10, 0.8);
 
 /** app-name */
 $app-font-size: 38px;
@@ -66,10 +68,30 @@ $block-text-color: white;
 $block-background: $color1;
 $block-alert-background: $color3;
 $block-border-radius: 2px;
-$block-shadow: 2px 2px 3px $shadow-dark;
+$block-shadow: 2px 2px 3px $shadow-darker;
 
 /** block white */
-$block-dark-shadow: 1px 1px 2px $shadow-dark;
+$block-modal-background: white;
+$block-modal-container-padding: 0;
+$block-modal-container-border-radius: 1px;
+$block-modal-shadow: 0 0 6px $shadow-dark;
+$block-modal-border: 15px solid $color7;
+$block-modal-border-radius: 0;
+$block-modal-header-font-size: 18px;
+$block-modal-header-title-margin: 10px;
+$block-modal-margin: 5px;
+$block-modal-validate-margin: 5px 0;
+$block-modal-validate-padding: 10px 0 7px 0;
+$block-modal-form-margin: 10px 20px;
+$block-modal-form-font-size: 18px;
+$block-modal-form-width: 100%;
+$block-modal-form-min-height: 23vh;
+$block-modal-form-max-height: 300px;
+$block-modal-form-shadow: inset 0 0 7px $shadow-dark;
+$block-modal-form-padding: 10px;
+$block-modal-form-border-radius: 3px;
+$block-modal-form-border: 1px solid $shadow-dark;
+$block-dark-shadow: 1px 1px 2px $shadow-darker;
 
 /** alert block */
 $alert-width: $min-width - 50px;

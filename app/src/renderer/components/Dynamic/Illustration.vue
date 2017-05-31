@@ -82,7 +82,7 @@
     transition: $transition;
 
     height: 100%;
-    width: 100%;
+    width: 100%; 
 
     img {
       max-height: $question-illustration-modal-height;

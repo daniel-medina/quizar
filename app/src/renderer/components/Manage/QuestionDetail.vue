@@ -2,18 +2,16 @@
   <div>
     <div class="header">
       <div class="pull-right">
-        <i v-if="item.image !== ''" v-on:click="modal()" class="button fa fa-picture-o" aria-hidden="true"></i>
-        <i :class="(!edit.intitule) ? 'button fa fa-pencil' : 'button fa fa-check-square-o'" aria-hidden="true" v-on:click="editIntitule()"></i>
+        <i v-if="item.image !== ''" v-on:click="modal()" class="button fa fa-picture-o" aria-hidden="true"></i>&nbsp;
+        <i class="button fa fa-pencil" aria-hidden="true" v-on:click="editIntitule()"></i>&nbsp;
         <i class="button fa fa-close" aria-hidden="true" v-on:click="remove()"></i>
       </div>
       <div class="display">
-        <i v-if="!edit.intitule" v-on:click="display()" :class="(deploy) ? 'button fa fa-arrow-circle-down' : 'button fa fa-arrow-circle-right'" aria-hidden="true"></i>
+        <i v-on:click="display()" :class="(deploy) ? 'button fa fa-arrow-circle-down' : 'button fa fa-arrow-circle-right'" aria-hidden="true"></i>
       </div>
 
-      <p v-show="!edit.intitule" class="title" v-html="$root.nl2br($root.escape(item.intitule))" />
-      <div class="edit-intitule" v-show="edit.intitule">
-        <textarea class="textarea-intitule" v-model="$parent.$parent.$parent.data[themeIndex].questions[index].intitule"></textarea>
-      </div>
+      <p class="title" v-html="$root.nl2br($root.escape(item.intitule))" />
+      <edit :item="item" :index="index" :themeIndex="themeIndex"></edit>
     </div>
     <div v-if="deploy">
       <div class="explication">
@@ -37,13 +35,14 @@
     props: ['item', 'index', 'themeIndex'],
     components: {
       reponses: require('./Reponse'),
-      illustration: require('../Dynamic/Illustration')
+      edit: require('../Dynamic/Edit')
     },
     data () {
       return {
         edit: {
           intitule: false,
-          explication: false
+          explication: false,
+          textarea: ''
         },
         deploy: false,
         modalDeploy: false,
@@ -55,25 +54,14 @@
     },
     created () {
     },
-    ready: function () {
-      console.log(this.$el.querySelector('.textarea-intitule'))
-    },
     methods: {
       display: function () {
+        console.log(this.$children[0])
         /** deploy component variable becomes what it is not; false or true */
         this.deploy = !this.deploy
       },
       editIntitule: function () {
-        const autosize = require('autosize')
-
-        /** toggleEdit variable becomes what it is not; false or true */
-        this.edit.intitule = !this.edit.intitule
-
-        if (!this.edit.intitule) {
-          this.$parent.$parent.$parent.updateData()
-        } else {
-          autosize(this.$el.querySelectorAll('textarea'))
-        }
+        this.$children[0].show()
       },
       remove: function () {
         const { dialog } = require('electron').remote
