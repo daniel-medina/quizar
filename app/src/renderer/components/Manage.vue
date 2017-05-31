@@ -1,17 +1,11 @@
 <template>
   <div>
-    <h1>Thématiques</h1>
-    <hr />
-    <br /><br />
-    <li v-for="(item, index) in data">
-      <h2> {{ item.theme }} <button v-on:click="deleteTheme(index)">X</button></h2>
-      <hr />
-      <br />
-      <questions :data="item.questions" :themeIndex="index"></questions>
-    </li>
-    <br />
-    <hr />
-    <form method="post" v-on:submit="addTheme"><input type="text" v-model="form.theme" placeholder="Thèmatique de question" />
+    <div class="wrapper">
+      <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12" v-for="(item, index) in data">
+        <themes :item="item" :index="index"></themes>
+      </div>
+    </div>
+    <form method="post" v-on:submit="addTheme"><input type="text" v-model="form.theme" placeholder="Intitulé de la thématique" />
       <input type="submit" value="Ajouter" />
     </form>
   </div>
@@ -27,11 +21,11 @@
         }
       }
     },
-    components: {
-      questions: require('./Manage/Question')
-    },
-    created: function () {
+    created () {
       this.getData()
+    },
+    components: {
+      themes: require('./Manage/Theme')
     },
     methods: {
       getData: function () {
@@ -59,17 +53,23 @@
 
         /** resetting the current form value */
         this.form.theme = ''
-      },
-      deleteTheme: function (index) {
-        this.data.splice(index, 1)
-
-        /** now updating the datas */
-        this.updateData()
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+/** Importing variables file */
+@import '../sass/variables.scss';
 
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+}
 </style>

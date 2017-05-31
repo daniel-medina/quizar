@@ -25,9 +25,18 @@
 
         dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Réinitialiser la base de donnée', message: 'Êtes-vous sûr de vouloir réinitialiser la base de donnée ?' }, function (choice) {
           if (choice) {
-            /** if the user selected 'Oui', we delete all the images and set the database to '[]' */
-            fs.removeSync('app/dist/db')
-            fs.mkdirSync('app/dist/db')
+            /** if the user selected 'Oui', we delete all the images */
+            if (this.$parent.env !== 'development') {
+              fs.removeSync('resources/app/dist/illustration')
+              fs.mkdirSync('resources/app/dist/illustration')
+              fs.removeSync('resources/app/.data')
+            } else {
+              fs.removeSync('app/dist/illustration')
+              fs.mkdirSync('app/dist/illustration')
+              fs.removeSync('.data')
+            }
+
+            /** we now reset the database */
             this.$parent.createEmpty()
 
             /** confirmation dialog */
@@ -47,19 +56,47 @@
       },
       exportExecute: function (location) {
         const { dialog } = require('electron').remote
-        const archiver = require('archiver')
-        const fs = require('fs-extra')
+        /** const fstream = require('fstream')
+        const Tar = require('tar')
+        const pack = new Tar.Pack()
+        const zlib = require('zlib')
+        const path = require('path')
 
-        let output = fs.createWriteStream(location)
-        let archive = archiver('zip', {
+        var illustration = path.join(process.cwd() + '/app/dist/illustration')
+        var read = fstream.Reader({ 'path': illustration, 'type': 'Directory' })
+            .pipe(pack)
+            .pipe('/home/ifthenelse/')
+
+        console.log(read) */
+
+        /** const archiver = require('archiver')
+
+        var output = fs.createWriteStream(location)
+        var archive = archiver('zip', {
           store: true
         })
-        let uid = this.uid
+        var uid = this.uid
 
         archive.append(uid, { name: '.token' })
-        archive.directory('app/dist/db')
-        archive.finalize()
+        archive.file(this.$parent.dbLocation, { name: '.data' })
+
+        if (this.$parent.env !== 'development') {
+          archive.directory('resources/app/dist/illustration')
+        } else {
+          archive.directory('app/dist/illustration')
+        }
+
         archive.pipe(output)
+        archive.finalize() */
+
+        /** TROUVER UN ARCHIVEUR MOINS BUGGE QUE ADMZIP */
+        var AdmZip = require('adm-zip')
+        var zip = new AdmZip()
+        var uid = this.uid
+        zip.addLocalFolder('app/dist/illustration', 'app/dist/illustration')
+        zip.addLocalFile(this.$root.dbLocation)
+        zip.addFile('.token', uid)
+        zip.writeZip(location)
 
         /** confirmation dialog */
         dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })

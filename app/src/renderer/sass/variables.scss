@@ -6,6 +6,7 @@ $color2: #FF3414;
 $color3: #D92322;
 $color4: rgba(20, 70, 100, 0.9);
 $color5: rgba(15, 100, 15, 0.95);
+$color6: rgba(40, 40, 70, 0.9);
 
 /** global variables */
 $min-width: 760px;
@@ -41,6 +42,12 @@ $app-font-color: white;
 $app-font-shadow: 0 0 2px $shadow-dark;
 $app-font-weight: bold;
 
+/** manage block header */
+$block-header-button-size: 24px;
+$block-header-display-margin: 0 10px 0 0;
+$block-header-font-size: 20px;
+$block-header-padding: 10px;
+
 /** header */
 $header-height: 45px;
 $header-padding: 3px 0;
@@ -53,8 +60,8 @@ $header-menu-button-color-current: $color2;
 $header-menu-button-padding : 10px 8px;
 $header-menu-button-font-size: 28px;
 
-/** block dark */
-$block-padding: 5px;
+/** block */
+$block-padding: 0;
 $block-text-color: white;
 $block-background: $color1;
 $block-alert-background: $color3;

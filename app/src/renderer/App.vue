@@ -30,12 +30,18 @@
   export default {
     data () {
       return {
-        dbLocation: 'app/dist/db/db.json',
+        env: process.env.NODE_ENV,
+        dbLocation: '.data',
         key: 'llsfeuldm'
       }
     },
     store,
     created () {
+      /** if this is the production environment, we adjust the dbLocation variable */
+      if (this.env !== 'development') {
+        this.dbLocation = 'resources/app/.data'
+      }
+
       this.createEmpty()
     },
     methods: {
@@ -62,10 +68,6 @@
       writeDb: function (write) {
         const fs = require('fs-extra')
         const cryptoJS = require('crypto-js')
-
-        if (!fs.existsSync('data')) {
-          fs.mkdirSync('data')
-        }
 
         /** encrypting the JSON database */
         let crypted = cryptoJS.AES.encrypt(write, this.key)

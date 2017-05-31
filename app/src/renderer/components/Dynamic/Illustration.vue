@@ -2,7 +2,6 @@
   <div>
     <div id="illustration">
       <img v-on:click="modal()" :src="image" />
-
       <div class="modal" :style="style">
         <img v-on:click="modal()" :src="image" />
       </div>
@@ -15,7 +14,6 @@
     props: ['image'],
     data () {
       return {
-        display: false,
         style: {
           visibility: 'hidden',
           opacity: '0'

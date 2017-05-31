@@ -1,12 +1,7 @@
 <template>
   <div>
     <li v-for="(item, index) in data">
-      <span style="color: green;" v-if="item.value === 1">
-        {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
-      </span>
-      <span style="color: red;" v-else>
-        {{ item.description }} <button v-on:click="deleteReponse(index)">X</button>
-      </span>
+      <detail :item="item" :index="index" :questionIndex="questionIndex" :themeIndex="themeIndex"></detail>
     </li>
     <br />
 
@@ -25,6 +20,9 @@
         }
       }
     },
+    components: {
+      detail: require('./ReponseDetail')
+    },
     methods: {
       addReponse: function (form) {
         form.preventDefault()
@@ -38,32 +36,28 @@
 
         /** the description must be more than one character long */
         if (description.length > 0) {
-          var db = this.$parent.$parent.data
+          var db = this.$parent.$parent.$parent.$parent.data
 
           /** adding the reponse inside the question using the question's given index */
           db[this.themeIndex].questions[this.questionIndex].reponses.push(added)
 
           /** now updating the datas */
-          this.$parent.$parent.updateData()
+          this.$parent.$parent.$parent.$parent.updateData()
 
           /** resetting the current form values */
           this.form.description = ''
           this.form.value = 0
         }
-      },
-      deleteReponse: function (index) {
-        var db = this.$parent.$parent.data
-
-        /** removing the reponse using its index */
-        db[this.themeIndex].questions[this.questionIndex].reponses.splice(index, 1)
-
-        /** now updating the datas */
-        this.$parent.$parent.updateData()
       }
     }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+/** Importing variables file */
+@import '../../sass/variables.scss';
 
+input {
+  color: black;
+}
 </style>

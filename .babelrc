@@ -2,7 +2,7 @@
   "comments": false,
   "env": {
     "testing-unit": {
-      "presets": ["es2015", "stage-0"],
+      "presets": ["es2017", "stage-0"],
       "plugins": ["istanbul"]
     },
     "testing-e2e": {

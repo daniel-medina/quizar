@@ -1,17 +1,8 @@
 <template>
   <div>
     <li v-for="(item, index) in data">
-      {{ test = 0 }}
-      <h4><button v-on:click="deleteQuestion(index)">X</button> <button v-on:click="editQuestion(test)">E</button> Question :</h4>
-      <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.intitule))"></b>
-      <hr />
-      <b v-html="$parent.$parent.nl2br($parent.$parent.escape(item.explication))"></b>
-      <hr />
-      <reponses :data="item.reponses" :questionIndex="index" :themeIndex="themeIndex"></reponses>
-      <br />
+      <detail :item="item" :index="index" :themeIndex="themeIndex"></detail>
     </li>
-    <br />
-    <hr />
     <form method="post" v-on:submit="addQuestion"><textarea v-model="form.intitule" placeholder="Intitulé de la question"></textarea> <textarea v-model="form.explication" placeholder="Explication de la question"></textarea> <input type="number" step="any" v-model="form.points" name="points" placeholder="Points à gagner" />
       <div v-if="form.image.length === 0">
         <button v-on:click="setImage">Définir l'illustration</button>
@@ -28,7 +19,7 @@
   export default {
     props: ['data', 'themeIndex'],
     components: {
-      reponses: require('./Reponse')
+      detail: require('./QuestionDetail')
     },
     data () {
       return {
@@ -50,20 +41,30 @@
         var points = this.form.points
         var image = ''
 
-        /** first we move the image, if it exist, in the el folder; also generate random tokens */
+        /** first we move the image, if it exist, in the data folder; also generate random tokens */
         if (this.form.image.length > 0) {
-          var token = Math.round(Math.random() * (99999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (999 - 1) + 1)
-          var additionnal = 'app/dist/db/'
+          var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
+          var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
+          var additionnal = 'app/dist/illustration/'
           var destination = token + '/' + token2 + '.png'
           var source = this.form.image[0]
 
+          /** if quizzar is in production, some variables must change */
+          if (this.$root.env !== 'development') {
+            /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
+            additionnal = 'resources/app/dist/illustration/'
+          }
+
           /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
-          fs.mkdirSync('app/dist/db/' + token)
+          if (!fs.existsSync(additionnal)) {
+            fs.mkdirSync(additionnal)
+          }
+
+          fs.mkdirSync(additionnal + token)
           fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
 
           /** final attribution of the image */
-          image = 'db/' + destination
+          image = 'illustration/' + destination
         } else {
           image = ''
         }
@@ -76,25 +77,16 @@
           reponses: []
         }
 
-        this.$parent.data[this.themeIndex].questions.push(toAdd)
+        this.$parent.$parent.data[this.themeIndex].questions.push(toAdd)
 
         /** now updating the datas */
-        this.$parent.updateData()
+        this.$parent.$parent.updateData()
 
         /** resetting the current form values */
         this.form.intitule = ''
         this.form.explication = ''
         this.form.points = ''
         this.form.image = ''
-      },
-      editQuestion: function () {
-        console.log('test')
-      },
-      deleteQuestion: function (index) {
-        this.$parent.data[this.themeIndex].questions.splice(index, 1)
-
-        /** now updating the datas */
-        this.$parent.updateData()
       },
       setImage: function (e) {
         e.preventDefault()
@@ -116,6 +108,23 @@
   }
 </script>
 
-<style>
+<style lang="scss" scoped>
+/** Importing variables file */
+@import '../../sass/variables.scss';
 
+textarea,input {
+color: black;
+}        
+
+/** font-awesome's icon buttons */
+.button {
+  color: white;
+  transition: $transition;
+  font-size: $block-header-button-size;
+
+  &:hover {
+    cursor: pointer;
+    color: $color2;
+  }
+}
 </style>

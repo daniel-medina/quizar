@@ -112,6 +112,12 @@
       this.getTheme()
     },
     methods: {
+      getImage: function (url) {
+        const fs = require('fs')
+
+        let image = fs.readFileSync('data/test.png', 'utf8')
+        return image
+      },
       launch: function () {
         /** disallow invalid amount of questions */
         if (this.nbQuestion > 0) {
@@ -298,11 +304,11 @@
 
 .header {
   position: fixed;
-    top: 0;
-    z-index: 1;
-    padding: $header-padding;
-    box-shadow: $header-shadow;
-    background: $header-background;
+  top: 0;
+  z-index: 1;
+  padding: $header-padding;
+  box-shadow: $header-shadow;
+  background: $header-background;
 
     .menu {
       li {
