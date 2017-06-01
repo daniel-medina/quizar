@@ -7,21 +7,21 @@ Noted quizz generator; useful for teachers and their students.
 The software has 3 accessible pages, which are the followings :
 
 1. Quizz : 
-   The user may choose a theme and be handled a quizz for which he will get a note once he validates the session.
+   the user may choose a theme and be handled a quizz for which he will get a note once he validates the session.
 
 2. Management :
-   The user may create, modify or remove themes, questions and answers.
+   the user may create, modify or remove themes, questions and answers.
 
 3. Import/Export : 
-   The user may export the whole database and each question's associated image to a .ZAR archive (that is in fact a .ZIP archive), and import a .ZAR archive which would replace all the data of the software.
+   the user may export the whole database and each question's associated image to a .ZAR archive (that is in fact a .ZIP archive), and import a .ZAR archive which would replace all the data of the software.
 
 Quizzar comes with two different versions :
 
 * Admin : 
-  User has full access to the software, without any restriction.
+  the user has full access to the software, without any restriction.
 
 * Student : 
-  User has only access to the quizz page and import/export page.
+  the user has only access to the quizz page and import/export page.
 
 ## Can the students falsifies their results ?
 
