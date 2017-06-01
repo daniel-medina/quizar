@@ -13,7 +13,7 @@ The software has 3 accessible pages, which are the followings :
    the user may create, modify or remove themes, questions and answers.
 
 3. Import/Export : 
-   the user may export the whole database and each question's associated image to a .ZAR archive (that is in fact a .ZIP archive), and import a .ZAR archive which would replace all the data of the software.
+   the user may export the whole database and each question's associated image to a .ZAR archive (that is in fact a .ZIP archive), and import a .ZAR archive which would replace all data on the software.
 
 Quizzar comes with two different versions :
 
