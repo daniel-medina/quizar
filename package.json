@@ -1,8 +1,9 @@
 {
-  "name": "quizzar",
+  "name": "Quizzar",
   "author": "Daniel Medina <daniel.medina11@protonmail.com",
-  "version": "0.5.0",
-  "description": "Noted quizz generator",
+  "license": "GPLV3",
+  "version": "1.0.0",
+  "description": "Noted quizz generator.",
   "scripts": {
     "build": "node tasks/release.js",
     "build:clean": "cross-env PLATFORM_TARGET=clean node tasks/release.js",
@@ -21,7 +22,6 @@
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix && cd app && npm install"
   },
-  "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.8.0",
     "babel-loader": "^6.2.4",
