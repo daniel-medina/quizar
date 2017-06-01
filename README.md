@@ -37,7 +37,7 @@ As the software is under a GLPv3 license, you are free to translate it as long a
 
 ## How was Quizzar created ?
 
-The software is developed using Node.JS, Vue.JS, Electron, SASS, Bootstrap, packages along with their dependencies are viewable on the package.json file.
+The software is developed using Node.JS, Vue.JS, Electron, SASS, Bootstrap; packages along with their dependencies are viewable on the package.json file.
 
 It was tested, therefore considered stable on the following operating systems :
 
