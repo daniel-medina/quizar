@@ -73,7 +73,7 @@
     },
     methods: {
       display: function () {
-        /** deploy component variable becomes what it is not; false or true */
+▼        /** deploy component variable becomes what it is not; false or true */
         this.deploy = !this.deploy
       },
       editIntitule: function () {
