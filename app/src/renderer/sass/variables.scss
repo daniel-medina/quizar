@@ -41,6 +41,9 @@ $menu-shadow: 1px 1px 2px $shadow-darker;
 
 /** forms */
 $form-focus-shadow: 0 0 4px $color2;
+$form-interval-number-color: $color8;
+$form-interval-number-size: 28px;
+$form-interval-interval-size: 14px;
 
 /** buttons */
 $button-border-radius: 2px;
@@ -128,6 +131,8 @@ $welcome-font-size: 40px;
 $question-padding: 0;
 $question-margin: 20px 0;
 $question-text-shadow: 1px 1px 2px $shadow-darker;
+$question-points-font-size: 14px;
+$question-points-margin: 2px 5px;
 $question-explication-background: $color5;
 $question-intitule-background: $shadow-darker;
 $question-intitule-margin: 10px 0;

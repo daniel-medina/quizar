@@ -16,8 +16,8 @@
  */
 
 <template>
-  <div id="edit" :style="style">
-    <div class="modal">
+  <div id="edit">
+    <div class="modal" :style="style">
       <div class="block col-md-10 col-xs-12">
         <div class="container col-md-12 col-xs-12">
           <div class="header">
@@ -27,7 +27,7 @@
               </div>
 
               <i class="icon fa fa-arrow-circle-right" aria-hidden="true"></i> Modification d'une question
-          </div>
+            </div>
           </div>
           <div class="form">
             <div class="title">
@@ -43,6 +43,20 @@
             </div>
 
             <textarea class="explication" v-model="$parent.$parent.$parent.$parent.data[themeIndex].questions[index].explication"></textarea>
+          </div>
+
+          <div class="form">
+            <div class="title">
+              Points obtenable <i class="icon fa fa-dot-circle-o" aria-hidden="true"></i>
+            </div>
+
+            <div class="points">
+              <div class="number">{{ item.points }}</div>
+              <div class="interval">
+                <li><i v-on:click="setPoint('plus')" class="fa fa-plus-square" aria-hidden="true"></i></li>
+                <li><i v-on:click="setPoint('minus')" class="fa fa-minus-square" aria-hidden="true"></i></li>
+              </div>
+            </div>
           </div>
 
           <div class="form">
@@ -106,6 +120,15 @@
       },
       cancel: function () {
         this.$parent.$parent.$parent.$parent.getData()
+      },
+      setPoint: function (arithmetic) {
+        var actual = this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points
+
+        if (arithmetic === 'plus') {
+          this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points++
+        } else if (arithmetic === 'minus' && actual > 0) {
+          this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points--
+        }
       },
       setIllustration: function () {
         const { dialog } = require('electron').remote
@@ -194,11 +217,10 @@
 
 .icon {
   font-size: $block-header-button-size - 6px;
-}     
+}
 
 #edit {
   text-align: center;
-  transition: $transition;
 
   .modal {
     position: fixed;
@@ -265,6 +287,37 @@
           &:focus,&:hover {
             border-color: $color2;
             outline: none;
+          }
+        }
+
+        .points {
+          
+
+          .number {
+            display: inline;
+            font-weight: bold;
+            color: $form-interval-number-color;
+            font-size: $form-interval-number-size;
+          }
+
+          .interval {
+            float: right;
+            position: relative;
+            top: 3px;
+            left: 10px;
+
+            color: $form-interval-number-color;
+            font-size: $form-interval-interval-size;
+
+            li {
+              display: block;
+              transition: $transition;
+
+              &:hover {
+                cursor: pointer;
+                color: $color2
+              }             
+            }
           }
         }
       }

@@ -39,16 +39,14 @@
     },
     methods: {
       modal: function () {
-        if (!this.display) {
-          this.display = !this.display
+        this.display = !this.display
 
+        if (!this.display) {
           this.style = {
             visibility: 'visible',
             opacity: '1'
           }
         } else {
-          this.display = !this.display
-
           this.style = {
             visibility: 'hidden',
             opacity: '0'

@@ -54,6 +54,9 @@
         <li v-for="(item, index) in quizz">
           <div class="col-lg-offset-2 col-md-offset-1 col-lg-8 col-sm-12 col-md-10 col-xs-12">
             <div class="block question col-md-12 col-lg-12 col-xs-12">
+              <div class="points">
+                Sur {{ item.points }} {{ (item.points > 1) ? 'points' : 'point' }}
+              </div>
               <div class="illustration" v-if="item.image != ''">
                 <illustration :image="item.image"></illustration>
               </div>
@@ -318,6 +321,15 @@
 <style lang="scss" scoped>
 /** Importing variables file */
 @import '../sass/variables.scss';
+
+.points {
+  text-align: right;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: $question-points-font-size;
+
+  margin: $question-points-margin;
+}
 
 .header {
   position: fixed;
