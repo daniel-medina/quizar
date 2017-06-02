@@ -1,6 +1,6 @@
 # Quizzar
 
-Noted quizz generator; useful for teachers and their students.
+Noted quizz generator; for teachers and their students.
 
 ## How to use
 
@@ -27,13 +27,13 @@ Quizzar comes with two different versions :
 
 The JSON database that is used by the software is heavily encrypted via the AES method; it cannot be viewed for cheating purposes.
 
-If a student has the required knowledge to decrypt the database (which can be easily done since the encrypt key is viewable inside the source codes), then perhaps this software isn't even needed by him.
+If a student has the required knowledge to decrypt the database (which can be easily done since the encrypt key is viewable inside the source codes), then perhaps he doesn't even need to use that software.
 
 ## Why is the software in french ? Is there any english version ?
 
-Quizzar was made to help french students work for their final exams; and an english version is not planned as of today.
+Quizzar was made to help french student work for their final exams; and an english version is not planned as of today.
 
-As the software is under a GLPv3 license, you are free to translate it as long as you respect the agreements of the license.
+As the software is under a GPLv3 license, you are free to translate it as long as you respect the agreements of the license.
 
 ## How was Quizzar created ?
 
