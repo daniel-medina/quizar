@@ -1,0 +1,166 @@
+
+> quizzar@0.5.0 dev /home/ifthenelse/dev/quizzar
+> node tasks/runner.js
+
+[33mStarting webpack-dev-server...
+[0m
+[33mwebpack[0m  Project is running at [1m[34mhttp://localhost:9080/[39m[22m
+
+[33mwebpack[0m  webpack output is served from [1m[34m/[39m[22m
+         Content not from webpack is served from [1m[34m/home/ifthenelse/dev/quizzar/app/dist[39m[22m
+
+[33mwebpack[0m  Hash: [1mb8e5c62e612aeec333b5[39m[22m
+         Version: webpack [1m2.6.1[39m[22m
+         Time: [1m36519[39m[22mms
+         chunk    {[1m[33m0[39m[22m} [1m[32mrenderer.js, styles.css[39m[22m (renderer) 1.89 MB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+            [19] [1m./~/vue-loader/lib/component-normalizer.js[39m[22m 1.12 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [139] [1m(webpack)/hot/emitter.js[39m[22m 77 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [149] [1m./app/src/renderer/main.js[39m[22m 579 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [150] [1m(webpack)-dev-server/client?http://localhost:9080[39m[22m 5.68 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [151] [1m(webpack)/hot/dev-server.js[39m[22m 1.57 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [155] [1m./app/~/babel-runtime/helpers/extends.js[39m[22m 544 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [204] [1m./app/src/renderer/routes.js[39m[22m 271 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [262] [1m./~/font-awesome/css/font-awesome.css[39m[22m 41 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [263] [1m./~/typeface-source-sans-pro/index.css[39m[22m 41 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [334] [1m./~/strip-ansi/index.js[39m[22m 161 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [339] [1m./app/src/renderer/App.vue[39m[22m 1.5 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [365] [1m(webpack)-dev-server/client/overlay.js[39m[22m 3.73 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [366] [1m(webpack)-dev-server/client/socket.js[39m[22m 897 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [368] [1m(webpack)/hot/log-apply-result.js[39m[22m 1.02 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+           [392] [1mmulti (webpack)-dev-server/client?http://localhost:9080 webpack/hot/dev-server ./app/src/renderer/main.js[39m[22m 52 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+              + 378 hidden modules
+         
+         [1m[31mERROR in ./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-bd980216!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/App.vue
+         Module build failed: Error: Cannot find module 'node-sass'
+             at Function.Module._resolveFilename (module.js:470:15)
+             at Function.Module._load (module.js:418:25)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at Object.<anonymous> (/home/ifthenelse/dev/quizzar/node_modules/sass-loader/lib/loader.js:3:14)
+             at Module._compile (module.js:571:32)
+             at Object.Module._extensions..js (module.js:580:10)
+             at Module.load (module.js:488:32)
+             at tryModuleLoad (module.js:447:12)
+             at Function.Module._load (module.js:439:3)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at loadLoader (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/loadLoader.js:13:17)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:169:2)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:165:10)
+             at /home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:173:18
+          @ ./~/vue-style-loader!./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-bd980216!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/App.vue 4:14-269 13:2-17:4 14:20-275
+          @ ./app/src/renderer/App.vue
+          @ ./app/src/renderer/main.js
+          @ multi (webpack)-dev-server/client?http://localhost:9080 webpack/hot/dev-server ./app/src/renderer/main.js[39m[22m
+         
+         [1m[31mERROR in ./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-523170b0&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Quizz.vue
+         Module build failed: Error: Cannot find module 'node-sass'
+             at Function.Module._resolveFilename (module.js:470:15)
+             at Function.Module._load (module.js:418:25)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at Object.<anonymous> (/home/ifthenelse/dev/quizzar/node_modules/sass-loader/lib/loader.js:3:14)
+             at Module._compile (module.js:571:32)
+             at Object.Module._extensions..js (module.js:580:10)
+             at Module.load (module.js:488:32)
+             at tryModuleLoad (module.js:447:12)
+             at Function.Module._load (module.js:439:3)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at loadLoader (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/loadLoader.js:13:17)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:169:2)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:165:10)
+             at /home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:173:18
+          @ ./~/vue-style-loader!./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-523170b0&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Quizz.vue 4:14-295 13:2-17:4 14:20-301
+          @ ./app/src/renderer/components/Quizz.vue
+          @ ./app/src/renderer/routes.js
+          @ ./app/src/renderer/main.js
+          @ multi (webpack)-dev-server/client?http://localhost:9080 webpack/hot/dev-server ./app/src/renderer/main.js[39m[22m
+         
+         [1m[31mERROR in ./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-c8d0639e&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Reponse.vue
+         Module build failed: Error: Cannot find module 'node-sass'
+             at Function.Module._resolveFilename (module.js:470:15)
+             at Function.Module._load (module.js:418:25)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at Object.<anonymous> (/home/ifthenelse/dev/quizzar/node_modules/sass-loader/lib/loader.js:3:14)
+             at Module._compile (module.js:571:32)
+             at Object.Module._extensions..js (module.js:580:10)
+             at Module.load (module.js:488:32)
+             at tryModuleLoad (module.js:447:12)
+             at Function.Module._load (module.js:439:3)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at loadLoader (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/loadLoader.js:13:17)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:169:2)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:165:10)
+             at /home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:173:18
+          @ ./~/vue-style-loader!./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-c8d0639e&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Reponse.vue 4:14-297 13:2-17:4 14:20-303
+          @ ./app/src/renderer/components/Reponse.vue
+          @ ./~/babel-loader/lib!./~/vue-loader/lib/selector.js?type=script&index=0!./app/src/renderer/components/Quizz.vue
+          @ ./app/src/renderer/components/Quizz.vue
+          @ ./app/src/renderer/routes.js
+          @ ./app/src/renderer/main.js
+          @ multi (webpack)-dev-server/client?http://localhost:9080 webpack/hot/dev-server ./app/src/renderer/main.js[39m[22m
+         
+         [1m[31mERROR in ./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-6473d4a6&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Dynamic/Illustration.vue
+         Module build failed: Error: Cannot find module 'node-sass'
+             at Function.Module._resolveFilename (module.js:470:15)
+             at Function.Module._load (module.js:418:25)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at Object.<anonymous> (/home/ifthenelse/dev/quizzar/node_modules/sass-loader/lib/loader.js:3:14)
+             at Module._compile (module.js:571:32)
+             at Object.Module._extensions..js (module.js:580:10)
+             at Module.load (module.js:488:32)
+             at tryModuleLoad (module.js:447:12)
+             at Function.Module._load (module.js:439:3)
+             at Module.require (module.js:498:17)
+             at require (internal/module.js:20:19)
+             at loadLoader (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/loadLoader.js:13:17)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:169:2)
+             at iteratePitchingLoaders (/home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:165:10)
+             at /home/ifthenelse/dev/quizzar/node_modules/loader-runner/lib/LoaderRunner.js:173:18
+          @ ./~/vue-style-loader!./~/css-loader!./~/vue-loader/lib/style-rewriter.js?id=data-v-6473d4a6&scoped=true!./~/sass-loader/lib/loader.js!./~/vue-loader/lib/selector.js?type=styles&index=0!./app/src/renderer/components/Dynamic/Illustration.vue 4:14-314 13:2-17:4 14:20-320
+          @ ./app/src/renderer/components/Dynamic/Illustration.vue
+          @ ./~/babel-loader/lib!./~/vue-loader/lib/selector.js?type=script&index=0!./app/src/renderer/components/Quizz.vue
+          @ ./app/src/renderer/components/Quizz.vue
+          @ ./app/src/renderer/routes.js
+          @ ./app/src/renderer/main.js
+          @ multi (webpack)-dev-server/client?http://localhost:9080 webpack/hot/dev-server ./app/src/renderer/main.js[39m[22m
+         Child [1mhtml-webpack-plugin for "index.html"[39m[22m:
+             chunk    {[1m[33m0[39m[22m} [1m[32mindex.html[39m[22m 541 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+                 [0] [1m./~/lodash/lodash.js[39m[22m 540 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [1] [1m./~/html-webpack-plugin/lib/loader.js!./app/index.ejs[39m[22m 1.02 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [2] [1m(webpack)/buildin/module.js[39m[22m 517 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+         Child [1mextract-text-webpack-plugin[39m[22m:
+             chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 14.4 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+                 [0] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-200.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [2] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-300.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [3] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-300italic.eot[39m[22m 87 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [4] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-400.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [5] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-400italic.eot[39m[22m 87 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [6] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-600.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [7] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-600italic.eot[39m[22m 87 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [8] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-700.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [9] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-700italic.eot[39m[22m 87 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [10] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-900.eot[39m[22m 81 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [11] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-900italic.eot[39m[22m 87 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [12] [1m./~/css-loader/lib/css-base.js[39m[22m 1.46 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [13] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-200.svg[39m[22m 80 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [14] [1m./~/typeface-source-sans-pro/files/source-sans-pro-latin-200italic.svg[39m[22m 86 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                [49] [1m./~/css-loader!./~/typeface-source-sans-pro/index.css[39m[22m 8.92 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                  + 35 hidden modules
+         Child [1mextract-text-webpack-plugin[39m[22m:
+             chunk    {[1m[33m0[39m[22m} [1m[32mextract-text-webpack-plugin-output-filename[39m[22m 43.9 kB[1m[33m [entry][39m[22m[1m[32m [rendered][39m[22m
+                 [0] [1m./~/css-loader/lib/css-base.js[39m[22m 1.46 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [1] [1m./~/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0[39m[22m 74 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [2] [1m./~/font-awesome/fonts/fontawesome-webfont.eot[39m[22m 75 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [3] [1m./~/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0[39m[22m 75 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [4] [1m./~/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0[39m[22m 75 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [5] [1m./~/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0[39m[22m 77 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [6] [1m./~/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0[39m[22m 76 bytes {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+                 [7] [1m./~/css-loader!./~/font-awesome/css/font-awesome.css[39m[22m 42 kB {[1m[33m0[39m[22m}[1m[32m [built][39m[22m
+
+[33mwebpack[0m  webpack: Failed to compile.
+

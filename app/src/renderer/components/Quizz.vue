@@ -272,27 +272,59 @@
       reShuffle: function () {
         this.getDb()
       },
-      shuffle: function () {
+      shuffle: function (all = false) {
         var data = this.$parent.getData()
         var shuffle = []
-        var max = data[this.theme].questions.length
+        var max = 0
 
-        do {
-          /** generate a random number between 0 and the question's array length */
-          let rand = Math.floor(Math.random() * max + 0)
-          let question = data[this.theme].questions[rand]
-
-          /** if the current random number doesn't exist, push it */
-          if (!shuffle.includes(question)) {
-            /** shuffling the answers */
-            let oldReponses = question.reponses
-            let reponses = this.shuffleReponses(oldReponses)
-
-            question.reponses = reponses
-            shuffle.push(question)
+        /** if the user choosed to be generated a quizz taking questions of all the themes */
+        if (all) {
+          for (let theme in data) {
+            max += data[theme].questions.length
           }
-          /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
-        } while (shuffle.length < this.nbQuestion && shuffle.length < max)
+
+          /** proceeds to loop into the different themes */
+          for (let theme in data) {
+            let nb = data[theme].questions.length
+
+            if (nb > 0) {
+              /** the do ... while loop will be a bit different than the theme specific shuffling */
+              do {
+                /** generate a random number between 0 and the question's array length */
+                let rand = Math.floor(Math.random() * max + 0)
+                let question = data[theme].questions[rand]
+
+                if (!shuffle.includes(question)) {
+                  /** shuffling the answers */
+                  let oldReponses = question.reponses
+                  let reponses = this.shuffleReponses(oldReponses)
+
+                  question.reponses = reponses
+                  shuffle.push(question)
+                }
+              } while (shuffle.length < this.nbQuestion)
+            }
+          }
+        } else {
+          max = data[this.theme].questions.length
+
+          do {
+            /** generate a random number between 0 and the question's array length */
+            let rand = Math.floor(Math.random() * max + 0)
+            let question = data[this.theme].questions[rand]
+
+            /** if the current random number doesn't exist, push it */
+            if (!shuffle.includes(question)) {
+              /** shuffling the answers */
+              let oldReponses = question.reponses
+              let reponses = this.shuffleReponses(oldReponses)
+
+              question.reponses = reponses
+              shuffle.push(question)
+            }
+            /** repeat the loop until the shuffle length becomes inferior to nbQuestion AND inferior to the maximum amount of questions in the pool */
+          } while (shuffle.length < this.nbQuestion && shuffle.length < max)
+        }
 
         return shuffle
       },
