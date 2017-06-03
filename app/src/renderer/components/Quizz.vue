@@ -89,14 +89,25 @@
         <div class="col-md-12">
           <form>
             <div class="form-group">
-              <select v-model="theme" class="form-control">
-                <option v-for="(item, index) in themeList" :value="index">{{ item.theme }}</option>
+              <select v-if="!all" v-model="theme" :class="(all) ? 'disabled form-control' : 'form-control'">
+                <option v-if="!all" v-for="(item, index) in themeList" :value="index">{{ item.theme }}</option>
               </select>
             </div>
-            <div class="form-group">
-              <input class="form-control" type="number" v-model="nbQuestion" placeholder="Nombre de questions" />
+            <div class="checkbox">
+              <label v-on:click="universe()">
+                <i :class="(all) ? 'fa fa-check-square square' : 'fa fa-square'" aria-hidden="true"></i> être interrogé sur TOUS les thèmes
+              </label>
+
+              <div class="nbQuestion">
+                <div class="number">{{ nbQuestion }}</div>
+                <div class="setter">
+                  <li><i v-on:click="setAmount('plus')" class="fa fa-plus-square" aria-hidden="true"></i></li>
+                  <li><i v-on:click="setAmount('minus')" class="fa fa-minus-square" aria-hidden="true"></i></li>
+                </div>
+              </div>
             </div>
           </form>
+          <br />
           <div class="text-center">
             <button class="btn btn-sm btn-danger" v-on:click="launch()">Démarrer</button>
           </div>
@@ -119,7 +130,8 @@
         percentPoints: {
           width: 0 + '%'
         },
-        nbQuestion: '',
+        all: false,
+        nbQuestion: 1,
         validated: 0,
         start: 0,
         chrono: 0,
@@ -154,7 +166,7 @@
         /** resetting variables to their default values */
         this.start = 0
         this.theme = 0
-        this.nbQuestion = ''
+        this.nbQuestion = 1
       },
       validate: function () {
         /** must filter the childrens components to use only the questions */
@@ -271,41 +283,56 @@
           this.pointsMax += Number(children.points)
         }
       },
+      universe: function () {
+        this.all = !this.all
+      },
+      setAmount: function (arithmetic) {
+        /** kind of same function as setPoint in QuestionForm */
+        var actual = this.nbQuestion
+
+        if (arithmetic === 'plus') {
+          this.nbQuestion++
+        } else if (arithmetic === 'minus' && actual > 1) {
+          this.nbQuestion--
+        }
+      },
       reShuffle: function () {
         this.getDb()
       },
-      shuffle: function (all = false) {
+      shuffle: function () {
         var data = this.$parent.getData()
         var shuffle = []
+        var universe = []
         var max = 0
 
         /** if the user choosed to be generated a quizz taking questions of all the themes */
-        if (all) {
-          for (let theme in data) {
-            max += data[theme].questions.length
+        if (this.all) {
+          /** preparing value and array for the shuffling */
+          for (let x in data) {
+            max += data[x].questions.length
+
+            for (let y in data[x].questions) {
+              universe.push(data[x].questions[y])
+            }
           }
 
           /** proceeds to loop into the different themes */
-          for (let theme in data) {
-            let nb = data[theme].questions.length
+          let nb = universe.length
 
-            if (nb > 0) {
-              /** the do ... while loop will be a bit different than the theme specific shuffling */
-              do {
-                /** generate a random number between 0 and the question's array length */
-                let rand = Math.floor(Math.random() * max + 0)
-                let question = data[theme].questions[rand]
+          if (nb > 0) {
+            /** the do ... while loop will be a bit different than the theme specific shuffling */
+            do {
+              let rand = Math.floor(Math.random() * nb + 0)
+              let question = universe[rand]
 
-                if (!shuffle.includes(question)) {
-                  /** shuffling the answers */
-                  let oldReponses = question.reponses
-                  let reponses = this.shuffleReponses(oldReponses)
+              if (!shuffle.includes(question)) {
+                let oldReponses = question.reponses
+                let reponses = this.shuffleReponses(oldReponses)
 
-                  question.reponses = reponses
-                  shuffle.push(question)
-                }
-              } while (shuffle.length < this.nbQuestion)
-            }
+                question.reponses = reponses
+                shuffle.push(question)
+              }
+            } while (shuffle.length < this.nbQuestion && shuffle.length < nb)
           }
         } else {
           max = data[this.theme].questions.length
@@ -439,6 +466,66 @@
     text-transform: uppercase;
     font-size: 16px;
     font-weight: bold;
+  }
+
+  .checkbox {
+    margin: $choose-checkbox-margin;
+  
+    input {
+      visibility: hidden;
+    }
+
+    label {
+      width: 100%;
+
+      text-transform: uppercase;
+      padding: $choose-checkbox-label-padding;
+      font-size: $choose-checkbox-label-font-size;
+      font-weight: bold;
+
+      transition: $transition;
+    }
+  }
+
+  .disabled {
+    background: $shadow-dark;
+  }
+
+  .nbQuestion {
+    position: relative;
+    bottom: 30px;
+    float: right;
+    text-align: right;
+
+    .number {
+      position: relative;
+      right: 10px;
+      display: inline;
+      font-weight: bold;
+      color: white;
+      text-shadow: 1px 1px 2px $shadow-darker;
+      font-size: $form-setter-number-size;
+    }
+
+    .setter {
+      float: right;
+      position: relative;
+      top: 2px;
+
+      color: white;
+      text-shadow: 1px 1px 2px $shadow-darker;
+      font-size: $form-setter-interval-size;
+
+      li {
+        display: block;
+        transition: $transition;
+
+        &:hover {
+          cursor: pointer;
+          color: $color2
+        }             
+      }
+    }
   }
 }
 

@@ -58,7 +58,7 @@
             <div class="points">
               <div v-if="item !== undefined" class="number">{{ data[themeIndex].questions[index].points }}</div>
               <div v-else class="number">{{ form.points }}</div>
-              <div class="interval">
+              <div class="setter">
                 <li><i v-on:click="setPoint('plus')" class="fa fa-plus-square" aria-hidden="true"></i></li>
                 <li><i v-on:click="setPoint('minus')" class="fa fa-minus-square" aria-hidden="true"></i></li>
               </div>
@@ -398,18 +398,18 @@
            .number {
             display: inline;
             font-weight: bold;
-            color: $form-interval-number-color;
-            font-size: $form-interval-number-size;
+            color: $form-setter-number-color;
+            font-size: $form-setter-number-size;
           }
 
-          .interval {
+          .setter {
             float: right;
             position: relative;
             top: 3px;
             left: 10px;
 
-            color: $form-interval-number-color;
-            font-size: $form-interval-interval-size;
+            color: $form-setter-number-color;
+            font-size: $form-setter-interval-size;
 
             li {
               display: block;

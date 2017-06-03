@@ -41,9 +41,9 @@ $menu-shadow: 1px 1px 2px $shadow-darker;
 
 /** forms */
 $form-focus-shadow: 0 0 4px $color2;
-$form-interval-number-color: $color8;
-$form-interval-number-size: 28px;
-$form-interval-interval-size: 14px;
+$form-setter-number-color: $color8;
+$form-setter-number-size: 28px;
+$form-setter-interval-size: 14px;
 
 /** buttons */
 $button-border-radius: 2px;
@@ -129,6 +129,9 @@ $alert-padding-bottom: 10px;
 /** choose block */
 $choose-width: $min-width - 50px;
 $choose-padding-bottom: 10px;
+$choose-checkbox-margin: 0;
+$choose-checkbox-label-padding: 0;
+$choose-checkbox-label-font-size: 17px;
 $welcome-margin: 20px 0;
 $welcome-font-size: 40px;
 

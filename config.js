@@ -2,10 +2,19 @@
 
 const path = require('path')
 
+var name = 'quizzar'
+
+if (process.env.VERSION === 'admin') {
+  name = 'quizzar-admin'
+} else if (process.env.VERSION === 'eleve') {
+  name = 'quizzar-eleve'
+}
+
+
 let config = {
   // Name of electron app
   // Will be used in production builds
-  name: 'quizzar',
+  name: name,
 
   // Use ESLint (extends `standard`)
   // Further changes can be made in `.eslintrc.js`

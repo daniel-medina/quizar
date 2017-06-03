@@ -17,7 +17,7 @@
 
 <template>
   <div>
-    <div class="header">
+    <div class="header col-md-12 col-xs-12 col-sm-12 col-lg-12">
       <div class="pull-right">
         <i v-if="item.image !== ''" v-on:click="modal()" class="button fa fa-picture-o" aria-hidden="true"></i>&nbsp;
         <i class="button fa fa-pencil" aria-hidden="true" v-on:click="editIntitule()"></i>&nbsp;
@@ -32,7 +32,7 @@
     </div>
     <div v-if="deploy">
       <div class="explication">
-        <p v-html="$root.nl2br($root.escape(item.explication))" />
+        <p class="col-md-12 col-xs-12 col-sm-12 col-lg-12" v-html="$root.nl2br($root.escape(item.explication))" />
       </div>
 
       <reponses :reponses="item.reponses" :questionIndex="index" :themeIndex="themeIndex" :data="data" :updateData="updateData"></reponses>

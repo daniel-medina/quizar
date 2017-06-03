@@ -29,7 +29,7 @@
           <li>
             <router-link to="/"><i class="fa fa-book" aria-hidden="true"></i></router-link>
           </li>
-          <li>
+          <li v-if="version !== 'eleve'">
             <router-link to="/manage"><i class="fa fa-database" aria-hidden="true"></i></router-link>
           </li>
           <li>
@@ -48,6 +48,7 @@
     data () {
       return {
         env: process.env.NODE_ENV,
+        version: process.env.VERSION,
         dbLocation: '.data',
         key: 'llsfeuldm'
       }
