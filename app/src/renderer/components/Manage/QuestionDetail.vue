@@ -28,17 +28,14 @@
       </div>
 
       <p class="title" v-html="$root.nl2br($root.escape(item.intitule))" />
-      <edit :item="item" :index="index" :themeIndex="themeIndex"></edit>
+      <edit :item="item" :index="index" :themeIndex="themeIndex" :data="data" :updateData="updateData" :getData="getData"></edit>
     </div>
     <div v-if="deploy">
       <div class="explication">
-        <div class="pull-right">
-          <button v-on:click="editExplication()">E</button>
-        </div>
         <p v-html="$root.nl2br($root.escape(item.explication))" />
       </div>
 
-      <reponses :data="item.reponses" :questionIndex="index" :themeIndex="themeIndex"></reponses>
+      <reponses :reponses="item.reponses" :questionIndex="index" :themeIndex="themeIndex" :data="data" :updateData="updateData"></reponses>
     </div>
 
     <div class="modal" :style="modalStyle">
@@ -49,10 +46,10 @@
 
 <script>
   export default {
-    props: ['item', 'index', 'themeIndex'],
+    props: ['item', 'index', 'themeIndex', 'data', 'updateData', 'getData'],
     components: {
       reponses: require('./Reponse'),
-      edit: require('../Dynamic/Edit')
+      edit: require('../Dynamic/QuestionForm')
     },
     data () {
       return {
@@ -128,41 +125,33 @@
   }
 }
 
+.explication {
+
+  p {
+    font-weight: bold;
+    text-align: justify;
+    background: $question-explication-background;
+    font-size: $block-header-font-size - 5px;
+    padding: $question-explication-padding;
+    margin: 0;
+  }
+}
+
 .header {
   background: $question-intitule-background;
   padding: $block-header-padding;
-  margin: 5px 0;
+  margin: $block-header-margin;
 
   .title {
     display: inline;
     font-size: $block-header-font-size - 3px;
+    font-weight: bold;
     color: $block-text-color;
   }
 
   .display {
     margin: $block-header-display-margin;
     display: inline;
-  }
-}
-
-.edit-intitule {
-  display: inline;
-
-  textarea {
-    background: none;
-    border: 0;
-    width: 90%;
-    max-width: 90%;
-    height: auto;
-
-    font-size: $block-header-font-size - 3px;
-    color: $color2;
-
-    resize: none;
-
-    &:focus {
-      outline: none;
-    }
   }
 }
 

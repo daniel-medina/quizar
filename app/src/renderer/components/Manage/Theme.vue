@@ -37,14 +37,19 @@
       </div>
     </div>
     <div class="block col-md-12 col-xs-12 col-sm-12 col-lg-12" :style="style" v-if="deploy">
-      <questions :data="item.questions" :themeIndex="index"></questions>
+      <questionForm :themeIndex="index" :data="data" :updateData="updateData" :getData="getData"></questionForm>
+      <questions :questions="item.questions" :themeIndex="index" :data="data" :updateData="updateData" :getData="getData"></questions>
+
+      <div class="add col-md-12 col-xs-12 col-sm-12 col-lg-12" v-on:click="add()">
+        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['item', 'index'],
+    props: ['item', 'index', 'data', 'updateData', 'getData'],
     data () {
       return {
         edit: false,
@@ -58,7 +63,25 @@
       }
     },
     components: {
-      questions: require('./Question')
+      questions: require('./Question'),
+      questionForm: require('../Dynamic/QuestionForm')
+    },
+    created () {
+      /** experiment to change position of each theme; to finish later */
+      /** let count = 0
+
+      while (count < 1) {
+        let last = this.$parent.data.length
+        let newPosition = (this.index - 1 >= 0) ? this.index - 1 : 0
+        let toPush = newPosition + 1
+        let old = this.$parent.data.splice(1, 1)
+
+        console.log('new position : ' + newPosition)
+        console.log('old data : ' + old)
+        console.log('push here : ' + toPush)
+
+        count++
+      } */
     },
     methods: {
       display: function () {
@@ -78,6 +101,9 @@
             'margin-bottom': '5px'
           }
         }
+      },
+      add: function () {
+        this.$children[0].show()
       },
       editTheme: function () {
         /** edit variable becomes what it is not; false or true */
@@ -122,6 +148,23 @@
 .theme {
   margin: 10px;
 }
+
+/** add a question button */
+.add {
+  text-align: center;
+  background: $color4;
+  font-size: $question-add-font-size;
+  transition: $transition;
+
+  /** synced to header's  */
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+
+  &:hover {
+    background: $color2;
+    cursor: pointer;
+  }
+}    
 
 /** same values as .title (with some hacks), so it's alike */
 .edit {

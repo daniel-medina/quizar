@@ -17,13 +17,17 @@
 
 <template>
   <div>
-    <h4>Ici vous pouvez exporter la base de donnée ainsi que les images dans une archive .zar. <br />
-      Cette archive peut ensuite être importée et remplacera l'intégralité des données du programme.<br />
-    Seule les archives exportées depuis ce programme pourront être importées.</h4>
-    <hr />
-    <button v-on:click="exportPrompt">Exporter</button>
-    <button v-on:click="importPrompt">Importer</button>
-    <button v-on:click="reset">Réinitialiser</button>
+    <div class="wrapper">
+      <div class="block">
+        <div class="col-md-12">
+          <button class="btn btn-md btn-success" v-on:click="exportPrompt">Exporter</button>
+          <button class="btn btn-md btn-warning" v-on:click="importPrompt">Importer</button>
+          <div class="pull-right">
+            <button class="btn btn-md btn-danger" v-on:click="reset">Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -159,6 +163,39 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+/** Importing variables file */
+@import '../sass/variables.scss';
 
+.wrapper {
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  height: 100%;
+  width: 100%;
+  padding-bottom: $footer-height;
+}
+
+.block {
+  width: $choose-width;
+  padding: $choose-padding-bottom - 5px;
+
+  .title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: $welcome-font-size;
+    margin: $welcome-margin;
+  }
+
+  .form-control {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
 </style>

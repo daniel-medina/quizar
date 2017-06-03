@@ -66,9 +66,10 @@ $app-font-weight: bold;
 
 /** manage block header */
 $block-header-button-size: 24px;
-$block-header-display-margin: 0 10px 0 0;
+$block-header-display-margin: 0 5px 0 0;
 $block-header-font-size: 20px;
-$block-header-padding: 10px;
+$block-header-padding: 7px;
+$block-header-margin: 0;
 
 /** header */
 $header-height: 45px;
@@ -105,12 +106,18 @@ $block-modal-validate-padding: 10px 0 7px 0;
 $block-modal-form-margin: 10px 20px;
 $block-modal-form-font-size: 18px;
 $block-modal-form-width: 100%;
-$block-modal-form-min-height: 23vh;
+$block-modal-form-min-height: 16vh;
 $block-modal-form-max-height: 300px;
-$block-modal-form-shadow: inset 0 0 7px $shadow-dark;
+$block-modal-form-shadow: inset 0 0 6px $shadow-dark;
 $block-modal-form-padding: 10px;
 $block-modal-form-border-radius: 3px;
 $block-modal-form-border: 1px solid $shadow-dark;
+$block-reponse-form-margin: 0;
+$block-reponse-form-font-size: $block-modal-form-font-size - 1px;
+$block-reponse-form-width: 100%;
+$block-reponse-form-shadow: $block-modal-form-shadow;
+$block-reponse-form-padding: 5px;
+$block-reponse-form-border: $block-modal-form-border;
 $block-dark-shadow: 1px 1px 2px $shadow-darker;
 
 /** alert block */
@@ -121,19 +128,25 @@ $alert-padding-bottom: 10px;
 
 /** choose block */
 $choose-width: $min-width - 50px;
-$choose-margin-left: -($min-width / 2.15);
-$choose-margin-bottom: -85px;
 $choose-padding-bottom: 10px;
 $welcome-margin: 20px 0;
 $welcome-font-size: 40px;
 
 /** question block */
+$question-badge-background: $color2;
+$question-badge-shadow: -1px 1px 2px $shadow-darker;
+$question-badge-border-radius: $block-border-radius;
+$question-badge-padding: 5px 8px;
+$question-badge-font-size: 13px;
+
 $question-padding: 0;
 $question-margin: 20px 0;
 $question-text-shadow: 1px 1px 2px $shadow-darker;
+$question-add-font-size: 18px;
 $question-points-font-size: 14px;
 $question-points-margin: 2px 5px;
 $question-explication-background: $color5;
+$question-explication-padding: 5px 10px;
 $question-intitule-background: $shadow-darker;
 $question-intitule-margin: 10px 0;
 $question-intitule-padding: 5px;

@@ -17,24 +17,15 @@
 
 <template>
   <div>
-    <li v-for="(item, index) in data">
-      <detail :item="item" :index="index" :themeIndex="themeIndex"></detail>
+    <li v-for="(item, index) in questions">
+      <detail :item="item" :index="index" :themeIndex="themeIndex" :data="data" :updateData="updateData" :getData="getData"></detail>
     </li>
-    <form method="post" v-on:submit="addQuestion"><textarea v-model="form.intitule" placeholder="Intitulé de la question"></textarea> <textarea v-model="form.explication" placeholder="Explication de la question"></textarea> <input type="number" step="any" v-model="form.points" name="points" placeholder="Points à gagner" />
-      <div v-if="form.image.length === 0">
-        <button v-on:click="setImage">Définir l'illustration</button>
-      </div>
-      <div v-else>
-        Illustration choisie : {{ form.image[0] }}
-      </div>
-      <input type="submit" value="Ajouter" />
-    </form>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['data', 'themeIndex'],
+    props: ['questions', 'themeIndex', 'data', 'updateData', 'getData'],
     components: {
       detail: require('./QuestionDetail')
     },
@@ -130,8 +121,8 @@
 @import '../../sass/variables.scss';
 
 textarea,input {
-color: black;
-}        
+  color: black;
+}
 
 /** font-awesome's icon buttons */
 .button {

@@ -37,25 +37,8 @@
           </table>
         </label>
 
-        <!-- valid answer block -->
-        <label class="valid" v-if="$parent.displayNote === 1 && item.value === 1">
-          <table>
-            <tr>
-              <td class="col-sm-12 col-lg-12 col-xs-12 col-md-12">{{ item.description }}</td>
-              <td>
-                <span v-if="isChecked(key)">
-                  <i class="fa fa-check-square square" aria-hidden="true"></i>
-                </span>
-                <span v-else>
-                  <i class="fa fa-square square" aria-hidden="true"></i>
-                </span>
-              </td>
-            </tr>
-          </table>
-        </label>
-
-        <!-- invalid answer block -->
-        <label class="not-valid" v-if="$parent.displayNote === 1 && item.value === 0">
+        <!-- result answer block -->
+        <label :class="(item.value === 1) ? 'valid' : 'not-valid'" v-if="$parent.displayNote === 1">
           <table>
             <tr>
               <td class="col-sm-12 col-lg-12 col-xs-12 col-md-12">{{ item.description }}</td>
@@ -133,6 +116,7 @@ table {
     font-weight: bold;
 
     transition: $transition;
+    word-break: break-all;
 
     &:hover {
       border: $question-reponse-label-border-hover;

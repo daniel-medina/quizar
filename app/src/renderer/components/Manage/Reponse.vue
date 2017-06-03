@@ -17,18 +17,19 @@
 
 <template>
   <div>
-    <li v-for="(item, index) in data">
-      <detail :item="item" :index="index" :questionIndex="questionIndex" :themeIndex="themeIndex"></detail>
-    </li>
-    <br />
+    <div class="form">
+      <input v-on:keyup.enter="addReponse" maxlength="60" type="text" v-model="form.description" name="description" placeholder="Réponse à insérer" />
+    </div>
 
-    <form method="post" v-on:submit="addReponse"><input type="text" v-model="form.description" name="description" placeholder="Texte de la réponse" /> - <input type="checkbox" name="value" v-model="form.value" v-bind:true-value="1" v-bind:false-value="0" /> bonne réponse <input type="submit" value="Ajouter" /></form>
+    <li v-for="(item, index) in reponses">
+      <detail :item="item" :index="index" :questionIndex="questionIndex" :themeIndex="themeIndex" :data="data" :updateData="updateData"></detail>
+    </li>
   </div>
 </template>
 
 <script>
   export default {
-    props: ['data', 'questionIndex', 'themeIndex'],
+    props: ['reponses', 'questionIndex', 'themeIndex', 'data', 'updateData'],
     data () {
       return {
         form: {
@@ -53,13 +54,13 @@
 
         /** the description must be more than one character long */
         if (description.length > 0) {
-          var db = this.$parent.$parent.$parent.$parent.data
+          var db = this.data
 
           /** adding the reponse inside the question using the question's given index */
           db[this.themeIndex].questions[this.questionIndex].reponses.push(added)
 
           /** now updating the datas */
-          this.$parent.$parent.$parent.$parent.updateData()
+          this.updateData()
 
           /** resetting the current form values */
           this.form.description = ''
@@ -67,14 +68,44 @@
         }
       }
     }
-}
+  }
 </script>
 
 <style lang="scss" scoped>
 /** Importing variables file */
 @import '../../sass/variables.scss';
 
-input {
-  color: black;
+.form {
+  text-align: right;
+  padding: 0;
+  margin: 0;
+
+  .title {
+    color: $color8;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: right;
+    font-size: $block-modal-header-font-size - 1px;
+    margin-bottom: $block-modal-header-title-margin;
+  }
+
+  input {
+    transition: border-color $transition;
+    color: $color8;
+    box-shadow: $block-reponse-form-shadow;
+
+    width: $block-reponse-form-width;
+    max-width: $block-reponse-form-width;
+
+    padding: $block-reponse-form-padding;
+    border: $block-reponse-form-border;
+
+    font-size: $block-reponse-form-font-size;
+
+    &:focus,&:hover {
+      border-color: $color2;
+      outline: none;
+    }
+  }
 }
 </style>

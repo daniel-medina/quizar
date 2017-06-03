@@ -16,7 +16,7 @@
  */
 
 <template>
-  <div id="edit">
+  <div id="question-form">
     <div class="modal" :style="style">
       <div class="block col-md-10 col-xs-12">
         <div class="container col-md-12 col-xs-12">
@@ -26,7 +26,9 @@
                 <i v-on:click="show(false)" class="button fa fa-window-close" aria-hidden="true"></i>
               </div>
 
-              <i class="icon fa fa-arrow-circle-right" aria-hidden="true"></i> Modification d'une question
+              <i class="icon fa fa-arrow-circle-right" aria-hidden="true"></i>
+              <span v-if="item !== undefined">Modification d'une question - {{ data[themeIndex].theme }}</span>
+              <span v-else>Insertion d'une question - {{ data[themeIndex].theme }}</span>
             </div>
           </div>
           <div class="form">
@@ -34,7 +36,9 @@
               Intitulé <i class="icon fa fa-dot-circle-o" aria-hidden="true"></i>
             </div>
 
-            <textarea class="intitule" v-model="$parent.$parent.$parent.$parent.data[themeIndex].questions[index].intitule"></textarea>
+            <!-- if the item is specified or not; edit a question or add one -->
+            <textarea v-if="item !== undefined" ref='intitule' class="intitule" v-model="data[themeIndex].questions[index].intitule"></textarea>
+            <textarea v-else class="intitule" ref='intitule' v-model="form.intitule"></textarea>
           </div>
 
           <div class="form">
@@ -42,7 +46,8 @@
               Explication <i class="icon fa fa-dot-circle-o" aria-hidden="true"></i>
             </div>
 
-            <textarea class="explication" v-model="$parent.$parent.$parent.$parent.data[themeIndex].questions[index].explication"></textarea>
+            <textarea v-if="item !== undefined" class="explication" v-model="data[themeIndex].questions[index].explication"></textarea>
+            <textarea v-else class="intitule" v-model="form.explication"></textarea>
           </div>
 
           <div class="form">
@@ -51,7 +56,8 @@
             </div>
 
             <div class="points">
-              <div class="number">{{ item.points }}</div>
+              <div v-if="item !== undefined" class="number">{{ data[themeIndex].questions[index].points }}</div>
+              <div v-else class="number">{{ form.points }}</div>
               <div class="interval">
                 <li><i v-on:click="setPoint('plus')" class="fa fa-plus-square" aria-hidden="true"></i></li>
                 <li><i v-on:click="setPoint('minus')" class="fa fa-minus-square" aria-hidden="true"></i></li>
@@ -64,13 +70,23 @@
               Illustration <i class="icon fa fa-dot-circle-o" aria-hidden="true"></i>
             </div>
 
-            <button v-if="item.image !== ''" class="btn btn-md btn-danger" v-on:click="removeIllustration()">supprimer</button>
-            <button v-if="item.image !== ''" class="btn btn-md btn-primary" v-on:click="$parent.modal()">afficher</button>
-            <button v-if="item.image === ''" class="btn btn-md btn-info" v-on:click="setIllustration()">explorer</button>
+            <span v-if="item !== undefined">
+              <button v-if="item.image !== ''" class="btn btn-md btn-danger" v-on:click="removeIllustration()">supprimer</button>
+              <button v-if="item.image !== ''" class="btn btn-md btn-primary" v-on:click="$parent.modal()">afficher</button>
+              <button v-if="item.image === ''" class="btn btn-md btn-info" v-on:click="setIllustration()">explorer</button>
+            </span>
+            <span v-else>
+              <div v-if="form.image !== ''" class="pull-left illustration-url">
+                URL de l'illustration : {{ form.image.toString() }}
+              </div>
+              <button class="btn btn-md btn-info" v-on:click="setIllustration()">explorer</button>
+            </span>
           </div>
 
           <div class="validate">
-            <button class="btn btn-sm btn-success" v-on:click="show(true)">enregistrer</button>
+            <button v-if="item !== undefined" class="btn btn-sm btn-success" v-on:click="show(true)">enregistrer</button>
+            <button v-if="item === undefined" class="btn btn-sm btn-danger" v-on:click="cancel()">effacer</button>
+            <button v-if="item === undefined" class="btn btn-sm btn-primary" v-on:click="add()">ajouter</button>
           </div>
         </div>
       </div>
@@ -80,9 +96,15 @@
 
 <script>
   export default {
-    props: ['item', 'index', 'themeIndex'],
+    props: ['item', 'index', 'themeIndex', 'data', 'updateData', 'getData'],
     data () {
       return {
+        form: {
+          intitule: '',
+          explication: '',
+          points: 0,
+          image: ''
+        },
         deploy: false,
         style: {
           visibility: 'hidden',
@@ -115,24 +137,90 @@
           this.cancel()
         }
       },
+      add: function () {
+        const fs = require('fs-extra')
+
+        var intitule = this.form.intitule
+        var explication = this.form.explication
+        var points = this.form.points
+        var image = ''
+
+        /** first we move the image, if it exist, in the data folder; also generate random tokens */
+        if (this.form.image.length > 0) {
+          var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
+          var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
+          var additionnal = 'app/dist/illustration/'
+          var destination = token + '/' + token2 + '.png'
+          var source = this.form.image.toString()
+
+          /** if quizzar is in production, some variables must change */
+          if (this.$root.env !== 'development') {
+            /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
+            additionnal = 'resources/app/dist/illustration/'
+          }
+
+          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
+          if (!fs.existsSync(additionnal)) {
+            fs.mkdirSync(additionnal)
+          }
+
+          fs.mkdirSync(additionnal + token)
+          fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
+
+          /** final attribution of the image */
+          image = 'illustration/' + destination
+        } else {
+          image = ''
+        }
+
+        var toAdd = {
+          intitule: intitule,
+          explication: explication,
+          points: points,
+          image: image,
+          reponses: []
+        }
+
+        if (this.form.intitule !== '') {
+          this.data[this.themeIndex].questions.push(toAdd)
+
+          /** now updating the datas */
+          this.updateData()
+
+          /** resetting the current form values */
+          this.form.intitule = ''
+          this.form.explication = ''
+          this.form.points = 0
+          this.form.image = ''
+        }
+
+        this.$refs.intitule.focus()
+      },
       update: function () {
-        this.$parent.$parent.$parent.$parent.updateData()
+        this.updateData()
       },
       cancel: function () {
-        this.$parent.$parent.$parent.$parent.getData()
+        if (this.item === undefined) {
+          /** reset form's values */
+          this.form.intitule = ''
+          this.form.explication = ''
+          this.form.points = 0
+          this.form.image = ''
+        } else {
+          this.getData()
+        }
       },
       setPoint: function (arithmetic) {
-        var actual = this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points
+        var actual = (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points : this.form.points
 
         if (arithmetic === 'plus') {
-          this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points++
+          (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points++ : this.form.points++
         } else if (arithmetic === 'minus' && actual > 0) {
-          this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].points--
+          (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points-- : this.form.points--
         }
       },
       setIllustration: function () {
         const { dialog } = require('electron').remote
-        const fs = require('fs-extra')
 
         dialog.showOpenDialog({
           filters: [
@@ -140,43 +228,55 @@
           ],
           properties: ['openFile']
         }, function (file) {
-          if (file !== undefined) {
-            var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
-            var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
-            var additionnal = 'app/dist/illustration/'
-            var destination = token + '/' + token2 + '.png'
-            var source = file.toString()
+          /** if the user is creating a question ... */
+          if (this.item === undefined) {
+            this.form.image = file
 
-            /** if quizzar is in production, some variables must change */
-            if (this.$root.env !== 'development') {
-              /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
-              additionnal = 'resources/app/dist/illustration/'
-            }
-
-            /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
-            if (!fs.existsSync(additionnal)) {
-              fs.mkdirSync(additionnal)
-            }
-
-            fs.mkdirSync(additionnal + token)
-            fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
-
-            /** final attribution of the image */
-            var image = 'illustration/' + destination
-
-            /** change the image variable to the one we just choosed */
-            this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].image = image
-
-            /** then update the JSON database */
-            this.$parent.$parent.$parent.$parent.updateData()
+            /** else, we live-insert the illustration */
+          } else {
+            this.insertIllustration(file)
           }
         }.bind(this))
+      },
+      insertIllustration: function (file) {
+        const fs = require('fs-extra')
+
+        if (file !== undefined) {
+          var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
+          var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
+          var additionnal = 'app/dist/illustration/'
+          var destination = token + '/' + token2 + '.png'
+          var source = file.toString()
+
+          /** if quizzar is in production, some variables must change */
+          if (this.$root.env !== 'development') {
+            /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
+            additionnal = 'resources/app/dist/illustration/'
+          }
+
+          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
+          if (!fs.existsSync(additionnal)) {
+            fs.mkdirSync(additionnal)
+          }
+
+          fs.mkdirSync(additionnal + token)
+          fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
+
+          /** final attribution of the image */
+          var image = 'illustration/' + destination
+
+          /** change the image variable to the one we just choosed */
+          this.data[this.themeIndex].questions[this.index].image = image
+
+          /** then update the JSON database */
+          this.updateData()
+        }
       },
       removeIllustration: function () {
         const { dialog } = require('electron').remote
         const fs = require('fs-extra')
 
-        var image = this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].image
+        var image = this.data[this.themeIndex].questions[this.index].image
 
         dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Suppression d\'une illustration', message: 'Êtes-vous sûr de vouloir supprimer l\'illustration attachée à cette question ?' }, function (choice) {
           if (choice) {
@@ -188,10 +288,10 @@
             }
 
             /** then change the image variable of the question to nothing */
-            this.$parent.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].image = ''
+            this.data[this.themeIndex].questions[this.index].image = ''
 
             /** finally we update the JSON database */
-            this.$parent.$parent.$parent.$parent.updateData()
+            this.updateData()
           }
         }.bind(this))
       }
@@ -219,9 +319,13 @@
   font-size: $block-header-button-size - 6px;
 }
 
-#edit {
+#question-form {
   text-align: center;
 
+  .illustration-url {
+    color: $color7;
+  }
+  
   .modal {
     position: fixed;
     top: 0;
@@ -291,9 +395,7 @@
         }
 
         .points {
-          
-
-          .number {
+           .number {
             display: inline;
             font-weight: bold;
             color: $form-interval-number-color;

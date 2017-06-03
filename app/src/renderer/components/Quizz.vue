@@ -55,7 +55,9 @@
           <div class="col-lg-offset-2 col-md-offset-1 col-lg-8 col-sm-12 col-md-10 col-xs-12">
             <div class="block question col-md-12 col-lg-12 col-xs-12">
               <div class="points">
-                Sur {{ item.points }} {{ (item.points > 1) ? 'points' : 'point' }}
+                <div class="badge">
+                  {{ item.points }} {{ (item.points > 1) ? 'points' : 'point' }}
+                </div>
               </div>
               <div class="illustration" v-if="item.image != ''">
                 <illustration :image="item.image"></illustration>
@@ -79,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
+    <div class="wrapper" v-else>
       <div class="choose block">
         <div class="welcome">
           Choisissez une thématique
@@ -354,13 +356,38 @@
 /** Importing variables file */
 @import '../sass/variables.scss';
 
+.wrapper {
+  position: fixed;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  height: 100%;
+  width: 100%;
+  padding-bottom: $footer-height;
+}
+
 .points {
   text-align: right;
   font-weight: bold;
   text-transform: uppercase;
   font-size: $question-points-font-size;
 
-  margin: $question-points-margin;
+  margin: 0;
+  padding: 0;
+
+  .badge {
+    background: $question-badge-background;
+    padding: $question-badge-padding;
+    font-size: $question-badge-font-size;
+
+    border-radius: 0;
+    border-bottom-left-radius: $question-badge-border-radius;
+    border-top-right-radius: $question-badge-border-radius;
+    box-shadow: $question-badge-shadow;
+  }
 }
 
 .header {
@@ -396,30 +423,24 @@
     }
   }
 
-  .choose {
-    position: fixed;
-    bottom: 50%;
-    left: 50%;
-    margin-left: $choose-margin-left;
-    margin-bottom: $choose-margin-bottom;
-    padding-bottom: $choose-padding-bottom;
+.choose {
+  width: $choose-width;
+  padding-bottom: $choose-padding-bottom;
 
-    width: $choose-width;
-    
-    .welcome {
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: $welcome-font-size;
-      margin: $welcome-margin;
-    }
-
-    .form-control {
-      text-transform: uppercase;
-      font-size: 16px;
-      font-weight: bold;
-    }
+  .welcome {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: $welcome-font-size;
+    margin: $welcome-margin;
   }
+  
+  .form-control {
+    text-transform: uppercase;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
 
   .question {
     padding: $question-padding;
