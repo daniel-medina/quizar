@@ -40,7 +40,8 @@ let mainConfig = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': '"production"'
+      'process.env.NODE_ENV': '"production"',
+      'process.env.VERSION': JSON.stringify(process.env.VERSION)
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

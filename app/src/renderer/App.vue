@@ -21,7 +21,7 @@
 
     <div class="footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
       <div class="pull-left">
-        <div class="app-name">quizzar</div>
+        <div class="app-name">quizzar {{ version }}</div>
       </div>
 
       <div class="pull-right">

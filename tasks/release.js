@@ -15,6 +15,12 @@ function pack () {
   console.log('\x1b[33mBuilding webpack in production mode...\n\x1b[0m')
   let pack = exec('npm run pack')
 
+  if (process.env.VERSION === 'admin') {
+    pack = exec('npm run pack-admin')
+  } else if (process.env.VERSION === 'eleve') {
+    pack = exec('npm run pack-eleve')
+  }
+
   pack.stdout.on('data', data => console.log(data))
   pack.stderr.on('data', data => console.error(data))
   pack.on('exit', code => build())

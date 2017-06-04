@@ -23,7 +23,7 @@ export default [
   },
   {
     path: '/manage',
-    component: require('components/Manage')
+    component: (process.env.VERSION !== 'eleve') ? require('components/Manage') : require('components/Error')
   },
   {
     path: '/export-import',
