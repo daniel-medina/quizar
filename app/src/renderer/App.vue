@@ -1,44 +1,19 @@
-/** This file is part of Quizzar.
- * Copyright (C) 2017 Daniel Medina
- *
- * Quizzar is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Quizzar is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Quizzar.  If not, see <http://www.gnu.org/licenses/>.
- */
+<template lang="pug">
+  div#app.container-fluid.row
+    router-view
 
-<template>
-  <div id="#app" class="container-fluid row">
-    <router-view></router-view>
+    div.footer.col-lg-12.col-md-12.col-sm-12.col-xs-12
+      div.pull-left
+        div.app-name quizzar {{ version }}
 
-    <div class="footer col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="pull-left">
-        <div class="app-name">quizzar {{ version }}</div>
-      </div>
-
-      <div class="pull-right">
-        <div class="menu">
-          <li>
-            <router-link to="/"><i class="fa fa-book" aria-hidden="true"></i></router-link>
-          </li>
-          <li v-if="version !== 'eleve'">
-            <router-link to="/manage"><i class="fa fa-database" aria-hidden="true"></i></router-link>
-          </li>
-          <li>
-            <router-link to="/export-import"><i class="fa fa-share-alt" aria-hidden="true"></i></router-link>
-          </li>
-        </div>
-      </div>
-    </div>
-  </div>
+      div.pull-right
+        div.menu
+          li
+            router-link(to='/') <span class="fa fa-book"></span>
+          li(v-if='version !== "eleve"')
+            router-link(to='/manage') span.fa.fa-book
+          li
+            router-link(to='/export-import') <i class="fa fa-share-alt"></i>
 </template>
 
 <script>

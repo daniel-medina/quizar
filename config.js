@@ -10,7 +10,6 @@ if (process.env.VERSION === 'admin') {
   name = 'quizzar-eleve'
 }
 
-
 let config = {
   // Name of electron app
   // Will be used in production builds
