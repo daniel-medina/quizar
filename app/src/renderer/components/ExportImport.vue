@@ -15,52 +15,52 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        /** very important - used to allow importation of archive exported from this software ONLY */
-        uid: '42'
-      }
+export default {
+  data () {
+    return {
+      /** very important - used to allow importation of archive exported from this software ONLY */
+      uid: '42'
+    }
+  },
+  methods: {
+    reset: function () {
+      const { dialog } = require('electron').remote
+      const fs = require('fs-extra')
+
+      dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Réinitialiser la base de donnée', message: 'Êtes-vous sûr de vouloir réinitialiser la base de donnée ?' }, function (choice) {
+        if (choice) {
+          /** if the user selected 'Oui', we delete all the images */
+          if (this.$parent.env !== 'development') {
+            fs.removeSync('resources/app/dist/illustration')
+            fs.mkdirSync('resources/app/dist/illustration')
+            fs.removeSync('resources/app/dist/.data')
+          } else {
+            fs.removeSync('app/dist/illustration')
+            fs.mkdirSync('app/dist/illustration')
+            fs.removeSync('.data')
+          }
+
+          /** we now reset the database */
+          this.$parent.createEmpty()
+
+          /** confirmation dialog */
+          dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été réinitialisée.', buttons: ['Ok'] })
+        }
+      }.bind(this))
     },
-    methods: {
-      reset: function () {
-        const { dialog } = require('electron').remote
-        const fs = require('fs-extra')
+    exportPrompt: function () {
+      const { dialog } = require('electron').remote
 
-        dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Réinitialiser la base de donnée', message: 'Êtes-vous sûr de vouloir réinitialiser la base de donnée ?' }, function (choice) {
-          if (choice) {
-            /** if the user selected 'Oui', we delete all the images */
-            if (this.$parent.env !== 'development') {
-              fs.removeSync('resources/app/dist/illustration')
-              fs.mkdirSync('resources/app/dist/illustration')
-              fs.removeSync('resources/app/.data')
-            } else {
-              fs.removeSync('app/dist/illustration')
-              fs.mkdirSync('app/dist/illustration')
-              fs.removeSync('.data')
-            }
-
-            /** we now reset the database */
-            this.$parent.createEmpty()
-
-            /** confirmation dialog */
-            dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été réinitialisée.', buttons: ['Ok'] })
-          }
-        }.bind(this))
-      },
-      exportPrompt: function () {
-        const { dialog } = require('electron').remote
-
-        dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }] }, function (file) {
-          if (file !== undefined) {
-            /** when the exportation file is defined, we execute the export function */
-            this.exportExecute(file)
-          }
-        }.bind(this))
-      },
-      exportExecute: function (location) {
-        const { dialog } = require('electron').remote
-        /** const fstream = require('fstream')
+      dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }] }, function (file) {
+        if (file !== undefined) {
+          /** when the exportation file is defined, we execute the export function */
+          this.exportExecute(file)
+        }
+      }.bind(this))
+    },
+    exportExecute: function (location) {
+      const { dialog } = require('electron').remote
+      /** const fstream = require('fstream')
         const Tar = require('tar')
         const pack = new Tar.Pack()
         const zlib = require('zlib')
@@ -73,7 +73,7 @@
 
         console.log(read) */
 
-        /** const archiver = require('archiver')
+      /** const archiver = require('archiver')
 
         var output = fs.createWriteStream(location)
         var archive = archiver('zip', {
@@ -93,57 +93,74 @@
         archive.pipe(output)
         archive.finalize() */
 
-        /** TROUVER UN ARCHIVEUR MOINS BUGGE QUE ADMZIP */
-        var AdmZip = require('adm-zip')
-        var zip = new AdmZip()
-        var uid = this.uid
-        zip.addLocalFolder('app/dist/illustration', 'app/dist/illustration')
+      /** TROUVER UN ARCHIVEUR MOINS BUGGE QUE ADMZIP */
+      var AdmZip = require('adm-zip')
+      var zip = new AdmZip()
+      var uid = this.uid
+
+      if (this.$parent.env === 'development') {
         zip.addLocalFile(this.$root.dbLocation)
-        zip.addFile('.token', uid)
-        zip.writeZip(location)
+        zip.addLocalFolder('app/dist/illustration', 'app/dist/illustration')
+      } else {
+        zip.addLocalFile(this.$root.dbLocation, 'resources/app/dist')
+        zip.addLocalFolder('resources/app/dist/illustration', 'resources/app/dist/illustration')
+      }
 
-        /** confirmation dialog */
-        dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })
-      },
-      importPrompt: function () {
-        const { dialog } = require('electron').remote
+      zip.addFile('.token', uid)
+      zip.writeZip(location)
 
-        /** ask the user if he's sure he wants to import, explaining the consequences; in french */
-        dialog.showMessageBox({ type: 'question', title: 'Importer une base de donnée', message: 'Êtes-vous sûr de vouloir importer une base de donnée ? Cela remplacera TOUTES les données actuelles', buttons: ['Non', 'Oui'] }, function (choice) {
-          /** choice 0 = Non ; choice 1 = Oui */
-          if (choice) {
-            /** dialog prompt for the database archive to import */
-            dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }], properties: ['openFile'] }, function (file) {
-              if (file !== undefined) {
-                this.importExecute(file)
-              }
-            }.bind(this))
-          }
-        }.bind(this))
-      },
-      importExecute: function (file) {
-        const AdmZip = require('adm-zip')
-        const { dialog } = require('electron').remote
-        const fs = require('fs-extra')
+      /** confirmation dialog */
+      dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })
+    },
+    importPrompt: function () {
+      const { dialog } = require('electron').remote
 
-        var archive = file[0]
-        var zip = new AdmZip(archive)
-        var check = zip.readAsText(zip.getEntry('.token'))
-
-        if (check === this.uid) {
-          /** we proceed the importation by wiping the database and it's images */
-          fs.removeSync('app/dist/db')
-          zip.extractAllTo('./', true)
-          /** after the archive has been extracted, delete the .token */
-          fs.removeSync('.token')
-          /** confirmation dialog */
-          dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été importée.', buttons: ['Ok'] })
-        } else {
-          dialog.showMessageBox({ type: 'error', message: 'L\'archive selectionnée ne correspond pas à une base de donnée valide.', buttons: ['Ok'] })
+      /** ask the user if he's sure he wants to import, explaining the consequences; in french */
+      dialog.showMessageBox({ type: 'question', title: 'Importer une base de donnée', message: 'Êtes-vous sûr de vouloir importer une base de donnée ? Cela remplacera TOUTES les données actuelles', buttons: ['Non', 'Oui'] }, function (choice) {
+        /** choice 0 = Non ; choice 1 = Oui */
+        if (choice) {
+          /** dialog prompt for the database archive to import */
+          dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }], properties: ['openFile'] }, function (file) {
+            if (file !== undefined) {
+              this.importExecute(file)
+            }
+          }.bind(this))
         }
+      }.bind(this))
+    },
+    importExecute: function (file) {
+      const AdmZip = require('adm-zip')
+      const { dialog } = require('electron').remote
+      const fs = require('fs-extra')
+
+      var archive = file[0]
+      var zip = new AdmZip(archive)
+      var check = zip.readAsText(zip.getEntry('.token'))
+
+      if (check === this.uid) {
+        /** we proceed the importation by wiping the database and it's images */
+        if (this.$parent.env === 'development') {
+          fs.removeSync('app/dist/db')
+
+          zip.extractAllTo('./', true)
+        } else {
+          /**
+          fs.removeSync('resources/app/dist/illustration')
+          fs.removeSync('resources/app/dist/.data')
+          */
+
+          zip.extractAllTo('./', true)
+        }
+        /** after the archive has been extracted, delete the .token */
+        fs.removeSync('.token')
+        /** confirmation dialog */
+        dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été importée.', buttons: ['Ok'] })
+      } else {
+        dialog.showMessageBox({ type: 'error', message: 'L\'archive selectionnée ne correspond pas à une base de donnée valide.', buttons: ['Ok'] })
       }
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>

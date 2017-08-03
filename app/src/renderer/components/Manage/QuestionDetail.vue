@@ -61,9 +61,25 @@
       },
       remove: function () {
         const { dialog } = require('electron').remote
+        const fs = require('fs-extra')
+        const path = require('path')
 
-        dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Suppression d\'une question', message: 'Êtes-vous sûr de vouloir supprimer cette question ? Cela supprimera également les questions associées.' }, function (choice) {
+        dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Suppression d\'une question', message: 'Êtes-vous sûr de vouloir supprimer cette question ? Cela supprimera également les réponses associées.' }, function (choice) {
           if (choice) {
+            /** We remove the associated illustration if there is one */
+            if (this.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].image.length > 0) {
+              let directory = ''
+
+              if (this.$parent.$parent.$parent.env !== 'development') {
+                directory = 'resources/app/dist/'
+              } else {
+                directory = 'app/dist/'
+              }
+
+              /** We must delete the folder of the image */
+              fs.removeSync(path.dirname(directory + this.$parent.$parent.$parent.data[this.themeIndex].questions[this.index].image))
+            }
+
             this.$parent.$parent.$parent.data[this.themeIndex].questions.splice(this.index, 1)
 
             /** now updating the datas */

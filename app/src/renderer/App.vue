@@ -1,19 +1,19 @@
 <template lang="pug">
-  div#app.container-fluid.row
+  #app.container-fluid.row
     router-view
 
-    div.footer.col-lg-12.col-md-12.col-sm-12.col-xs-12
-      div.pull-left
-        div.app-name quizzar {{ version }}
+    .footer.col-lg-12.col-md-12.col-sm-12.col-xs-12
+      .pull-left
+        .app-name quizzar {{ version }}
 
-      div.pull-right
-        div.menu
+      .pull-right
+        .menu
           li
-            router-link(to='/') <span class="fa fa-book"></span>
+            router-link(to='/') #[i.fa.fa-book]
           li(v-if='version !== "eleve"')
-            router-link(to='/manage') span.fa.fa-book
+            router-link(to='/manage') #[i.fa.fa-book]
           li
-            router-link(to='/export-import') <i class="fa fa-share-alt"></i>
+            router-link(to='/export-import') #[i.fa.fa-share-alt]
 </template>
 
 <script>
@@ -32,7 +32,7 @@
     created () {
       /** if this is the production environment, we adjust the dbLocation variable */
       if (this.env !== 'development') {
-        this.dbLocation = 'resources/app/.data'
+        this.dbLocation = 'resources/app/dist/.data'
       }
 
       this.createEmpty()
