@@ -28,7 +28,7 @@ let config = {
     arch: 'x64',
     asar: false,
     dir: path.join(__dirname, 'app'),
-    icon: path.join(__dirname, 'app/icons/icon'),
+    icon: path.join(__dirname, 'icon.ico'),
     ignore: /^\/(src|index\.ejs|icons)/,
     out: path.join(__dirname, 'builds'),
     overwrite: true,
