@@ -1,7 +1,7 @@
 {
   "name": "Quizar",
   "version": "1.0.0",
-  "description": "Noted quizz generator",
+  "description": "Noted quiz generator",
   "main": "./dist/main.js",
   "dependencies": {
     "adm-zip": "^0.4.7",
