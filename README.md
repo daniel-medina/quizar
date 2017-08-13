@@ -7,7 +7,7 @@ Noted quiz generator; for teachers and their students.
 The software has 3 accessible pages, which are the followings :
 
 1. Quiz : 
-   the user may choose a theme and be handled a quizz for which he will get a note once he validates the session.
+   the user may choose a theme and be handled a quiz for which he will get a note once he validates the session.
 
 2. Management :
    the user may create, modify or remove themes, questions and answers.
@@ -21,7 +21,7 @@ Quizzar comes with two different versions :
   the user has full access to the software, without any restriction.
 
 * Student : 
-  the user has only access to the quizz page and import/export page.
+  the user has only access to the quiz page and import/export page.
 
 ## Can the students falsifies their results ?
 
@@ -31,9 +31,9 @@ If a student has the required knowledge to decrypt the database (which can be ea
 
 ## Why is the software in french ? Is there any english version ?
 
-Quizzar was made to help french student work for their final exams; and an english version is not planned as of today.
+Quizar was made to help french student work for their final exams; and an english version is not planned as of today.
 
-As the software is under a GPLv3 license, you are free to translate it as long as you respect the agreements of the license.
+As the software is under a MIT license, you are free to translate it, compile it and redistribute your own binary.
 
 ## How was Quizzar created ?
 
