@@ -51,7 +51,7 @@ export default {
     exportPrompt: function () {
       const { dialog } = require('electron').remote
 
-      dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }] }, function (file) {
+      dialog.showSaveDialog({ title: 'Exporter la base de donnée', filters: [{ name: 'Archive QUIZAR', extensions: ['zar'] }] }, function (file) {
         if (file !== undefined) {
           /** when the exportation file is defined, we execute the export function */
           this.exportExecute(file)
@@ -95,7 +95,7 @@ export default {
         /** choice 0 = Non ; choice 1 = Oui */
         if (choice) {
           /** dialog prompt for the database archive to import */
-          dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive QUIZZAR', extensions: ['zar'] }], properties: ['openFile'] }, function (file) {
+          dialog.showOpenDialog({ title: 'Importation d\'une base de donnée', filters: [{ name: 'Archive QUIZAR', extensions: ['zar'] }], properties: ['openFile'] }, function (file) {
             if (file !== undefined) {
               this.importExecute(file)
             }
