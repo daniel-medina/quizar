@@ -60,54 +60,29 @@ export default {
     },
     exportExecute: function (location) {
       const { dialog } = require('electron').remote
-      /** const fstream = require('fstream')
-        const Tar = require('tar')
-        const pack = new Tar.Pack()
-        const zlib = require('zlib')
-        const path = require('path')
+      const fs = require('fs-extra')
+      const archiver = require('archiver')
+      const output = fs.createWriteStream(location)
+      const archive = archiver('zip', {
+        store: true
+      })
+      const uid = this.uid
 
-        var illustration = path.join(process.cwd() + '/app/dist/illustration')
-        var read = fstream.Reader({ 'path': illustration, 'type': 'Directory' })
-            .pipe(pack)
-            .pipe('/home/ifthenelse/')
+      archive.append(uid, { name: '.token' })
 
-        console.log(read) */
+      /** Adding the database file */
+      archive.file(this.$parent.dbLocation, { name: this.$parent.dbLocation })
 
-      /** const archiver = require('archiver')
-
-        var output = fs.createWriteStream(location)
-        var archive = archiver('zip', {
-          store: true
-        })
-        var uid = this.uid
-
-        archive.append(uid, { name: '.token' })
-        archive.file(this.$parent.dbLocation, { name: '.data' })
-
-        if (this.$parent.env !== 'development') {
-          archive.directory('resources/app/dist/illustration')
-        } else {
-          archive.directory('app/dist/illustration')
-        }
-
-        archive.pipe(output)
-        archive.finalize() */
-
-      /** TROUVER UN ARCHIVEUR MOINS BUGGE QUE ADMZIP */
-      var AdmZip = require('adm-zip')
-      var zip = new AdmZip()
-      var uid = this.uid
-
-      if (this.$parent.env === 'development') {
-        zip.addLocalFile(this.$root.dbLocation)
-        zip.addLocalFolder('app/dist/illustration', 'app/dist/illustration')
+      /** If in production */
+      if (this.$parent.env !== 'development') {
+        archive.directory('resources/app/dist/illustration')
       } else {
-        zip.addLocalFile(this.$root.dbLocation, 'resources/app/dist')
-        zip.addLocalFolder('resources/app/dist/illustration', 'resources/app/dist/illustration')
+        /** If in development */
+        archive.directory('app/dist/illustration')
       }
 
-      zip.addFile('.token', uid)
-      zip.writeZip(location)
+      archive.pipe(output)
+      archive.finalize()
 
       /** confirmation dialog */
       dialog.showMessageBox({ title: 'Confirmation', message: 'La base de donnée a bien été exportée.', buttons: ['Ok'] })
@@ -144,10 +119,8 @@ export default {
 
           zip.extractAllTo('./', true)
         } else {
-          /**
           fs.removeSync('resources/app/dist/illustration')
           fs.removeSync('resources/app/dist/.data')
-          */
 
           zip.extractAllTo('./', true)
         }

@@ -1,9 +1,11 @@
 {
-  "name": "Quizzar",
+  "name": "Quizar",
   "version": "1.0.0",
   "description": "Noted quizz generator",
   "main": "./dist/main.js",
   "dependencies": {
+    "adm-zip": "^0.4.7",
+    "archiver": "^2.0.0",
     "babel-runtime": "^6.23.0",
     "vue": "^2.1.10",
     "vue-electron": "^1.0.6",

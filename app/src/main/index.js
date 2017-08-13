@@ -24,9 +24,8 @@ function createWindow () {
     mainWindow = null
   })
 
-  // eslint-disable-next-line no-console
-  console.log('mainWindow opened')
-  mainWindow.webContents.openDevTools()
+  /** To use only for testing purposes */
+  // mainWindow.webContents.openDevTools()
 }
 
 app.on('ready', createWindow)

@@ -17,11 +17,13 @@
         style: {
           visibility: 'hidden',
           opacity: '0'
-        }
+        },
+        display: true
       }
     },
     methods: {
       modal: function () {
+        console.log(this.display)
         this.display = !this.display
 
         if (!this.display) {

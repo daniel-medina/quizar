@@ -1,6 +1,6 @@
 <template>
   <div>
-    Erreur...
+    Vous n'avez pas accès à ce module.
   </div>
 </template>
 
@@ -16,6 +16,4 @@
 <style lang="scss" scoped>
 /** Importing variables file */
 @import '../sass/variables.scss';
-
-
 </style>

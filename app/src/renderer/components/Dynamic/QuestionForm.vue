@@ -78,208 +78,217 @@
 </template>
 
 <script>
-  export default {
-    props: ['item', 'index', 'themeIndex', 'data', 'updateData', 'getData'],
-    data () {
-      return {
-        form: {
-          intitule: '',
-          explication: '',
-          points: 0,
-          image: ''
-        },
-        deploy: false,
-        style: {
+export default {
+  props: ['item', 'index', 'themeIndex', 'data', 'updateData', 'getData'],
+  data () {
+    return {
+      form: {
+        intitule: '',
+        explication: '',
+        points: 0,
+        image: ''
+      },
+      deploy: false,
+      style: {
+        visibility: 'hidden',
+        opacity: '0'
+      }
+    }
+  },
+  created () {
+  },
+  methods: {
+    show: function (action) {
+      /** deploy component variable becomes what it is not; false or true */
+      this.deploy = !this.deploy
+
+      if (this.deploy) {
+        this.style = {
+          visibility: 'visible',
+          opacity: '1'
+        }
+      } else {
+        this.style = {
           visibility: 'hidden',
           opacity: '0'
         }
       }
-    },
-    created () {
-    },
-    methods: {
-      show: function (action) {
-        /** deploy component variable becomes what it is not; false or true */
-        this.deploy = !this.deploy
 
-        if (this.deploy) {
-          this.style = {
-            visibility: 'visible',
-            opacity: '1'
-          }
-        } else {
-          this.style = {
-            visibility: 'hidden',
-            opacity: '0'
-          }
-        }
-
-        if (action) {
-          this.update()
-        } else {
-          this.cancel()
-        }
-      },
-      add: function () {
-        const fs = require('fs-extra')
-
-        var intitule = this.form.intitule
-        var explication = this.form.explication
-        var points = this.form.points
-        var image = ''
-
-        /** first we move the image, if it exist, in the data folder; also generate random tokens */
-        if (this.form.image.length > 0) {
-          var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
-          var additionnal = 'app/dist/illustration/'
-          var destination = token + '/' + token2 + '.png'
-          var source = this.form.image.toString()
-
-          /** if quizzar is in production, some variables must change */
-          if (this.$root.env !== 'development') {
-            /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
-            additionnal = 'resources/app/dist/illustration/'
-          }
-
-          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
-          if (!fs.existsSync(additionnal)) {
-            fs.mkdirSync(additionnal)
-          }
-
-          fs.mkdirSync(additionnal + token)
-          fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
-
-          /** final attribution of the image */
-          image = 'illustration/' + destination
-        } else {
-          image = ''
-        }
-
-        var toAdd = {
-          intitule: intitule,
-          explication: explication,
-          points: points,
-          image: image,
-          reponses: []
-        }
-
-        if (this.form.intitule !== '') {
-          this.data[this.themeIndex].questions.push(toAdd)
-
-          /** now updating the datas */
-          this.updateData()
-
-          /** resetting the current form values */
-          this.form.intitule = ''
-          this.form.explication = ''
-          this.form.points = 0
-          this.form.image = ''
-        }
-
-        this.$refs.intitule.focus()
-      },
-      update: function () {
-        this.updateData()
-      },
-      cancel: function () {
-        if (this.item === undefined) {
-          /** reset form's values */
-          this.form.intitule = ''
-          this.form.explication = ''
-          this.form.points = 0
-          this.form.image = ''
-        } else {
-          this.getData()
-        }
-      },
-      setPoint: function (arithmetic) {
-        var actual = (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points : this.form.points
-
-        if (arithmetic === 'plus') {
-          (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points++ : this.form.points++
-        } else if (arithmetic === 'minus' && actual > 0) {
-          (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points-- : this.form.points--
-        }
-      },
-      setIllustration: function () {
-        const { dialog } = require('electron').remote
-
-        dialog.showOpenDialog({
-          filters: [
-            { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
-          ],
-          properties: ['openFile']
-        }, function (file) {
-          /** if the user is creating a question ... */
-          if (this.item === undefined) {
-            this.form.image = file
-
-            /** else, we live-insert the illustration */
-          } else {
-            this.insertIllustration(file)
-          }
-        }.bind(this))
-      },
-      insertIllustration: function (file) {
-        const fs = require('fs-extra')
-
-        if (file !== undefined) {
-          var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
-          var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
-          var additionnal = 'app/dist/illustration/'
-          var destination = token + '/' + token2 + '.png'
-          var source = file.toString()
-
-          /** if quizzar is in production, some variables must change */
-          if (this.$root.env !== 'development') {
-            /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
-            additionnal = 'resources/app/dist/illustration/'
-          }
-
-          /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
-          if (!fs.existsSync(additionnal)) {
-            fs.mkdirSync(additionnal)
-          }
-
-          fs.mkdirSync(additionnal + token)
-          fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
-
-          /** final attribution of the image */
-          var image = 'illustration/' + destination
-
-          /** change the image variable to the one we just choosed */
-          this.data[this.themeIndex].questions[this.index].image = image
-
-          /** then update the JSON database */
-          this.updateData()
-        }
-      },
-      removeIllustration: function () {
-        const { dialog } = require('electron').remote
-        const fs = require('fs-extra')
-
-        var image = this.data[this.themeIndex].questions[this.index].image
-
-        dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Suppression d\'une illustration', message: 'Êtes-vous sûr de vouloir supprimer l\'illustration attachée à cette question ?' }, function (choice) {
-          if (choice) {
-            /** first, we delete the image; the path depends on the env variable */
-            if (this.$root.env === 'development') {
-              fs.unlinkSync('app/dist/' + image)
-            } else {
-              fs.unlinkSync('resources/app/dist/' + image)
-            }
-
-            /** then change the image variable of the question to nothing */
-            this.data[this.themeIndex].questions[this.index].image = ''
-
-            /** finally we update the JSON database */
-            this.updateData()
-          }
-        }.bind(this))
+      if (action) {
+        this.update()
+      } else {
+        this.cancel()
       }
+    },
+    add: function () {
+      const fs = require('fs-extra')
+      const remote = require('electron').remote
+
+      var intitule = this.form.intitule
+      var explication = this.form.explication
+      var points = this.form.points
+      var image = ''
+
+      /** first we move the image, if it exist, in the data folder; also generate random tokens */
+      if (this.form.image.length > 0) {
+        var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
+        var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
+        var additionnal = 'app/dist/illustration/'
+        var destination = token + '/' + token2 + '.png'
+        var source = this.form.image.toString()
+
+        /** if quizzar is in production, some variables must change */
+        if (this.$root.env !== 'development') {
+          /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
+          additionnal = 'resources/app/dist/illustration/'
+        }
+
+        /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
+        if (!fs.existsSync(additionnal)) {
+          fs.mkdirSync(additionnal)
+        }
+
+        fs.mkdirSync(additionnal + token)
+        fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
+
+        /** final attribution of the image */
+        image = 'illustration/' + destination
+
+        /** Refreshing the page - so we can display images properly */
+        remote.getCurrentWindow().reload()
+      } else {
+        image = ''
+      }
+
+      var toAdd = {
+        intitule: intitule,
+        explication: explication,
+        points: points,
+        image: image,
+        reponses: []
+      }
+
+      if (this.form.intitule !== '') {
+        this.data[this.themeIndex].questions.push(toAdd)
+
+        /** now updating the datas */
+        this.updateData()
+
+        /** resetting the current form values */
+        this.form.intitule = ''
+        this.form.explication = ''
+        this.form.points = 0
+        this.form.image = ''
+      }
+
+      this.$refs.intitule.focus()
+    },
+    update: function () {
+      const remote = require('electron').remote
+
+      this.updateData()
+
+      /** Refreshing the page - so we can display images properly */
+      remote.getCurrentWindow().reload()
+    },
+    cancel: function () {
+      if (this.item === undefined) {
+        /** reset form's values */
+        this.form.intitule = ''
+        this.form.explication = ''
+        this.form.points = 0
+        this.form.image = ''
+      } else {
+        this.getData()
+      }
+    },
+    setPoint: function (arithmetic) {
+      var actual = (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points : this.form.points
+
+      if (arithmetic === 'plus') {
+        (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points++ : this.form.points++
+      } else if (arithmetic === 'minus' && actual > 0) {
+        (this.item !== undefined) ? this.data[this.themeIndex].questions[this.index].points-- : this.form.points--
+      }
+    },
+    setIllustration: function () {
+      const { dialog } = require('electron').remote
+
+      dialog.showOpenDialog({
+        filters: [
+          { name: 'Images', extensions: ['jpg', 'png', 'gif', 'bmp', 'jpeg'] }
+        ],
+        properties: ['openFile']
+      }, function (file) {
+        /** if the user is creating a question ... */
+        if (this.item === undefined) {
+          this.form.image = file
+
+          /** else, we live-insert the illustration */
+        } else {
+          this.insertIllustration(file)
+        }
+      }.bind(this))
+    },
+    insertIllustration: function (file) {
+      const fs = require('fs-extra')
+
+      if (file !== undefined) {
+        var token = Math.round(Math.random() * (99999999999999999 - 1) + 1)
+        var token2 = Math.round(Math.random() * (999999999 - 1) + 1)
+        var additionnal = 'app/dist/illustration/'
+        var destination = token + '/' + token2 + '.png'
+        var source = file.toString()
+
+        /** if quizzar is in production, some variables must change */
+        if (this.$root.env !== 'development') {
+          /** for this one only we can use the $root variable; App.vue is the holder of the env variable */
+          additionnal = 'resources/app/dist/illustration/'
+        }
+
+        /** now copying the image to the destination; prefered synchronous version instead of asynchronous */
+        if (!fs.existsSync(additionnal)) {
+          fs.mkdirSync(additionnal)
+        }
+
+        fs.mkdirSync(additionnal + token)
+        fs.createReadStream(source).pipe(fs.createWriteStream(additionnal + destination))
+
+        /** final attribution of the image */
+        var image = 'illustration/' + destination
+
+        /** change the image variable to the one we just choosed */
+        this.data[this.themeIndex].questions[this.index].image = image
+
+        /** then update the JSON database */
+        this.updateData()
+      }
+    },
+    removeIllustration: function () {
+      const { dialog } = require('electron').remote
+      const fs = require('fs-extra')
+
+      var image = this.data[this.themeIndex].questions[this.index].image
+
+      dialog.showMessageBox({ type: 'question', buttons: ['Non', 'Oui'], title: 'Suppression d\'une illustration', message: 'Êtes-vous sûr de vouloir supprimer l\'illustration attachée à cette question ?' }, function (choice) {
+        if (choice) {
+          /** first, we delete the image; the path depends on the env variable */
+          if (this.$root.env === 'development') {
+            fs.removeSync('app/dist/' + image)
+          } else {
+            fs.removeSync('resources/app/dist/' + image)
+          }
+
+          /** then change the image variable of the question to nothing */
+          this.data[this.themeIndex].questions[this.index].image = ''
+
+          /** finally we update the JSON database */
+          this.updateData()
+        }
+      }.bind(this))
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -308,7 +317,7 @@
   .illustration-url {
     color: $color7;
   }
-  
+
   .modal {
     position: fixed;
     top: 0;
@@ -337,96 +346,96 @@
       box-shadow: none;
 
       .container {
-      background: white;
-      padding: $block-modal-container-padding;
-      border-radius: $block-modal-container-border-radius;
+        background: white;
+        padding: $block-modal-container-padding;
+        border-radius: $block-modal-container-border-radius;
 
-      .form {
-        text-align: right;
-        padding: $block-modal-form-margin;
-
-        .title {
-          color: $color8;
-          text-transform: uppercase;
-          font-weight: bold;
+        .form {
           text-align: right;
-          font-size: $block-modal-header-font-size - 1px;
-          margin-bottom: $block-modal-header-title-margin;
-        }
+          padding: $block-modal-form-margin;
 
-        textarea {
-          resize: none;
-          transition: border-color $transition;
-          color: $color8;
-          box-shadow: $block-modal-form-shadow;
-
-          width: $block-modal-form-width;
-          max-width: $block-modal-form-width;
-          min-height: $block-modal-form-min-height;
-          max-height: $block-modal-form-max-height;
-
-          padding: $block-modal-form-padding;
-          border-radius: $block-modal-form-border-radius;
-          border: $block-modal-form-border;
-
-          font-size: $block-modal-form-font-size;
-
-          &:focus,&:hover {
-            border-color: $color2;
-            outline: none;
-          }
-        }
-
-        .points {
-           .number {
-            display: inline;
+          .title {
+            color: $color8;
+            text-transform: uppercase;
             font-weight: bold;
-            color: $form-setter-number-color;
-            font-size: $form-setter-number-size;
+            text-align: right;
+            font-size: $block-modal-header-font-size - 1px;
+            margin-bottom: $block-modal-header-title-margin;
           }
 
-          .setter {
-            float: right;
-            position: relative;
-            top: 3px;
-            left: 10px;
+          textarea {
+            resize: none;
+            transition: border-color $transition;
+            color: $color8;
+            box-shadow: $block-modal-form-shadow;
 
-            color: $form-setter-number-color;
-            font-size: $form-setter-interval-size;
+            width: $block-modal-form-width;
+            max-width: $block-modal-form-width;
+            min-height: $block-modal-form-min-height;
+            max-height: $block-modal-form-max-height;
 
-            li {
-              display: block;
-              transition: $transition;
+            padding: $block-modal-form-padding;
+            border-radius: $block-modal-form-border-radius;
+            border: $block-modal-form-border;
 
-              &:hover {
-                cursor: pointer;
-                color: $color2
-              }             
+            font-size: $block-modal-form-font-size;
+
+            &:focus,&:hover {
+              border-color: $color2;
+              outline: none;
+            }
+          }
+
+          .points {
+            .number {
+              display: inline;
+              font-weight: bold;
+              color: $form-setter-number-color;
+              font-size: $form-setter-number-size;
+            }
+
+            .setter {
+              float: right;
+              position: relative;
+              top: 3px;
+              left: 10px;
+
+              color: $form-setter-number-color;
+              font-size: $form-setter-interval-size;
+
+              li {
+                display: block;
+                transition: $transition;
+
+                &:hover {
+                  cursor: pointer;
+                  color: $color2
+                }             
+              }
             }
           }
         }
-      }
 
-      .header {
-        text-align: left;
-        border-bottom: $separator;
-        color: $color8;
+        .header {
+          text-align: left;
+          border-bottom: $separator;
+          color: $color8;
 
-        .bar {
-          margin: $block-modal-margin;
+          .bar {
+            margin: $block-modal-margin;
 
-          text-transform: uppercase;
-          font-size: $block-modal-header-font-size;
-          font-weight: bold;
+            text-transform: uppercase;
+            font-size: $block-modal-header-font-size;
+            font-weight: bold;
+          }
         }
-      }
 
-      .validate {
-        border-top: $separator;
-        text-align: center;
-        margin: $block-modal-validate-margin;
-        padding: $block-modal-validate-padding;
-      }
+        .validate {
+          border-top: $separator;
+          text-align: center;
+          margin: $block-modal-validate-margin;
+          padding: $block-modal-validate-padding;
+        }
       }
     }
   }

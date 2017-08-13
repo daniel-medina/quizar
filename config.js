@@ -2,12 +2,12 @@
 
 const path = require('path')
 
-var name = 'quizzar'
+var name = 'quizar'
 
 if (process.env.VERSION === 'admin') {
-  name = 'quizzar-admin'
+  name = 'quizar-admin'
 } else if (process.env.VERSION === 'eleve') {
-  name = 'quizzar-eleve'
+  name = 'quizar-eleve'
 }
 
 let config = {

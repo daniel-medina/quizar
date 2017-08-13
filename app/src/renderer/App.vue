@@ -4,14 +4,14 @@
 
     .footer.col-lg-12.col-md-12.col-sm-12.col-xs-12
       .pull-left
-        .app-name quizzar {{ version }}
+        .app-name quizar - {{ version }}
 
       .pull-right
         .menu
           li
             router-link(to='/') #[i.fa.fa-book]
           li(v-if='version !== "eleve"')
-            router-link(to='/manage') #[i.fa.fa-book]
+            router-link(to='/manage') #[i.fa.fa-database]
           li
             router-link(to='/export-import') #[i.fa.fa-share-alt]
 </template>
@@ -33,6 +33,11 @@
       /** if this is the production environment, we adjust the dbLocation variable */
       if (this.env !== 'development') {
         this.dbLocation = 'resources/app/dist/.data'
+      }
+
+      /** If the version is not defined, it means we are in a development environment */
+      if (this.version === undefined) {
+        this.version = 'development'
       }
 
       this.createEmpty()

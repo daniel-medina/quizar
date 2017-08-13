@@ -1,12 +1,12 @@
-# Quizzar
+# Quizar
 
-Noted quizz generator; for teachers and their students.
+Noted quiz generator; for teachers and their students.
 
 ## How to use
 
 The software has 3 accessible pages, which are the followings :
 
-1. Quizz : 
+1. Quiz : 
    the user may choose a theme and be handled a quizz for which he will get a note once he validates the session.
 
 2. Management :
@@ -25,7 +25,7 @@ Quizzar comes with two different versions :
 
 ## Can the students falsifies their results ?
 
-The JSON database that is used by the software is heavily encrypted via the AES method; it cannot be viewed for cheating purposes.
+The JSON database that is used by the software is heavily encrypted with AES method; it cannot be viewed for cheating purposes.
 
 If a student has the required knowledge to decrypt the database (which can be easily done since the encrypt key is viewable inside the source codes), then perhaps he doesn't even need to use that software.
 
