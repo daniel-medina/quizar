@@ -35,7 +35,7 @@ Quizar was made to help french student work for their final exams; and an englis
 
 As the software is under a MIT license, you are free to translate it, compile it and redistribute your own binary.
 
-## How was Quizzar created ?
+## How was Quizar created ?
 
 The software is developed using Node.JS, Vue.JS, Electron, SASS, Bootstrap; packages along with their dependencies are viewable at the package.json file.
 
